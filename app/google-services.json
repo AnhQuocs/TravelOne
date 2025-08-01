@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "933871475633",
+    "project_id": "travel-one-1-8",
+    "storage_bucket": "travel-one-1-8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:933871475633:android:87f34f3d8fb428a1a7fb90",
+        "android_client_info": {
+          "package_name": "com.example.travelone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARmARpOJJHEanc1lT0_4z9HNomLC_XTMY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

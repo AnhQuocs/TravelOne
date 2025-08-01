@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Travel One</string>
+
+    <!-- Auth screen -->
+    <string name="login_title">Đăng nhập để tiếp tục</string>
+    <string name="sign_up_title">Tạo tài khoản của bạn</string>
+
+    <string name="login_button">Đăng nhập</string>
+    <string name="sign_up_button">Đăng ký</string>
+
+    <string name="sign_up_prompt">Chưa có tài khoản? Đăng ký ngay</string>
+    <string name="login_prompt">Đã có tài khoản? Đăng nhập</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_dont_wait">Đừng chần chừ</string>
+    <string name="dashboard_sub_dont_wait">Trải nghiệm ngay thôi!</string>
+
+    <!-- Dashboard Toast -->
+    <string name="login_success">Đăng nhập thành công!</string>
+    <string name="sign_up_success">Đăng ký thành công! Hãy đăng nhập để sử dụng dịch vụ!</string>
+    <string name="email_already_exists">Email đã tồn tại. Vui lòng sử dụng email khác.</string>
+    <string name="login_failed">Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.</string>
+    <string name="sign_up_failed">Đăng ký thất bại. Vui lòng kiểm tra lại thông tin.</string>
+    <string name="unknown_error">Đã xảy ra lỗi không xác định.</string>
+
+</resources>

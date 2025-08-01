@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Travel One</string>
+
+    <!-- Auth screen -->
+    <string name="login_title">Login to continue</string>
+    <string name="sign_up_title">Create your account</string>
+
+    <string name="login_button">Login</string>
+    <string name="sign_up_button">Sign Up</string>
+
+    <string name="sign_up_prompt">Don\'t have an account? Sign up</string>
+    <string name="login_prompt">Already have an account? Sign in</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_dont_wait">Don\'t wait</string>
+    <string name="dashboard_sub_dont_wait">Get the best experience now!</string>
+
+    <!-- Dashboard Toast -->
+    <string name="login_success">Login successful!</string>
+    <string name="sign_up_success">Sign up successful! Please log in to use the service.</string>
+    <string name="login_failed">Login failed. Please check your information.</string>
+    <string name="sign_up_failed">Sign up failed. Please check your information.</string>
+    <string name="unknown_error">An unknown error has occurred.</string>
+    <string name="email_already_exists">Email already exists. Please use a different email.</string>
+
 </resources>
