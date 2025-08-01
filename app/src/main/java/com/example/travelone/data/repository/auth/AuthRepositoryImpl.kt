@@ -23,6 +23,7 @@ class AuthRepositoryImpl(
 
             Result.success(user)
         } catch (e: Exception) {
+            auth.currentUser?.delete()?.await()
             Result.failure(e)
         }
     }
@@ -48,5 +49,9 @@ class AuthRepositoryImpl(
     override fun getCurrentUser(): User? {
         val firebaseUser = auth.currentUser ?: return null
         return User(firebaseUser.uid, firebaseUser.email, null)
+    }
+
+    override fun isUserLoggedIn(): Boolean {
+        return auth.currentUser != null
     }
 }

@@ -122,7 +122,6 @@ fun SignUpSection(
             AppButton(
                 onClick = {
                     onSignUp(email, password, username)
-                    onSwitch()
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = ConfirmButtonColor

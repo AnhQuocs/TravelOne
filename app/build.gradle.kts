@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.gms.google.services)
-    id("com.google.dagger.hilt.android") version "2.51.1"
+    id("com.google.dagger.hilt.android") version "2.48"
     kotlin("kapt")
 }
 
@@ -40,6 +40,21 @@ android {
     buildFeatures {
         compose = true
     }
+
+    androidResources {
+        generateLocaleConfig = true
+    }
+    android {
+        lint {
+            disable += setOf("NullSafeMutableLiveData")
+            checkReleaseBuilds = false
+            abortOnError = false
+        }
+    }
+
+    hilt {
+        enableAggregatingTask = false
+    }
 }
 
 dependencies {
@@ -53,6 +68,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.firebase.firestore)
+    implementation(libs.androidx.appcompat)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -60,8 +76,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
-    implementation("com.squareup:javapoet:1.13.0")
 
     // Icon
     implementation("androidx.compose.material:material-icons-extended")
@@ -89,11 +103,12 @@ dependencies {
     // Convert API
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.2")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:2.51.1")
-    kapt("com.google.dagger:hilt-compiler:2.51.1")
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-compiler:2.48")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
 }

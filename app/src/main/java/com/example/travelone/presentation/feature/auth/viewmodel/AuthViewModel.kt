@@ -1,5 +1,6 @@
 package com.example.travelone.presentation.feature.auth.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.travelone.domain.model.auth.User
@@ -7,7 +8,10 @@ import com.example.travelone.domain.usecase.auth.AuthUseCase
 import com.example.travelone.presentation.feature.auth.util.Validator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -123,4 +127,12 @@ class AuthViewModel @Inject constructor(
     fun clearEmailError() { _emailError.value = null }
     fun clearPasswordError() { _passwordError.value = null }
     fun clearUsernameError() { _usernameError.value = null }
+
+    val isLoggedIn: StateFlow<Boolean> = authState
+        .map { result -> result?.isSuccess == true && result.getOrNull() != null }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = false
+        )
 }

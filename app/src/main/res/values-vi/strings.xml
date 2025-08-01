@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Travel One</string>
 
+    <string name="welcome">Chào mừng đến với Travel One</string>
+
     <!-- Auth screen -->
     <string name="login_title">Đăng nhập để tiếp tục</string>
     <string name="sign_up_title">Tạo tài khoản của bạn</string>

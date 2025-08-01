@@ -1,8 +1,11 @@
 package com.example.travelone.di
 
+import android.content.Context
+import com.example.travelone.data.preferences.language.LanguagePreferenceManager
 import com.example.travelone.data.repository.auth.AuthRepositoryImpl
 import com.example.travelone.domain.repository.auth.AuthRepository
 import com.example.travelone.domain.usecase.auth.AuthUseCase
+import com.example.travelone.domain.usecase.auth.CheckUserLoggedInUseCase
 import com.example.travelone.domain.usecase.auth.GetCurrentUserUseCase
 import com.example.travelone.domain.usecase.auth.LoginUseCase
 import com.example.travelone.domain.usecase.auth.LogoutUseCase
@@ -12,7 +15,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -36,4 +41,10 @@ object AppModule {
         logout = LogoutUseCase(repository),
         getCurrentUser = GetCurrentUserUseCase(repository)
     )
+
+    @Provides
+    @Singleton
+    fun provideLanguagePreferenceManager(
+        @ApplicationContext context: Context
+    ): LanguagePreferenceManager = LanguagePreferenceManager(context)
 }

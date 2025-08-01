@@ -42,18 +42,17 @@ fun LoginSection(
     clearEmailError: () -> Unit,
     passwordError: String?,
     clearPasswordError: () -> Unit,
+    isLoggedIn: Boolean,
     navHostController: NavHostController
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    val isLogin = remember { mutableStateOf(false) }
-
     val emailFocusRequester = remember { FocusRequester() }
     val passwordFocusRequester = remember { FocusRequester() }
 
-    if(isLogin.value) {
-        LaunchedEffect(Unit) {
+    LaunchedEffect(isLoggedIn) {
+        if (isLoggedIn) {
             navHostController.navigate("main") {
                 popUpTo("dashboard") { inclusive = true }
             }

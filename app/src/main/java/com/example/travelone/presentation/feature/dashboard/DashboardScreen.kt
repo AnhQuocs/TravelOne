@@ -1,11 +1,13 @@
 package com.example.travelone.presentation.feature.dashboard
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -27,7 +29,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -51,10 +52,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.travelone.R
@@ -80,6 +79,7 @@ fun DashboardScreen(
     val authState by authViewModel.authState.collectAsState()
     val lastAction by authViewModel.lastAuthAction.collectAsState()
     val isLoading by authViewModel.isLoading.collectAsState()
+    val isLoggedIn by authViewModel.isLoggedIn.collectAsState()
 
     val usernameError by authViewModel.usernameError.collectAsState()
     val emailError by authViewModel.emailError.collectAsState()
@@ -117,6 +117,12 @@ fun DashboardScreen(
 
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             authViewModel.clearAuthState()
+        }
+    }
+
+    LaunchedEffect(isLoading, authState, lastAction) {
+        if (!isLoading && authState?.isSuccess == true && lastAction == AuthActionType.SIGN_UP) {
+            isLogin = true
         }
     }
 
@@ -192,7 +198,7 @@ fun DashboardScreen(
                     },
                     border = BorderStroke(1.dp, Color.White.copy(alpha = 0.8f)),
                     modifier = Modifier
-                        .fillMaxSize()
+                        .fillMaxWidth()
                         .height(Dimens.DefaultComponentHeight)
                 ) {
                     Text(
@@ -212,11 +218,11 @@ fun DashboardScreen(
             visible = isShowForm,
             enter = slideInVertically(
                 initialOffsetY = { it },
-                animationSpec = tween(500)
+                animationSpec = tween(300)
             ),
             exit = slideOutVertically(
                 targetOffsetY = { it },
-                animationSpec = tween(500)
+                animationSpec = tween(300)
             ),
             modifier = Modifier.align(Alignment.BottomCenter)
         ) {
@@ -242,7 +248,11 @@ fun DashboardScreen(
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(topStart = AppShape.SuperRoundedShape, topEnd = AppShape.SuperRoundedShape))
                     .background(color = SoftGreen)
-                    .animateContentSize()
+                    .animateContentSize(
+                    animationSpec = tween(
+                        durationMillis = 150,
+                        easing = LinearEasing
+                    ))
                     .padding(Dimens.LargePadding)
             ) {
                 AnimatedContent(
@@ -250,24 +260,24 @@ fun DashboardScreen(
                     transitionSpec = {
                         if (targetState) {
                             slideInHorizontally(
-                                animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing),
+                                animationSpec = tween(durationMillis = 100, easing = FastOutSlowInEasing),
                                 initialOffsetX = { fullWidth -> fullWidth }
-                            ) + fadeIn(animationSpec = tween(250)) with
+                            ) + fadeIn(animationSpec = tween(100)) with
 
                                     slideOutHorizontally(
-                                        animationSpec = tween(250, easing = FastOutSlowInEasing),
+                                        animationSpec = tween(100, easing = FastOutSlowInEasing),
                                         targetOffsetX = { fullWidth -> -fullWidth / 4 }
-                                    ) + fadeOut(animationSpec = tween(250))
+                                    ) + fadeOut(animationSpec = tween(100))
                         } else {
                             slideInHorizontally(
-                                animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing),
+                                animationSpec = tween(durationMillis = 100, easing = FastOutSlowInEasing),
                                 initialOffsetX = { fullWidth -> -fullWidth }
-                            ) + fadeIn(animationSpec = tween(250)) with
+                            ) + fadeIn(animationSpec = tween(100)) with
 
                                     slideOutHorizontally(
-                                        animationSpec = tween(250, easing = FastOutSlowInEasing),
+                                        animationSpec = tween(100, easing = FastOutSlowInEasing),
                                         targetOffsetX = { fullWidth -> fullWidth / 4 }
-                                    ) + fadeOut(animationSpec = tween(250))
+                                    ) + fadeOut(animationSpec = tween(100))
                         }
                     }
                 ) { target ->
@@ -281,6 +291,7 @@ fun DashboardScreen(
                             clearEmailError = authViewModel::clearEmailError,
                             passwordError = passwordError,
                             clearPasswordError = authViewModel::clearPasswordError,
+                            isLoggedIn = isLoggedIn,
                             navHostController = navHostController
                         )
                     } else {
@@ -311,5 +322,7 @@ fun DashboardScreen(
                 CircularProgressIndicator(color = Color.White)
             }
         }
+
+        Log.d("AuthViewModel", "Loading State: $isLoading")
     }
 }
