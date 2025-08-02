@@ -46,9 +46,11 @@ class AuthRepositoryImpl(
         auth.signOut()
     }
 
-    override fun getCurrentUser(): User? {
-        val firebaseUser = auth.currentUser ?: return null
-        return User(firebaseUser.uid, firebaseUser.email, null)
+    override suspend fun getCurrentUserFromFirestore(): User? {
+        val uid = auth.currentUser?.uid ?: return null
+        val snapshot = firestore.collection("users").document(uid).get().await()
+        val userDto = snapshot.toObject(UserDto::class.java) ?: return null
+        return userDto.toDomain()
     }
 
     override fun isUserLoggedIn(): Boolean {

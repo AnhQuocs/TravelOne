@@ -1,5 +1,6 @@
 package com.example.travelone.domain.usecase.auth
 
+import com.example.travelone.domain.model.auth.User
 import com.example.travelone.domain.repository.auth.AuthRepository
 
 data class AuthUseCase(
@@ -21,6 +22,10 @@ class LogoutUseCase(private val repository: AuthRepository) {
     suspend operator fun invoke() = repository.logout()
 }
 
-class GetCurrentUserUseCase(private val repository: AuthRepository) {
-    operator fun invoke() = repository.getCurrentUser()
+class GetCurrentUserUseCase(
+    private val repository: AuthRepository
+) {
+    suspend operator fun invoke(): User? {
+        return repository.getCurrentUserFromFirestore()
+    }
 }

@@ -1,6 +1,5 @@
 package com.example.travelone.ui.theme
 
-import androidx.compose.material3.Text
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -10,6 +9,19 @@ import androidx.compose.ui.unit.sp
 import com.example.travelone.R
 
 // Set of Material typography styles to start with
+
+val JostFontFamily = FontFamily(
+    Font(R.font.jost_font, FontWeight.SemiBold),
+//    Font(R.font.jost_italic_font, FontWeight.SemiBold),
+)
+
+val JostTypography = Typography(
+    titleMedium = TextStyle(
+        fontFamily = JostFontFamily,
+        fontSize = 20.sp
+    ),
+)
+
 val Typography = Typography(
 
     bodyLarge = TextStyle(

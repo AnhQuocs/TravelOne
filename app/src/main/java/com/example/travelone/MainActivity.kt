@@ -7,24 +7,21 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.os.LocaleListCompat
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.travelone.data.preferences.language.LanguagePreferenceManager
 import com.example.travelone.domain.model.language.AppLanguage
 import com.example.travelone.presentation.feature.auth.viewmodel.SplashViewModel
 import com.example.travelone.presentation.feature.dashboard.DashboardScreen
 import com.example.travelone.presentation.feature.main.MainScreen
+import com.example.travelone.presentation.feature.main.MainScreenTest
+import com.example.travelone.presentation.feature.main.RoomListTest
 import com.example.travelone.ui.theme.TravelOneTheme
 import com.example.travelone.utils.LanguageManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -71,7 +68,16 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("main") {
-                        MainScreen(navController = navController)
+//                        MainScreenTest(navController = navController)
+                        MainScreen(navHostController = navController)
+                    }
+
+                    composable(
+                        route = "roomList/{hotelId}",
+                        arguments = listOf(navArgument("hotelId") { type = NavType.StringType })
+                    ) { backStackEntry ->
+                        val hotelId = backStackEntry.arguments?.getString("hotelId") ?: ""
+                        RoomListTest(hotelId = hotelId)
                     }
                 }
             }

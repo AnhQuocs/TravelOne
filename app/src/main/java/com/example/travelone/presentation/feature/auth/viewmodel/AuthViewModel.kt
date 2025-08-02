@@ -1,6 +1,5 @@
 package com.example.travelone.presentation.feature.auth.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.travelone.domain.model.auth.User
@@ -41,6 +40,9 @@ class AuthViewModel @Inject constructor(
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
+
+    private val _isUserLoading = MutableStateFlow(false)
+    val isUserLoading: StateFlow<Boolean> = _isUserLoading
 
     fun signUp(email: String, password: String, username: String) {
         var isValid = true
@@ -117,7 +119,25 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun getCurrentUser(): User? = authUseCases.getCurrentUser()
+    init {
+        loadCurrentUser()
+    }
+
+    fun loadCurrentUser() {
+        viewModelScope.launch {
+            _isUserLoading.value = true
+            try {
+                val user = authUseCases.getCurrentUser()
+                if (user != null) {
+                    _authState.value = Result.success(user)
+                } else {
+                    _authState.value = null
+                }
+            } finally {
+                _isUserLoading.value = false
+            }
+        }
+    }
 
     fun clearAuthState() {
         _authState.value = null
