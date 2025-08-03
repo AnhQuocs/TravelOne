@@ -58,7 +58,7 @@ fun UserInfo(
                 painter = painterResource(id = R.drawable.user_avatar),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(Dimens.SizeXXL)
+                    .size(Dimens.SizeXXLPlus)
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )

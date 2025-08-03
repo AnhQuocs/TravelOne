@@ -52,8 +52,7 @@ fun WeatherCard(weather: WeatherResult) {
 
     Box(
         modifier = Modifier
-            .padding(vertical = Dimens.PaddingM, horizontal = Dimens.PaddingS)
-            .padding(top = Dimens.PaddingM)
+            .padding(bottom = Dimens.PaddingM)
             .fillMaxWidth()
             .height(Dimens.HeightXL2)
             .background(brush = gradient, shape = RoundedCornerShape(AppShape.MediumShape))
