@@ -1,10 +1,7 @@
 package com.example.travelone.presentation.feature.main
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,10 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -61,10 +56,10 @@ fun MainScreen(
                         Box(
                             modifier = Modifier
                                 .background(color = Color.White)
-                                .padding(horizontal = Dimens.MediumPadding)
-                                .padding(bottom = Dimens.MediumPadding)
+                                .padding(horizontal = Dimens.PaddingM)
+                                .padding(bottom = Dimens.PaddingM)
                                 .fillMaxWidth()
-                                .height(Dimens.ExtraLargeHeight),
+                                .height(Dimens.HeightXL),
                             contentAlignment = Alignment.Center
                         ) {
                             CircularProgressIndicator()
@@ -84,72 +79,12 @@ fun MainScreen(
         LazyColumn (
             state = scrollState,
             modifier = Modifier
+                .fillMaxSize()
                 .background(color = Color.White)
                 .padding(paddingValues)
-                .padding(Dimens.MediumPadding)
+                .padding(Dimens.PaddingM)
         ) {
-            item {
-                HotelCardItem(title = "Hotel 1", price = "$120/night")
-            }
 
-            item {
-                HotelMapSection()
-            }
-
-            item {
-                HotelMapSection()
-            }
-
-            item {
-                HotelBestTodaySection()
-            }
         }
-    }
-}
-
-@Composable
-fun HotelCardItem(title: String, price: String) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Box(
-            modifier = Modifier
-                .height(150.dp)
-                .fillMaxWidth()
-                .background(Color.Gray)
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(title, style = MaterialTheme.typography.titleMedium)
-        Text(price, style = MaterialTheme.typography.bodySmall, color = Color.Blue)
-    }
-}
-
-@Composable
-fun HotelMapSection() {
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text("Hotel Near You", style = MaterialTheme.typography.titleMedium)
-        Spacer(modifier = Modifier.height(8.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(150.dp)
-                .background(Color.LightGray)
-        )
-    }
-}
-
-@Composable
-fun HotelBestTodaySection() {
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text("Best Today 🔥", style = MaterialTheme.typography.titleMedium)
-        Spacer(modifier = Modifier.height(8.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(150.dp)
-                .background(Color.LightGray)
-        )
     }
 }

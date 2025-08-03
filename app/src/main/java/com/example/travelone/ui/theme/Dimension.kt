@@ -3,24 +3,32 @@ package com.example.travelone.ui.theme
 import androidx.compose.ui.unit.dp
 
 object Dimens {
-    val ExtraSmallPadding = 2.dp
-    val MicroPadding = 4.dp
-    val SmallPadding = 8.dp
-    val MediumPadding = 16.dp
-    val LargePadding = 24.dp
-    val ExtraLargePadding = 32.dp
-    val DashboardPadding = 68.dp
+    // Padding
+    val PaddingXXS = 2.dp
+    val PaddingXS = 4.dp
+    val PaddingXSPlus = 6.dp
+    val PaddingS = 8.dp
+    val PaddingM = 16.dp
+    val PaddingL = 24.dp
+    val PaddingXL = 32.dp
+    val PaddingXXL = 48.dp
+    val PaddingDashboard = 68.dp
 
-    val SmallSize = 16.dp
-    val CompactSize = 20.dp
-    val RegularSize = 24.dp
-    val SemiMediumSize = 28.dp
-    val MediumSize = 32.dp
-    val MediumLargeSize = 36.dp
-    val SemiLargeSize = 40.dp
-    val LargeSize = 50.dp
+    // Size (icon, button, card width...)
+    val SizeS = 16.dp
+    val SizeSM = 20.dp
+    val SizeM = 24.dp
+    val SizeML = 28.dp
+    val SizeL = 32.dp
+    val SizeXL = 36.dp
+    val SizeXLPlus = 40.dp
+    val SizeXXL = 50.dp
 
-    val DefaultComponentHeight = 48.dp
-    val LargeHeight = 68.dp
-    val ExtraLargeHeight = 100.dp
+    // Height (component height)
+    val HeightSmall = 30.dp
+    val HeightText = 35.dp
+    val HeightDefault = 48.dp
+    val HeightLarge = 68.dp
+    val HeightXL = 100.dp
+    val HeightShimmer = 400.dp
 }

@@ -26,7 +26,7 @@ fun AppButton(
         colors = colors,
         modifier = modifier
             .fillMaxWidth()
-            .height(Dimens.DefaultComponentHeight),
+            .height(Dimens.HeightDefault),
         shape = shape
     ) {
         Text(

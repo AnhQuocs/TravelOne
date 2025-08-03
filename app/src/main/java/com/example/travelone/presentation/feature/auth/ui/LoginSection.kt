@@ -71,7 +71,7 @@ fun LoginSection(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = Dimens.SmallPadding),
+                .padding(bottom = Dimens.PaddingS),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             NormalOutlinedTextField(

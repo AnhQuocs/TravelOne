@@ -84,8 +84,8 @@ fun NormalOutlinedTextField(
                 color = Color.Red,
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(
-                    start = Dimens.MediumPadding,
-                    top = Dimens.ExtraSmallPadding
+                    start = Dimens.PaddingM,
+                    top = Dimens.PaddingXXS
                 )
             )
         }
@@ -158,8 +158,8 @@ fun PasswordOutlinedTextField(
                 color = Color.Red,
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(
-                    start = Dimens.MediumPadding,
-                    top = Dimens.ExtraSmallPadding
+                    start = Dimens.PaddingM,
+                    top = Dimens.PaddingXXS
                 )
             )
         }

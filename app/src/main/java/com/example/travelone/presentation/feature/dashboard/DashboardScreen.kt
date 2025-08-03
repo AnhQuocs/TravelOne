@@ -146,7 +146,7 @@ fun DashboardScreen(
             style = MaterialTheme.typography.displayMedium,
             color = Color.White,
             modifier = Modifier
-                .padding(top = Dimens.DashboardPadding)
+                .padding(top = Dimens.PaddingDashboard)
                 .align(Alignment.TopCenter)
         )
 
@@ -173,8 +173,8 @@ fun DashboardScreen(
             Column(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(Dimens.ExtraLargePadding)
-                    .padding(bottom = Dimens.LargePadding),
+                    .padding(Dimens.PaddingXL)
+                    .padding(bottom = Dimens.PaddingL),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 AppButton(
@@ -199,7 +199,7 @@ fun DashboardScreen(
                     border = BorderStroke(1.dp, Color.White.copy(alpha = 0.8f)),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(Dimens.DefaultComponentHeight)
+                        .height(Dimens.HeightDefault)
                 ) {
                     Text(
                         text = stringResource(id = R.string.sign_up_prompt),
@@ -253,7 +253,7 @@ fun DashboardScreen(
                         durationMillis = 150,
                         easing = LinearEasing
                     ))
-                    .padding(Dimens.LargePadding)
+                    .padding(Dimens.PaddingL)
             ) {
                 AnimatedContent(
                     targetState = isLogin,
