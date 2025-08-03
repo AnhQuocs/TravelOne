@@ -23,6 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.travelone.presentation.feature.auth.viewmodel.AuthViewModel
+import com.example.travelone.presentation.feature.hotel.ui.HotelList
+import com.example.travelone.presentation.feature.user.UserInfo
+import com.example.travelone.presentation.feature.user.UserInfoShimmerLoading
 import com.example.travelone.presentation.language.LanguageViewModel
 import com.example.travelone.ui.theme.Dimens
 
@@ -60,9 +63,9 @@ fun MainScreen(
                                 .padding(bottom = Dimens.PaddingM)
                                 .fillMaxWidth()
                                 .height(Dimens.HeightXL),
-                            contentAlignment = Alignment.Center
+                            contentAlignment = Alignment.BottomCenter
                         ) {
-                            CircularProgressIndicator()
+                            UserInfoShimmerLoading()
                         }
                     }
                     user != null -> {
@@ -84,7 +87,7 @@ fun MainScreen(
                 .padding(paddingValues)
                 .padding(Dimens.PaddingM)
         ) {
-
+            item { HotelList() }
         }
     }
 }

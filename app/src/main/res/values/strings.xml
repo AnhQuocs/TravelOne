@@ -25,4 +25,8 @@
     <string name="unknown_error">An unknown error has occurred.</string>
     <string name="email_already_exists">Email already exists. Please use a different email.</string>
 
+    <!-- Hotel -->
+    <string name="most_popular">Most Popular</string>
+    <string name="see_all">See all</string>
+
 </resources>

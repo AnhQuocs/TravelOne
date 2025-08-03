@@ -11,7 +11,7 @@ import com.example.travelone.R
 // Set of Material typography styles to start with
 
 val JostFontFamily = FontFamily(
-    Font(R.font.jost_font, FontWeight.SemiBold),
+    Font(R.font.jost_font),
 //    Font(R.font.jost_italic_font, FontWeight.SemiBold),
 )
 
@@ -24,16 +24,17 @@ val JostTypography = Typography(
         fontFamily = JostFontFamily,
         fontSize = 18.sp
     ),
+    bodyMedium = TextStyle(
+        fontFamily = JostFontFamily,
+        fontSize = 16.sp
+    )
 )
 
 val Typography = Typography(
 
     bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
+        fontWeight = FontWeight.Medium,
+        fontSize = 18.sp
     ),
     /* Other default text styles to override
     titleLarge = TextStyle(
@@ -52,6 +53,14 @@ val Typography = Typography(
     )
     */
 
+    bodyMedium = TextStyle(
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Normal
+    ),
+    titleSmall = TextStyle(
+        fontSize = 20.sp,
+        fontWeight = FontWeight.SemiBold
+    ),
     titleLarge = TextStyle(
         fontSize = 22.sp,
         fontWeight = FontWeight.SemiBold

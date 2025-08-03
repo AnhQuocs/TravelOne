@@ -25,4 +25,8 @@
     <string name="sign_up_failed">Đăng ký thất bại. Vui lòng kiểm tra lại thông tin.</string>
     <string name="unknown_error">Đã xảy ra lỗi không xác định.</string>
 
+    <!-- Hotel -->
+    <string name="most_popular">Phổ biến nhất</string>
+    <string name="see_all">Xem tất cả</string>
+
 </resources>

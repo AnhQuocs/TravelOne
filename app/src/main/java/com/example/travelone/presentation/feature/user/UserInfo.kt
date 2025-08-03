@@ -1,4 +1,4 @@
-package com.example.travelone.presentation.feature.main
+package com.example.travelone.presentation.feature.user
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -127,23 +127,5 @@ fun UserInfo(
                 )
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun UserInfoPreview() {
-    val user = User (
-        uid = "user123",
-        username = "AnhQuocs",
-        email = "anhquoc123@gmail.com"
-    )
-
-    TravelOneTheme {
-        UserInfo(
-            user = user,
-            onSearch = {},
-            onOpenNotification = {}
-        )
     }
 }
