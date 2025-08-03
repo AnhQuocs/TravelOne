@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -26,6 +27,7 @@ import com.example.travelone.presentation.feature.auth.viewmodel.AuthViewModel
 import com.example.travelone.presentation.feature.hotel.ui.HotelList
 import com.example.travelone.presentation.feature.user.UserInfo
 import com.example.travelone.presentation.feature.user.UserInfoShimmerLoading
+import com.example.travelone.presentation.feature.weather.ui.WeatherSection
 import com.example.travelone.presentation.language.LanguageViewModel
 import com.example.travelone.ui.theme.Dimens
 
@@ -36,6 +38,8 @@ fun MainScreen(
     hotelViewModel: AuthViewModel = hiltViewModel(),
     languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+
     val authState by authViewModel.authState.collectAsState()
     val isUserLoading by authViewModel.isUserLoading.collectAsState()
 
@@ -87,6 +91,7 @@ fun MainScreen(
                 .padding(paddingValues)
                 .padding(Dimens.PaddingM)
         ) {
+            item { WeatherSection(context = context) }
             item { HotelList() }
         }
     }

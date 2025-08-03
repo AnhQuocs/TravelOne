@@ -89,7 +89,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
 
     // Loading network image
-    implementation("io.coil-kt:coil-compose:2.7.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
     // BOM
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
@@ -111,4 +111,7 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:2.48")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
+    // Weather
+    // Location
+    implementation("com.google.android.gms:play-services-location:21.3.0")
 }

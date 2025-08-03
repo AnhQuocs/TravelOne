@@ -8,6 +8,7 @@ object AppSpacing {
     val MediumPlus = 10.dp
     val MediumLarge = 12.dp
     val Large = 16.dp
+    val LargePlus = 18.dp
     val ExtraLarge = 24.dp
     val Jumbo = 28.dp
 }

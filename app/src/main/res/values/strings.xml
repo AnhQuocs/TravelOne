@@ -29,4 +29,7 @@
     <string name="most_popular">Most Popular</string>
     <string name="see_all">See all</string>
 
+    <!-- Weather -->
+    <string name="error">An error has occurred</string>
+
 </resources>
