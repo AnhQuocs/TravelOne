@@ -32,14 +32,13 @@ import com.example.travelone.domain.model.weather.WeatherResult
 import com.example.travelone.presentation.feature.weather.util.BuildIcon.buildIcon
 import com.example.travelone.ui.theme.AppShape
 import com.example.travelone.ui.theme.AppSpacing
-import com.example.travelone.ui.theme.CyanBright
 import com.example.travelone.ui.theme.Dimens
-import com.example.travelone.ui.theme.MintLight
+import com.example.travelone.ui.theme.WeatherCardBlue
 
 @Composable
 fun WeatherCard(weather: WeatherResult) {
     val gradient = Brush.linearGradient(
-        colors = listOf(MintLight, CyanBright),
+        colors = listOf(WeatherCardBlue, Color.White),
         start = Offset(1000f, -1000f),
         end = Offset(1000f, 1000f)
     )

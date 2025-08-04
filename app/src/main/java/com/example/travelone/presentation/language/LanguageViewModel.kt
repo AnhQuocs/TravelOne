@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.travelone.domain.model.language.AppLanguage
 import com.example.travelone.domain.usecase.language.GetLanguageUseCase
 import com.example.travelone.domain.usecase.language.UpdateLanguageUseCase
+import com.example.travelone.utils.LangUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,6 +25,7 @@ class LanguageViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             getLanguageUseCase().collect {
+                LangUtils.currentLang = it.code
                 _currentLanguage.value = it
             }
         }

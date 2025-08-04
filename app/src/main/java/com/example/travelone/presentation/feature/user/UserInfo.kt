@@ -25,19 +25,20 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.travelone.R
 import com.example.travelone.domain.model.auth.User
+import com.example.travelone.domain.model.weather.Weather
+import com.example.travelone.domain.model.weather.WeatherResult
 import com.example.travelone.ui.theme.AppShape
 import com.example.travelone.ui.theme.AppSpacing
 import com.example.travelone.ui.theme.Dimens
 import com.example.travelone.ui.theme.JostTypography
-import com.example.travelone.ui.theme.TravelOneTheme
 
 @Composable
 fun UserInfo(
     user: User,
+    weather: WeatherResult,
     onSearch: () -> Unit,
     onOpenNotification: () -> Unit
 ) {
@@ -45,7 +46,6 @@ fun UserInfo(
         modifier = Modifier
             .background(color = Color.White)
             .padding(horizontal = Dimens.PaddingM)
-            .padding(bottom = Dimens.PaddingM)
             .fillMaxWidth()
             .height(Dimens.HeightXL),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -86,7 +86,7 @@ fun UserInfo(
                     Spacer(modifier = Modifier.width(AppSpacing.Small))
 
                     Text(
-                        text = "Ha Dong", // debug
+                        text = weather.name.toString(),
                         color = Color.Black.copy(alpha = 0.4f),
                         style = JostTypography.titleSmall.copy(fontWeight = FontWeight.Medium)
                     )

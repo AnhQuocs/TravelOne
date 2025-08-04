@@ -84,15 +84,13 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun applySavedLanguage() {
+    private fun applySavedLanguage() = runBlocking {
         val manager = LanguagePreferenceManager(applicationContext)
-        CoroutineScope(Dispatchers.IO).launch {
-            val lang = manager.languageFlow.firstOrNull() ?: AppLanguage.ENGLISH
-            LanguageManager.setAppLocale(applicationContext, lang)
+        val lang = manager.languageFlow.firstOrNull() ?: AppLanguage.ENGLISH
 
-            AppCompatDelegate.setApplicationLocales(
-                LocaleListCompat.create(Locale(lang.code))
-            )
-        }
+        LanguageManager.setAppLocale(applicationContext, lang)
+        AppCompatDelegate.setApplicationLocales(
+            LocaleListCompat.create(Locale(lang.code))
+        )
     }
 }

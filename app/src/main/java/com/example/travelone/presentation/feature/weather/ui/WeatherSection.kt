@@ -37,7 +37,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.travelone.R
@@ -46,14 +45,13 @@ import com.example.travelone.presentation.feature.weather.viewmodel.STATE
 import com.example.travelone.presentation.feature.weather.viewmodel.WeatherViewModel
 import com.example.travelone.ui.theme.AppShape
 import com.example.travelone.ui.theme.AppSpacing
-import com.example.travelone.ui.theme.CyanBright
 import com.example.travelone.ui.theme.Dimens
-import com.example.travelone.ui.theme.MintLight
+import com.example.travelone.ui.theme.WeatherCardBlue
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 
 @Composable
-fun WeatherSection(viewModel: WeatherViewModel = hiltViewModel(), context: Context) {
+fun WeatherSection(weatherViewModel: WeatherViewModel = hiltViewModel(), context: Context) {
     val fusedClient = remember { LocationServices.getFusedLocationProviderClient(context) }
 
     var locationGranted by remember { mutableStateOf(false) }
@@ -79,16 +77,16 @@ fun WeatherSection(viewModel: WeatherViewModel = hiltViewModel(), context: Conte
             fusedClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
                 .addOnSuccessListener { location ->
                     location?.let {
-                        viewModel.getWeather(it.latitude, it.longitude)
+                        weatherViewModel.getWeather(it.latitude, it.longitude)
                     }
                 }
         }
     }
 
-    when (viewModel.state) {
+    when (weatherViewModel.state) {
         STATE.LOADING -> WeatherLoading()
         STATE.FAILED -> ErrorCard()
-        STATE.SUCCESS -> viewModel.weather?.let {
+        STATE.SUCCESS -> weatherViewModel.weather?.let {
             WeatherCard(it)
         }
     }
@@ -97,7 +95,7 @@ fun WeatherSection(viewModel: WeatherViewModel = hiltViewModel(), context: Conte
 @Composable
 fun ErrorCard() {
     val gradient = Brush.linearGradient(
-        colors = listOf(MintLight, CyanBright),
+        colors = listOf(WeatherCardBlue, Color.White),
         start = Offset(1000f, -1000f),
         end = Offset(1000f, 1000f)
     )

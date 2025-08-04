@@ -18,15 +18,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.travelone.ui.theme.AppShape
-import com.example.travelone.ui.theme.CyanBright
 import com.example.travelone.ui.theme.Dimens
-import com.example.travelone.ui.theme.MintLight
+import com.example.travelone.ui.theme.WeatherCardBlue
 
 
 @Composable
 fun WeatherLoading() {
     val gradient = Brush.linearGradient(
-        colors = listOf(MintLight, CyanBright),
+        colors = listOf(WeatherCardBlue, Color.White),
         start = Offset(1000f, -1000f),
         end = Offset(1000f, 1000f)
     )
