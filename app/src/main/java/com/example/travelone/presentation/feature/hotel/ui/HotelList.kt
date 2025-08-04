@@ -163,7 +163,7 @@ fun HotelItem(hotel: Hotel) {
                 Spacer(modifier = Modifier.height(AppSpacing.MediumPlus))
 
                 Text(
-                    text = "$" + hotel.pricePerNightMin.toString() + "/night",
+                    text = "$" + hotel.pricePerNightMin.toString() + "/" + stringResource(id = R.string.night),
                     style = JostTypography.titleSmall.copy(fontWeight = FontWeight.Bold),
                     color = Color.White
                 )

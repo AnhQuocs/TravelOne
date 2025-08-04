@@ -28,6 +28,7 @@
     <!-- Hotel -->
     <string name="most_popular">Phổ biến nhất</string>
     <string name="see_all">Xem tất cả</string>
+    <string name="night">đêm</string>
 
     <!-- Weather -->
     <string name="error">Đã xảy ra lỗi</string>

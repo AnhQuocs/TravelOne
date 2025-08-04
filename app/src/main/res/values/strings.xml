@@ -28,6 +28,7 @@
     <!-- Hotel -->
     <string name="most_popular">Most Popular</string>
     <string name="see_all">See all</string>
+    <string name="night">night</string>
 
     <!-- Weather -->
     <string name="error">An error has occurred</string>

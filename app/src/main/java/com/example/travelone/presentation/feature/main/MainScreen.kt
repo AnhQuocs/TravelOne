@@ -129,6 +129,31 @@ fun MainScreen(
             item { Spacer(modifier = Modifier.height(Dimens.PaddingM)) }
             item { WeatherSection(context = context) }
             item { HotelList() }
+            item {
+                Column(modifier = Modifier
+                    .padding(16.dp)
+                    .padding(top = 48.dp)) {
+                    Button(onClick = {
+                        LangUtils.currentLang = AppLanguage.ENGLISH.code
+                        languageViewModel.changeLanguage(AppLanguage.ENGLISH)
+                    }) {
+                        Text("English 🇬🇧")
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Button(onClick = {
+                        LangUtils.currentLang = AppLanguage.VIETNAMESE.code
+                        languageViewModel.changeLanguage(AppLanguage.VIETNAMESE)
+                    }) {
+                        Text("Tiếng Việt 🇻🇳")
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(text = stringResource(id = R.string.welcome))
+                }
+            }
         }
     }
 }
