@@ -33,4 +33,10 @@
     <!-- Weather -->
     <string name="error">An error has occurred</string>
 
+    <!-- BottomBar -->
+    <string name="home">Home</string>
+    <string name="my_booking">My Booking</string>
+    <string name="favorite">Favorite</string>
+    <string name="profile">Profile</string>
+
 </resources>

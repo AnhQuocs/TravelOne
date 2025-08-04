@@ -1,6 +1,13 @@
 package com.example.travelone.presentation.feature.main
 
 import androidx.activity.ComponentActivity
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,10 +17,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -22,6 +27,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -35,9 +41,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.travelone.R
 import com.example.travelone.domain.model.language.AppLanguage
+import com.example.travelone.presentation.components.BottomAppBar
 import com.example.travelone.presentation.feature.auth.viewmodel.AuthViewModel
+import com.example.travelone.presentation.feature.booking.MyBookingScreen
+import com.example.travelone.presentation.feature.favorite.FavoriteScreen
 import com.example.travelone.presentation.feature.hotel.ui.HotelList
 import com.example.travelone.presentation.feature.hotel.viewmodel.HotelViewModel
+import com.example.travelone.presentation.feature.profile.ProfileScreen
 import com.example.travelone.presentation.feature.user.UserInfo
 import com.example.travelone.presentation.feature.user.UserInfoShimmerLoading
 import com.example.travelone.presentation.feature.weather.ui.WeatherSection
@@ -47,7 +57,79 @@ import com.example.travelone.ui.theme.Dimens
 import com.example.travelone.utils.LangUtils
 
 @Composable
-fun MainScreen(
+fun MainScreen(navHostController: NavHostController) {
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
+    var previousTabIndex by remember { mutableIntStateOf(0) }
+
+    Scaffold(
+        topBar = {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Color.White)
+            )
+        },
+        bottomBar = {
+            BottomAppBar(
+                currentIndex = selectedTabIndex,
+                onTabSelected = { newIndex ->
+                    previousTabIndex = selectedTabIndex
+                    selectedTabIndex = newIndex
+                }
+            )
+        }
+    ) { paddingValues ->
+
+        val isForward = selectedTabIndex > previousTabIndex
+
+        AnimatedContent(
+            targetState = selectedTabIndex,
+            label = "TabTransition",
+            transitionSpec = {
+                if (isForward) {
+                    (slideInHorizontally(
+                        initialOffsetX = { width -> width },
+                        animationSpec = tween(durationMillis = 200)
+                    ) + fadeIn(
+                        animationSpec = tween(durationMillis = 200)
+                    )).togetherWith(
+                        slideOutHorizontally(
+                            targetOffsetX = { width -> -width },
+                            animationSpec = tween(durationMillis = 200)
+                        )
+                    )
+                } else {
+                    (slideInHorizontally(
+                        initialOffsetX = { width -> -width },
+                        animationSpec = tween(durationMillis = 200)
+                    ) + fadeIn(
+                        animationSpec = tween(durationMillis = 200)
+                    )).togetherWith(
+                        slideOutHorizontally(
+                            targetOffsetX = { width -> width },
+                            animationSpec = tween(durationMillis = 200)
+                        )
+                    )
+                }.using(
+                    SizeTransform(clip = false)
+                )
+            },
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+        ) { tab ->
+            when (tab) {
+                0 -> HomeScreen(navHostController)
+                1 -> MyBookingScreen()
+                2 -> FavoriteScreen()
+                3 -> ProfileScreen()
+            }
+        }
+    }
+}
+
+@Composable
+fun HomeScreen(
     navHostController: NavHostController,
     authViewModel: AuthViewModel = hiltViewModel(),
     hotelViewModel: HotelViewModel = hiltViewModel(),

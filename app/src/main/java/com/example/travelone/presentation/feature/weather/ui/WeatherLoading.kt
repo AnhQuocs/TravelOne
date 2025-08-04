@@ -40,7 +40,7 @@ fun WeatherLoading() {
         Card(
             elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
             colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-            shape = RoundedCornerShape(8.dp),
+            shape = RoundedCornerShape(AppShape.MediumShape),
             modifier = Modifier
                 .fillMaxSize()
         ) {

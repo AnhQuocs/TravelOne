@@ -33,4 +33,10 @@
     <!-- Weather -->
     <string name="error">Đã xảy ra lỗi</string>
 
+    <!-- BottomBar -->
+    <string name="home">Trang chủ</string>
+    <string name="my_booking">Đơn đặt</string>
+    <string name="favorite">Yêu thích</string>
+    <string name="profile">Hồ sơ</string>
+
 </resources>

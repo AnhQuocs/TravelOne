@@ -19,17 +19,14 @@ import com.example.travelone.data.preferences.language.LanguagePreferenceManager
 import com.example.travelone.domain.model.language.AppLanguage
 import com.example.travelone.presentation.feature.auth.viewmodel.SplashViewModel
 import com.example.travelone.presentation.feature.dashboard.DashboardScreen
+import com.example.travelone.presentation.feature.main.HomeScreen
 import com.example.travelone.presentation.feature.main.MainScreen
-import com.example.travelone.presentation.feature.main.MainScreenTest
 import com.example.travelone.presentation.feature.main.RoomListTest
 import com.example.travelone.ui.theme.TravelOneTheme
 import com.example.travelone.utils.LanguageManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.Locale
 
@@ -69,7 +66,8 @@ class MainActivity : ComponentActivity() {
 
                     composable("main") {
 //                        MainScreenTest(navController = navController)
-                        MainScreen(navHostController = navController)
+//                        HomeScreen(navHostController = navController)
+                        MainScreen( navHostController = navController)
                     }
 
                     composable(

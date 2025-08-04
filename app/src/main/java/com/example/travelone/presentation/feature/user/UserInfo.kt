@@ -46,6 +46,7 @@ fun UserInfo(
         modifier = Modifier
             .background(color = Color.White)
             .padding(horizontal = Dimens.PaddingM)
+            .padding(bottom = Dimens.PaddingXXS)
             .fillMaxWidth()
             .height(Dimens.HeightXL),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -95,7 +96,8 @@ fun UserInfo(
         }
 
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(bottom = Dimens.PaddingS)
         ) {
             Box(
                 modifier = Modifier

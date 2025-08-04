@@ -27,6 +27,10 @@ val JostTypography = Typography(
     bodyMedium = TextStyle(
         fontFamily = JostFontFamily,
         fontSize = 16.sp
+    ),
+    bodySmall = TextStyle(
+        fontFamily = JostFontFamily,
+        fontSize = 12.sp
     )
 )
 
