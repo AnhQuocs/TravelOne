@@ -22,8 +22,10 @@ import com.example.travelone.presentation.feature.dashboard.DashboardScreen
 import com.example.travelone.presentation.feature.main.HomeScreen
 import com.example.travelone.presentation.feature.main.MainScreen
 import com.example.travelone.presentation.feature.main.RoomListTest
+import com.example.travelone.presentation.feature.hotel.map.ui.FullMapScreen
 import com.example.travelone.ui.theme.TravelOneTheme
 import com.example.travelone.utils.LanguageManager
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
@@ -76,6 +78,18 @@ class MainActivity : ComponentActivity() {
                     ) { backStackEntry ->
                         val hotelId = backStackEntry.arguments?.getString("hotelId") ?: ""
                         RoomListTest(hotelId = hotelId)
+                    }
+
+                    composable(
+                        route = "full_map/{lat}/{lng}",
+                        arguments = listOf(
+                            navArgument("lat") { type = NavType.StringType },
+                            navArgument("lng") { type = NavType.StringType },
+                        )
+                    ) { backStackEntry ->
+                        val lat = backStackEntry.arguments?.getString("lat")?.toDoubleOrNull() ?: 0.0
+                        val lng = backStackEntry.arguments?.getString("lng")?.toDoubleOrNull() ?: 0.0
+                        FullMapScreen(latLng = LatLng(lat, lng))
                     }
                 }
             }

@@ -28,8 +28,12 @@
     <!-- Hotel -->
     <string name="most_popular">Most Popular</string>
     <string name="recommended">Recommended for you</string>
-    <string name="see_all">See all</string>
+    <string name="see_all">See All</string>
     <string name="night">night</string>
+
+    <!-- Map -->
+    <string name="hotel_near_by">Hotel Near You</string>
+    <string name="open_map">Open Map</string>
 
     <!-- Weather -->
     <string name="error">An error has occurred</string>

@@ -48,6 +48,8 @@ import com.example.travelone.presentation.feature.favorite.FavoriteScreen
 import com.example.travelone.presentation.feature.hotel.ui.HotelList
 import com.example.travelone.presentation.feature.hotel.ui.HotelRecommendedList
 import com.example.travelone.presentation.feature.hotel.viewmodel.HotelViewModel
+import com.example.travelone.presentation.feature.hotel.map.ui.MiniMap
+import com.example.travelone.presentation.feature.hotel.map.viewmodel.LocationViewModel
 import com.example.travelone.presentation.feature.profile.ProfileScreen
 import com.example.travelone.presentation.feature.user.UserInfo
 import com.example.travelone.presentation.feature.user.UserInfoShimmerLoading
@@ -135,6 +137,7 @@ fun HomeScreen(
     authViewModel: AuthViewModel = hiltViewModel(),
     hotelViewModel: HotelViewModel = hiltViewModel(),
     weatherViewModel: WeatherViewModel = hiltViewModel(),
+    locationViewModel: LocationViewModel = hiltViewModel(),
     languageViewModel: LanguageViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -148,6 +151,8 @@ fun HomeScreen(
     val user = authState?.getOrNull()
 
     val weather = weatherViewModel.weather
+
+    val userLocation by locationViewModel.userLocation.collectAsState()
 
     val scrollState = rememberLazyListState()
     val hasScrolled = remember {
@@ -166,6 +171,7 @@ fun HomeScreen(
     LaunchedEffect(Unit) {
         hotelViewModel.loadHotels()
         hotelViewModel.loadRecommendedHotels()
+        locationViewModel.loadUserLocation()
     }
 
     Scaffold(
@@ -214,6 +220,15 @@ fun HomeScreen(
             item { HotelList() }
             item { Spacer(modifier = Modifier.height(Dimens.PaddingL)) }
             item { HotelRecommendedList() }
+            item { Spacer(modifier = Modifier.height(Dimens.PaddingL)) }
+            item {
+                MiniMap(
+                    userLocation = userLocation,
+                    onOpenMapClicked = { latLng ->
+                        navHostController.navigate("full_map/${latLng.latitude}/${latLng.longitude}")
+                    }
+                )
+            }
             item {
                 Column(modifier = Modifier
                     .padding(16.dp)

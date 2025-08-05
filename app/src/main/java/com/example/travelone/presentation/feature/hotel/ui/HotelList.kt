@@ -97,7 +97,7 @@ fun HotelList(hotelViewModel: HotelViewModel = hiltViewModel()) {
 
             Text(
                 text = stringResource(id = R.string.see_all),
-                style = MaterialTheme.typography.bodyMedium.copy(lineHeight = 0.sp),
+                style = JostTypography.bodyMedium.copy(lineHeight = 0.sp),
                 color = PrimaryBlue,
                 modifier = Modifier.clickable {  }
             )

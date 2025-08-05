@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -14,13 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -70,19 +65,21 @@ fun HotelRecommendedList(hotelViewModel: HotelViewModel = hiltViewModel()) {
         Spacer(modifier = Modifier.height(AppSpacing.MediumPlus))
 
         Column() {
-            recommendedHotels.forEachIndexed { index, _ ->
+            repeat(3) { index ->
                 Card(
                     elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
                     colors = CardDefaults.cardColors(containerColor = Color.White),
                     shape = RoundedCornerShape(AppShape.ExtraLargeShape),
                     modifier = Modifier
-                        .height(Dimens.HeightML)
-                        .padding(bottom = Dimens.PaddingM)
+                        .height(Dimens.HeightXL)
+                        .padding(bottom = Dimens.PaddingS, top = Dimens.PaddingXSPlus)
                 ) {
                     RecommendedCardShimmerLoading()
                 }
 
-                if (index < recommendedHotels.lastIndex) {
+                Spacer(modifier = Modifier.height(AppSpacing.MediumPlus))
+
+                if (index < 2) {
                     AppLineGray()
                 }
             }
@@ -102,7 +99,7 @@ fun HotelRecommendedList(hotelViewModel: HotelViewModel = hiltViewModel()) {
 
                 Text(
                     text = stringResource(id = R.string.see_all),
-                    style = MaterialTheme.typography.bodyMedium.copy(lineHeight = 0.sp),
+                    style = JostTypography.bodyMedium.copy(lineHeight = 0.sp),
                     color = PrimaryBlue,
                     modifier = Modifier.clickable {  }
                 )

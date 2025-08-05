@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -41,13 +42,13 @@ fun RecommendedCardShimmerLoading() {
             Spacer(modifier = Modifier.width(AppSpacing.Medium))
 
             Column(
-                modifier = Modifier.fillMaxHeight(),
+                modifier = Modifier.fillMaxHeight().padding(vertical = Dimens.PaddingS),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(0.5f)
-                        .height(Dimens.HeightXS)
+                        .height(Dimens.HeightXXS)
                         .background(Color.Gray.copy(alpha = 0.2f))
                 )
 
@@ -61,14 +62,17 @@ fun RecommendedCardShimmerLoading() {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(0.35f)
-                        .height(Dimens.HeightXS)
+                        .height(Dimens.HeightXXS)
                         .background(Color.Gray.copy(alpha = 0.2f))
                 )
             }
 
+            Spacer(modifier = Modifier.weight(1f))
+
             Box(
                 modifier = Modifier
-                    .fillMaxWidth(0.1f)
+                    .padding(end = Dimens.PaddingS)
+                    .fillMaxWidth(0.25f)
                     .height(Dimens.HeightXS)
                     .background(Color.Gray.copy(alpha = 0.2f))
             )

@@ -31,6 +31,10 @@
     <string name="see_all">Xem tất cả</string>
     <string name="night">đêm</string>
 
+    <!-- Map -->
+    <string name="hotel_near_by">Khách sạn gần bạn</string>
+    <string name="open_map">Mở bản đồ</string>
+
     <!-- Weather -->
     <string name="error">Đã xảy ra lỗi</string>
 

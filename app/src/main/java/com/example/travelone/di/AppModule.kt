@@ -5,12 +5,14 @@ import com.example.travelone.data.preferences.language.LanguagePreferenceManager
 import com.example.travelone.data.remote.api.IApiService
 import com.example.travelone.data.repository.auth.AuthRepositoryImpl
 import com.example.travelone.data.repository.hotel.HotelRepositoryImpl
+import com.example.travelone.data.repository.location.LocationRepositoryImpl
 import com.example.travelone.data.repository.room.RoomRepositoryImpl
 import com.example.travelone.data.repository.weather.WeatherRepositoryImpl
 import com.example.travelone.data.source.FirebaseHotelDataSource
 import com.example.travelone.data.source.FirebaseRoomDataSource
 import com.example.travelone.domain.repository.auth.AuthRepository
 import com.example.travelone.domain.repository.hotel.HotelRepository
+import com.example.travelone.domain.repository.location.LocationRepository
 import com.example.travelone.domain.repository.room.RoomRepository
 import com.example.travelone.domain.repository.weather.WeatherRepository
 import com.example.travelone.domain.usecase.auth.AuthUseCase
@@ -20,6 +22,7 @@ import com.example.travelone.domain.usecase.auth.LogoutUseCase
 import com.example.travelone.domain.usecase.auth.SignUpUseCase
 import com.example.travelone.domain.usecase.hotel.GetAllHotelsUseCase
 import com.example.travelone.domain.usecase.hotel.GetRecommendedHotelsUseCase
+import com.example.travelone.domain.usecase.location.GetUserLocationUseCase
 import com.example.travelone.domain.usecase.room.GetRoomByIdUseCase
 import com.example.travelone.domain.usecase.room.GetRoomsByHotelIdUseCase
 import com.example.travelone.domain.usecase.weather.GetWeatherByLocationUseCase
@@ -147,4 +150,15 @@ object AppModule {
     fun provideWeatherUseCase(repository: WeatherRepository): GetWeatherByLocationUseCase {
         return GetWeatherByLocationUseCase(repository)
     }
+
+    // Map
+    @Provides
+    @Singleton
+    fun provideLocationProvider(@ApplicationContext context: Context): LocationRepository =
+        LocationRepositoryImpl(context)
+
+    @Provides
+    @Singleton
+    fun provideGetUserLocationUseCase(locationProvider: LocationRepository): GetUserLocationUseCase =
+        GetUserLocationUseCase(locationProvider)
 }
