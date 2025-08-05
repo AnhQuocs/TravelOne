@@ -21,7 +21,9 @@ import com.example.travelone.domain.usecase.auth.LoginUseCase
 import com.example.travelone.domain.usecase.auth.LogoutUseCase
 import com.example.travelone.domain.usecase.auth.SignUpUseCase
 import com.example.travelone.domain.usecase.hotel.GetAllHotelsUseCase
+import com.example.travelone.domain.usecase.hotel.GetHotelSuggestionsUseCase
 import com.example.travelone.domain.usecase.hotel.GetRecommendedHotelsUseCase
+import com.example.travelone.domain.usecase.hotel.SearchHotelsUseCase
 import com.example.travelone.domain.usecase.location.GetUserLocationUseCase
 import com.example.travelone.domain.usecase.room.GetRoomByIdUseCase
 import com.example.travelone.domain.usecase.room.GetRoomsByHotelIdUseCase
@@ -87,8 +89,21 @@ object AppModule {
     }
 
     @Provides
+    @Singleton
     fun provideGetRecommendedHotelsUseCase(repository: HotelRepository): GetRecommendedHotelsUseCase {
         return GetRecommendedHotelsUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchHotelsUseCase(repository: HotelRepository): SearchHotelsUseCase {
+        return SearchHotelsUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetSuggestionUseCase(repository: HotelRepository): GetHotelSuggestionsUseCase {
+        return GetHotelSuggestionsUseCase(repository)
     }
 
     @Provides

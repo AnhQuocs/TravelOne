@@ -200,7 +200,8 @@ fun HomeScreen(
                             user = user,
                             weather = weather,
                             onSearch = {},
-                            onOpenNotification = {}
+                            onOpenNotification = {},
+                            navHostController = navHostController
                         )
                     }
                 }

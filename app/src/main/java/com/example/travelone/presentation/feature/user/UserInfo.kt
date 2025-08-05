@@ -26,6 +26,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.travelone.R
 import com.example.travelone.domain.model.auth.User
 import com.example.travelone.domain.model.weather.Weather
@@ -40,7 +41,8 @@ fun UserInfo(
     user: User,
     weather: WeatherResult,
     onSearch: () -> Unit,
-    onOpenNotification: () -> Unit
+    onOpenNotification: () -> Unit,
+    navHostController: NavHostController
 ) {
     Row(
         modifier = Modifier
@@ -109,7 +111,9 @@ fun UserInfo(
                 Image(
                     painter = painterResource(id = R.drawable.ic_search),
                     contentDescription = null,
-                    modifier = Modifier.size(Dimens.SizeM)
+                    modifier = Modifier
+                        .size(Dimens.SizeM)
+                        .clickable { navHostController.navigate("search") }
                 )
             }
 
