@@ -58,7 +58,7 @@ fun MainScreenTest(
 
     var lastLang by remember { mutableStateOf(currentLang) }
 
-    val isLoading by hotelViewModel.isLoading
+    val isLoading by hotelViewModel.isHotelLoading
     val hotels = hotelViewModel.hotels
 
     // Khi currentLang thay đổi thì recreate

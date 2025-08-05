@@ -27,6 +27,7 @@
 
     <!-- Hotel -->
     <string name="most_popular">Most Popular</string>
+    <string name="recommended">Recommended for you</string>
     <string name="see_all">See all</string>
     <string name="night">night</string>
 

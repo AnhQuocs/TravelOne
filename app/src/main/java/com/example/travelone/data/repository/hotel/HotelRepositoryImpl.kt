@@ -13,4 +13,12 @@ class HotelRepositoryImpl(
             dto.toHotel(id)
         }
     }
+
+    override suspend fun getRecommendHotels(minAverageRating: Double): List<Hotel> {
+        return dataSource.fetchAllHotels()
+            .map { (id, dto) ->
+                dto.toHotel(id)
+            }
+            .filter { it.averageRating >= minAverageRating }
+    }
 }

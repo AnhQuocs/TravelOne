@@ -19,6 +19,7 @@ import com.example.travelone.domain.usecase.auth.LoginUseCase
 import com.example.travelone.domain.usecase.auth.LogoutUseCase
 import com.example.travelone.domain.usecase.auth.SignUpUseCase
 import com.example.travelone.domain.usecase.hotel.GetAllHotelsUseCase
+import com.example.travelone.domain.usecase.hotel.GetRecommendedHotelsUseCase
 import com.example.travelone.domain.usecase.room.GetRoomByIdUseCase
 import com.example.travelone.domain.usecase.room.GetRoomsByHotelIdUseCase
 import com.example.travelone.domain.usecase.weather.GetWeatherByLocationUseCase
@@ -80,6 +81,11 @@ object AppModule {
         hotelRepository: HotelRepository
     ): GetAllHotelsUseCase {
         return GetAllHotelsUseCase(hotelRepository)
+    }
+
+    @Provides
+    fun provideGetRecommendedHotelsUseCase(repository: HotelRepository): GetRecommendedHotelsUseCase {
+        return GetRecommendedHotelsUseCase(repository)
     }
 
     @Provides

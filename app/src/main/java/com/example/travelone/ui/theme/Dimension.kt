@@ -28,12 +28,13 @@ object Dimens {
     val SizeUltra = 120.dp
 
     // Height (component height)
+    val HeightXXS = 20.dp
     val HeightXS = 24.dp
     val HeightSmall = 30.dp
     val HeightText = 35.dp
     val HeightDefault = 48.dp
-    val HeightML = 80.dp
     val HeightLarge = 60.dp
+    val HeightML = 80.dp
     val HeightXL = 100.dp
     val HeightXL2 = 150.dp
     val HeightXXL = 280.dp

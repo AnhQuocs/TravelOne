@@ -46,6 +46,7 @@ import com.example.travelone.presentation.feature.auth.viewmodel.AuthViewModel
 import com.example.travelone.presentation.feature.booking.MyBookingScreen
 import com.example.travelone.presentation.feature.favorite.FavoriteScreen
 import com.example.travelone.presentation.feature.hotel.ui.HotelList
+import com.example.travelone.presentation.feature.hotel.ui.HotelRecommendedList
 import com.example.travelone.presentation.feature.hotel.viewmodel.HotelViewModel
 import com.example.travelone.presentation.feature.profile.ProfileScreen
 import com.example.travelone.presentation.feature.user.UserInfo
@@ -164,6 +165,7 @@ fun HomeScreen(
 
     LaunchedEffect(Unit) {
         hotelViewModel.loadHotels()
+        hotelViewModel.loadRecommendedHotels()
     }
 
     Scaffold(
@@ -180,7 +182,6 @@ fun HomeScreen(
                             modifier = Modifier
                                 .background(color = Color.White)
                                 .padding(horizontal = Dimens.PaddingM)
-                                .padding(bottom = Dimens.PaddingM)
                                 .fillMaxWidth()
                                 .height(Dimens.HeightXL),
                             contentAlignment = Alignment.BottomCenter
@@ -211,6 +212,8 @@ fun HomeScreen(
             item { Spacer(modifier = Modifier.height(Dimens.PaddingM)) }
             item { WeatherSection(context = context) }
             item { HotelList() }
+            item { Spacer(modifier = Modifier.height(Dimens.PaddingL)) }
+            item { HotelRecommendedList() }
             item {
                 Column(modifier = Modifier
                     .padding(16.dp)

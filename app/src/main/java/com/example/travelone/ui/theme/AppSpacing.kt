@@ -3,6 +3,7 @@ package com.example.travelone.ui.theme
 import androidx.compose.ui.unit.dp
 
 object AppSpacing {
+    val ExtraSmall = 2.dp
     val Small = 4.dp
     val Medium = 8.dp
     val MediumPlus = 10.dp

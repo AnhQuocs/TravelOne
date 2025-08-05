@@ -42,7 +42,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import coil.compose.SubcomposeAsyncImage
 import com.example.travelone.R
 import com.example.travelone.domain.model.hotel.Hotel
 import com.example.travelone.presentation.feature.hotel.viewmodel.HotelViewModel
@@ -56,13 +55,13 @@ import com.example.travelone.ui.theme.PrimaryBlue
 fun HotelList(hotelViewModel: HotelViewModel = hiltViewModel()) {
     val hotels = hotelViewModel.hotels
 
-    var showCardLoading by remember { mutableStateOf(false) }
+    var isShowCardLoading by remember { mutableStateOf(false) }
 
     LaunchedEffect(hotels) {
-        showCardLoading = hotels.isEmpty()
+        isShowCardLoading = hotels.isEmpty()
     }
 
-    if(showCardLoading || hotels.isEmpty()) {
+    if(isShowCardLoading || hotels.isEmpty()) {
         MostPopularShimmerLoading()
 
         LazyRow(
@@ -87,7 +86,7 @@ fun HotelList(hotelViewModel: HotelViewModel = hiltViewModel()) {
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.Bottom,
+            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(

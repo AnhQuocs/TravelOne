@@ -1,5 +1,6 @@
 package com.example.travelone.ui.theme
 
+import androidx.compose.material3.Text
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -31,6 +32,10 @@ val JostTypography = Typography(
     bodySmall = TextStyle(
         fontFamily = JostFontFamily,
         fontSize = 12.sp
+    ),
+    labelLarge = TextStyle(
+        fontFamily = JostFontFamily,
+        fontSize = 14.sp
     )
 )
 

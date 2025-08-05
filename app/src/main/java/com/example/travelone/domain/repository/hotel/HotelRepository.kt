@@ -4,4 +4,5 @@ import com.example.travelone.domain.model.hotel.Hotel
 
 interface HotelRepository {
     suspend fun getAllHotels(): List<Hotel>
+    suspend fun getRecommendHotels(minAverageRating: Double): List<Hotel>
 }
