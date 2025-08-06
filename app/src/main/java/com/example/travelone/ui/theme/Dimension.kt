@@ -13,7 +13,7 @@ object Dimens {
     val PaddingL = 24.dp
     val PaddingXL = 32.dp
     val PaddingXXL = 48.dp
-    val PaddingDashboard = 68.dp
+    val PaddingUltra = 68.dp
 
     // Size (icon, button, card width...)
     val SizeS = 16.dp

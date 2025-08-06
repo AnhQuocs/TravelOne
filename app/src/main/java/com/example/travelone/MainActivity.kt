@@ -19,11 +19,9 @@ import com.example.travelone.data.preferences.language.LanguagePreferenceManager
 import com.example.travelone.domain.model.language.AppLanguage
 import com.example.travelone.presentation.feature.auth.viewmodel.SplashViewModel
 import com.example.travelone.presentation.feature.dashboard.DashboardScreen
-import com.example.travelone.presentation.feature.main.HomeScreen
+import com.example.travelone.presentation.feature.hotel.map.ui.FullMapScreen
 import com.example.travelone.presentation.feature.main.MainScreen
 import com.example.travelone.presentation.feature.main.RoomListTest
-import com.example.travelone.presentation.feature.hotel.map.ui.FullMapScreen
-import com.example.travelone.presentation.feature.hotel.ui.SearchScreen
 import com.example.travelone.ui.theme.TravelOneTheme
 import com.example.travelone.utils.LanguageManager
 import com.google.android.gms.maps.model.LatLng
@@ -90,11 +88,12 @@ class MainActivity : ComponentActivity() {
                     ) { backStackEntry ->
                         val lat = backStackEntry.arguments?.getString("lat")?.toDoubleOrNull() ?: 0.0
                         val lng = backStackEntry.arguments?.getString("lng")?.toDoubleOrNull() ?: 0.0
-                        FullMapScreen(latLng = LatLng(lat, lng))
+
+                        FullMapScreen(navHostController = navController, latLng = LatLng(lat, lng))
                     }
 
                     composable("search") {
-                        SearchScreen()
+//                        SearchScreen()
                     }
                 }
             }

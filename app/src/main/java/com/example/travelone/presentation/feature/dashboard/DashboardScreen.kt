@@ -146,7 +146,7 @@ fun DashboardScreen(
             style = MaterialTheme.typography.displayMedium,
             color = Color.White,
             modifier = Modifier
-                .padding(top = Dimens.PaddingDashboard)
+                .padding(top = Dimens.PaddingUltra)
                 .align(Alignment.TopCenter)
         )
 

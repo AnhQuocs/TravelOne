@@ -32,7 +32,8 @@
     <string name="night">đêm</string>
 
     <!-- Map -->
-    <string name="hotel_near_by">Khách sạn gần bạn</string>
+    <string name="hotel_nearby">Khách sạn gần bạn</string>
+    <string name="map_hotel_near">Khách sạn gần đây</string>
     <string name="open_map">Mở bản đồ</string>
 
     <!-- Weather -->

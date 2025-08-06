@@ -32,7 +32,8 @@
     <string name="night">night</string>
 
     <!-- Map -->
-    <string name="hotel_near_by">Hotel Near You</string>
+    <string name="hotel_nearby">Hotel Near You</string>
+    <string name="map_hotel_near">Nearby Hotel</string>
     <string name="open_map">Open Map</string>
 
     <!-- Weather -->
