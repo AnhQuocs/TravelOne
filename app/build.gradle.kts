@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -6,6 +8,14 @@ plugins {
     id("com.google.dagger.hilt.android") version "2.48"
     kotlin("kapt")
 }
+
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) {
+        file.inputStream().use { load(it) }
+    }
+}
+val mapsApiKey = localProperties.getProperty("MAPS_API_KEY") ?: ""
 
 android {
     namespace = "com.example.travelone"
@@ -20,7 +30,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        manifestPlaceholders["MAPS_API_KEY"] = project.findProperty("MAPS_API_KEY") ?: ""
+        manifestPlaceholders["MAPS_API_KEY"] = mapsApiKey
+        println("✅ MAPS_API_KEY = $mapsApiKey")
     }
 
     buildTypes {
@@ -46,12 +57,11 @@ android {
     androidResources {
         generateLocaleConfig = true
     }
-    android {
-        lint {
-            disable += setOf("NullSafeMutableLiveData")
-            checkReleaseBuilds = false
-            abortOnError = false
-        }
+
+    lint {
+        disable += setOf("NullSafeMutableLiveData")
+        checkReleaseBuilds = false
+        abortOnError = false
     }
 
     hilt {

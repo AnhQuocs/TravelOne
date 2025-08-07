@@ -1,0 +1,16 @@
+[33m0c9e3b4[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m HEAD@{0}: reset: moving to HEAD~1
+[33m422f442[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{1}: commit: refactor: full map screen
+[33m0c9e3b4[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m HEAD@{2}: commit: search use case + mock test search ui
+[33m08a8557[m HEAD@{3}: commit: hotel near by + edit recommended card loading
+[33m029c713[m HEAD@{4}: commit: recommended hotel list
+[33m07b7d7d[m HEAD@{5}: commit: bottom app bar
+[33m454e0a0[m HEAD@{6}: commit: refactor
+[33m42cffbb[m HEAD@{7}: commit: fix SSL error
+[33mfc658eb[m HEAD@{8}: commit: rebuild + refactor
+[33mc3daa9d[m HEAD@{9}: commit: weather card
+[33m7d0506d[m HEAD@{10}: commit (amend): shimmer loading: user, most popular + refactor
+[33m9bcf304[m HEAD@{11}: commit: shimmer loading: user, most popular + refacto
+[33m370cefe[m HEAD@{12}: commit: refactor + shimmer loading
+[33m2473a6d[m HEAD@{13}: commit: user info top bar
+[33mae89dd8[m HEAD@{14}: commit: multiple language
+[33me91a51b[m HEAD@{15}: clone: from https://github.com/AnhQuocs/TravelOne.git
