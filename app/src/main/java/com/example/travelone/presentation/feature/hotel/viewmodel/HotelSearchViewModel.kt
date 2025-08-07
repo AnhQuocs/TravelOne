@@ -9,6 +9,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.travelone.domain.model.hotel.Hotel
 import com.example.travelone.domain.usecase.hotel.GetHotelSuggestionsUseCase
 import com.example.travelone.domain.usecase.hotel.SearchHotelsUseCase
+import com.example.travelone.domain.usecase.search.suggestions.SearchSuggestionItem
+import com.example.travelone.domain.usecase.search.suggestions.UnifiedSuggestionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,12 +18,12 @@ import javax.inject.Inject
 @HiltViewModel
 class HotelSearchViewModel @Inject constructor(
     private val searchHotelsUseCase: SearchHotelsUseCase,
-    private val getHotelSuggestionsUseCase: GetHotelSuggestionsUseCase
-): ViewModel() {
+    private val unifiedSuggestionUseCase: UnifiedSuggestionUseCase
+) : ViewModel() {
     var searchResults by mutableStateOf<List<Hotel>>(emptyList())
         private set
 
-    var suggestions by mutableStateOf<List<String>>(emptyList())
+    var suggestions by mutableStateOf<List<SearchSuggestionItem>>(emptyList())
         private set
 
     private val _islLoading = mutableStateOf(true)
@@ -37,8 +39,8 @@ class HotelSearchViewModel @Inject constructor(
 
     fun onQueryChanged(input: String) {
         viewModelScope.launch {
-            suggestions = if(input.isBlank()) emptyList()
-            else getHotelSuggestionsUseCase(input)
+            suggestions = if (input.isBlank()) emptyList()
+            else unifiedSuggestionUseCase(input)
         }
     }
 }

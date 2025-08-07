@@ -41,8 +41,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 fun MiniMap(
     userLocation: LatLng?,
     onOpenMapClicked: (LatLng) -> Unit,
+    mapView: MapView
 ) {
-    if(userLocation == null) {
+    if (userLocation == null) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -77,29 +78,27 @@ fun MiniMap(
 
             Spacer(modifier = Modifier.height(AppSpacing.MediumPlus))
 
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .height(160.dp)
-            ) {
-                MiniMapView(latLng = userLocation)
-            }
+            MiniMapView(
+                latLng = userLocation,
+                mapView = mapView,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(160.dp)
+                    .clip(RoundedCornerShape(12.dp))
+            )
         }
     }
 }
 
 @Composable
-fun MiniMapView(latLng: LatLng, modifier: Modifier = Modifier) {
-    val mapView = rememberMapViewWithLifecycle()
-
+fun MiniMapView(latLng: LatLng, mapView: MapView, modifier: Modifier = Modifier) {
     AndroidView(
         factory = { mapView },
         modifier = modifier
-            .fillMaxWidth()
-            .height(160.dp)
-            .clip(RoundedCornerShape(12.dp))
     ) {
         mapView.getMapAsync { googleMap ->
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+            googleMap.clear()
             googleMap.addMarker(MarkerOptions().position(latLng).title("You are here"))
 
             googleMap.uiSettings.apply {

@@ -27,7 +27,13 @@ import com.example.travelone.domain.usecase.hotel.SearchHotelsUseCase
 import com.example.travelone.domain.usecase.location.GetUserLocationUseCase
 import com.example.travelone.domain.usecase.room.GetRoomByIdUseCase
 import com.example.travelone.domain.usecase.room.GetRoomsByHotelIdUseCase
+import com.example.travelone.domain.usecase.search.UnifiedSearchUseCase
+import com.example.travelone.domain.usecase.search.suggestions.GetFlightSuggestionsUseCase
+import com.example.travelone.domain.usecase.search.suggestions.UnifiedSuggestionUseCase
 import com.example.travelone.domain.usecase.weather.GetWeatherByLocationUseCase
+import com.example.travelone.fake.flight.FakeFlightRepositoryImpl
+import com.example.travelone.fake.flight.FlightRepository
+import com.example.travelone.fake.flight.SearchFlightsUseCase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -176,4 +182,35 @@ object AppModule {
     @Singleton
     fun provideGetUserLocationUseCase(locationProvider: LocationRepository): GetUserLocationUseCase =
         GetUserLocationUseCase(locationProvider)
+
+    // SEARCH
+    @Provides
+    fun provideSearchFlightsUseCase(flightRepository: FlightRepository): SearchFlightsUseCase =
+        SearchFlightsUseCase(flightRepository)
+
+    @Provides
+    fun provideUnifiedSearchUseCase(
+        searchHotelsUseCase: SearchHotelsUseCase,
+        searchFlightsUseCase: SearchFlightsUseCase
+    ): UnifiedSearchUseCase =
+        UnifiedSearchUseCase(searchHotelsUseCase, searchFlightsUseCase)
+
+    @Provides
+    fun provideGetFlightSuggestionsUseCase(
+        flightRepository: FlightRepository
+    ): GetFlightSuggestionsUseCase = GetFlightSuggestionsUseCase(flightRepository)
+
+    @Provides
+    fun provideUnifiedSuggestionUseCase(
+        getHotelSuggestionsUseCase: GetHotelSuggestionsUseCase,
+        getFlightSuggestionsUseCase: GetFlightSuggestionsUseCase
+    ): UnifiedSuggestionUseCase = UnifiedSuggestionUseCase(
+        getHotelSuggestionsUseCase,
+        getFlightSuggestionsUseCase
+    )
+
+    @Provides
+    fun provideFlightRepository(): FlightRepository {
+        return FakeFlightRepositoryImpl()
+    }
 }

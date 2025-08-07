@@ -40,7 +40,7 @@ package com.example.travelone.presentation.feature.hotel.ui
 //    var active by remember { mutableStateOf(false) }
 //
 //    Column(modifier = Modifier.fillMaxSize()) {
-//        SearchBarSection(
+//        SearchBarSectionTest(
 //            query = query,
 //            active = active,
 //            suggestions = suggestions,
@@ -68,7 +68,7 @@ package com.example.travelone.presentation.feature.hotel.ui
 //            } else {
 //                LazyColumn {
 //                    items(searchResults) { hotel ->
-//                        HotelCard(hotel = hotel, onClick = onHotelClick)
+//                        HotelCardTest(hotel = hotel, onClick = onHotelClick)
 //                    }
 //                }
 //            }
@@ -78,7 +78,7 @@ package com.example.travelone.presentation.feature.hotel.ui
 //
 //@OptIn(ExperimentalMaterial3Api::class)
 //@Composable
-//fun SearchBarSection(
+//fun SearchBarSectionTest(
 //    query: String,
 //    active: Boolean,
 //    suggestions: List<String>,
@@ -125,6 +125,6 @@ package com.example.travelone.presentation.feature.hotel.ui
 //
 //
 //@Composable
-//fun HotelCard(hotel: Hotel, onClick: () -> Unit) {
+//fun HotelCardTest(hotel: Hotel, onClick: () -> Unit) {
 //    TODO("Not yet implemented")
 //}

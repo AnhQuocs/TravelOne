@@ -26,6 +26,7 @@
     <string name="email_already_exists">Email already exists. Please use a different email.</string>
 
     <!-- Hotel -->
+    <string name="hotel">Hotel</string>
     <string name="most_popular">Most Popular</string>
     <string name="recommended">Recommended for you</string>
     <string name="see_all">See All</string>
@@ -45,5 +46,12 @@
     <string name="my_booking">My Booking</string>
     <string name="favorite">Favorite</string>
     <string name="profile">Profile</string>
+
+    <!-- Search -->
+    <string name="search">Search</string>
+    <string name="no_suggestions_found">No suggestions found</string>
+
+    <!-- Flight -->
+    <string name="flight">Flight</string>
 
 </resources>

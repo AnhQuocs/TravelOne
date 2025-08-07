@@ -26,6 +26,7 @@
     <string name="unknown_error">Đã xảy ra lỗi không xác định.</string>
 
     <!-- Hotel -->
+    <string name="hotel">Khách sạn</string>
     <string name="most_popular">Phổ biến nhất</string>
     <string name="recommended">Gợi ý cho bạn</string>
     <string name="see_all">Xem tất cả</string>
@@ -45,5 +46,12 @@
     <string name="my_booking">Đơn đặt</string>
     <string name="favorite">Yêu thích</string>
     <string name="profile">Hồ sơ</string>
+
+    <!-- Search -->
+    <string name="search">Tìm kiếm</string>
+    <string name="no_suggestions_found">Không tìm thấy gợi ý</string>
+
+    <!-- Flight -->
+    <string name="flight">Chuyến bay</string>
 
 </resources>

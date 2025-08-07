@@ -1,5 +1,6 @@
 package com.example.travelone.presentation.feature.main
 
+import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
@@ -49,8 +50,10 @@ import com.example.travelone.presentation.feature.hotel.ui.HotelList
 import com.example.travelone.presentation.feature.hotel.ui.HotelRecommendedList
 import com.example.travelone.presentation.feature.hotel.viewmodel.HotelViewModel
 import com.example.travelone.presentation.feature.hotel.map.ui.MiniMap
+import com.example.travelone.presentation.feature.hotel.map.ui.rememberMapViewWithLifecycle
 import com.example.travelone.presentation.feature.hotel.map.viewmodel.LocationViewModel
 import com.example.travelone.presentation.feature.profile.ProfileScreen
+import com.example.travelone.presentation.feature.search.ui.SearchActivity
 import com.example.travelone.presentation.feature.user.UserInfo
 import com.example.travelone.presentation.feature.user.UserInfoShimmerLoading
 import com.example.travelone.presentation.feature.weather.ui.WeatherSection
@@ -153,6 +156,7 @@ fun HomeScreen(
     val weather = weatherViewModel.weather
 
     val userLocation by locationViewModel.userLocation.collectAsState()
+    val mapView = rememberMapViewWithLifecycle()
 
     val scrollState = rememberLazyListState()
     val hasScrolled = remember {
@@ -199,7 +203,9 @@ fun HomeScreen(
                         UserInfo(
                             user = user,
                             weather = weather,
-                            onSearch = {},
+                            onSearch = {
+                                context.startActivity(Intent(context, SearchActivity::class.java))
+                            },
                             onOpenNotification = {},
                             navHostController = navHostController
                         )
@@ -227,7 +233,8 @@ fun HomeScreen(
                     userLocation = userLocation,
                     onOpenMapClicked = { latLng ->
                         navHostController.navigate("full_map/${latLng.latitude}/${latLng.longitude}")
-                    }
+                    },
+                    mapView = mapView
                 )
             }
             item {

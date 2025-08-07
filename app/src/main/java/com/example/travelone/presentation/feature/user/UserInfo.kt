@@ -113,7 +113,7 @@ fun UserInfo(
                     contentDescription = null,
                     modifier = Modifier
                         .size(Dimens.SizeM)
-                        .clickable { navHostController.navigate("search") }
+                        .clickable { onSearch() }
                 )
             }
 
