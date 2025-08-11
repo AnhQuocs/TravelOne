@@ -1,8 +1,8 @@
 package com.example.travelone.domain.usecase.search
 
 import com.example.travelone.domain.model.search.SearchResultItem
+import com.example.travelone.domain.usecase.flight.SearchFlightsUseCase
 import com.example.travelone.domain.usecase.hotel.SearchHotelsUseCase
-import com.example.travelone.fake.flight.SearchFlightsUseCase
 import javax.inject.Inject
 
 class UnifiedSearchUseCase @Inject constructor(

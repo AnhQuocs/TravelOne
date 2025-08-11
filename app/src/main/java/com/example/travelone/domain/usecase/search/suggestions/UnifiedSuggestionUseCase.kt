@@ -1,5 +1,6 @@
 package com.example.travelone.domain.usecase.search.suggestions
 
+import com.example.travelone.domain.usecase.flight.GetFlightSuggestionsUseCase
 import com.example.travelone.domain.usecase.hotel.GetHotelSuggestionsUseCase
 
 class UnifiedSuggestionUseCase(

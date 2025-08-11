@@ -29,6 +29,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.travelone.R
+import com.example.travelone.presentation.components.TitleSection
 import com.example.travelone.ui.theme.AppSpacing
 import com.example.travelone.ui.theme.JostTypography
 import com.example.travelone.ui.theme.PrimaryBlue
@@ -54,27 +55,10 @@ fun MiniMap(
         }
     } else {
         Column {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = stringResource(id = R.string.hotel_nearby),
-                    color = Color.Black,
-                    style = JostTypography.titleSmall.copy(fontWeight = FontWeight.Bold)
-                )
-
-                Text(
-                    text = stringResource(id = R.string.open_map),
-                    style = JostTypography.bodyMedium.copy(lineHeight = 0.sp),
-                    color = PrimaryBlue,
-                    modifier = Modifier.clickable {
-                        onOpenMapClicked(userLocation)
-                    }
-                )
-            }
+            TitleSection(
+                text1 = stringResource(id = R.string.hotel_nearby),
+                text2 = stringResource(id = R.string.open_map)
+            )
 
             Spacer(modifier = Modifier.height(AppSpacing.MediumPlus))
 

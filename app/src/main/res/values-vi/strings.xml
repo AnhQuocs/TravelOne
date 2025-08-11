@@ -53,5 +53,8 @@
 
     <!-- Flight -->
     <string name="flight">Chuyến bay</string>
+    <string name="person">người</string>
+    <string name="hour">giờ</string>
+    <string name="minutes">phút</string>
 
 </resources>

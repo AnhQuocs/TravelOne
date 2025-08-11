@@ -4,15 +4,20 @@ import android.content.Context
 import com.example.travelone.data.preferences.language.LanguagePreferenceManager
 import com.example.travelone.data.remote.api.IApiService
 import com.example.travelone.data.repository.auth.AuthRepositoryImpl
+import com.example.travelone.data.repository.flight.FlightRepositoryImpl
 import com.example.travelone.data.repository.hotel.HotelRepositoryImpl
 import com.example.travelone.data.repository.location.LocationRepositoryImpl
+import com.example.travelone.data.repository.recent_viewed.RecentViewedRepositoryImpl
 import com.example.travelone.data.repository.room.RoomRepositoryImpl
 import com.example.travelone.data.repository.weather.WeatherRepositoryImpl
+import com.example.travelone.data.source.FirebaseFlightDataSource
 import com.example.travelone.data.source.FirebaseHotelDataSource
 import com.example.travelone.data.source.FirebaseRoomDataSource
 import com.example.travelone.domain.repository.auth.AuthRepository
+import com.example.travelone.domain.repository.flight.FlightRepository
 import com.example.travelone.domain.repository.hotel.HotelRepository
 import com.example.travelone.domain.repository.location.LocationRepository
+import com.example.travelone.domain.repository.recent_viewed.RecentViewedRepository
 import com.example.travelone.domain.repository.room.RoomRepository
 import com.example.travelone.domain.repository.weather.WeatherRepository
 import com.example.travelone.domain.usecase.auth.AuthUseCase
@@ -20,20 +25,23 @@ import com.example.travelone.domain.usecase.auth.GetCurrentUserUseCase
 import com.example.travelone.domain.usecase.auth.LoginUseCase
 import com.example.travelone.domain.usecase.auth.LogoutUseCase
 import com.example.travelone.domain.usecase.auth.SignUpUseCase
+import com.example.travelone.domain.usecase.flight.GetAllFlightsUseCase
+import com.example.travelone.domain.usecase.flight.GetFlightByIdUseCase
+import com.example.travelone.domain.usecase.flight.GetFlightSuggestionsUseCase
+import com.example.travelone.domain.usecase.flight.SearchFlightsUseCase
 import com.example.travelone.domain.usecase.hotel.GetAllHotelsUseCase
+import com.example.travelone.domain.usecase.hotel.GetHotelByIdUseCase
 import com.example.travelone.domain.usecase.hotel.GetHotelSuggestionsUseCase
 import com.example.travelone.domain.usecase.hotel.GetRecommendedHotelsUseCase
 import com.example.travelone.domain.usecase.hotel.SearchHotelsUseCase
 import com.example.travelone.domain.usecase.location.GetUserLocationUseCase
+import com.example.travelone.domain.usecase.recent_viewed.AddRecentViewedUseCase
+import com.example.travelone.domain.usecase.recent_viewed.GetRecentViewedUseCase
 import com.example.travelone.domain.usecase.room.GetRoomByIdUseCase
 import com.example.travelone.domain.usecase.room.GetRoomsByHotelIdUseCase
 import com.example.travelone.domain.usecase.search.UnifiedSearchUseCase
-import com.example.travelone.domain.usecase.search.suggestions.GetFlightSuggestionsUseCase
 import com.example.travelone.domain.usecase.search.suggestions.UnifiedSuggestionUseCase
 import com.example.travelone.domain.usecase.weather.GetWeatherByLocationUseCase
-import com.example.travelone.fake.flight.FakeFlightRepositoryImpl
-import com.example.travelone.fake.flight.FlightRepository
-import com.example.travelone.fake.flight.SearchFlightsUseCase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -99,6 +107,12 @@ object AppModule {
     fun provideGetRecommendedHotelsUseCase(repository: HotelRepository): GetRecommendedHotelsUseCase {
         return GetRecommendedHotelsUseCase(repository)
     }
+
+    @Provides
+    @Singleton
+    fun provideGetHotelByIdUseCase(
+        repository: HotelRepository
+    ): GetHotelByIdUseCase = GetHotelByIdUseCase(repository)
 
     @Provides
     @Singleton
@@ -185,10 +199,6 @@ object AppModule {
 
     // SEARCH
     @Provides
-    fun provideSearchFlightsUseCase(flightRepository: FlightRepository): SearchFlightsUseCase =
-        SearchFlightsUseCase(flightRepository)
-
-    @Provides
     fun provideUnifiedSearchUseCase(
         searchHotelsUseCase: SearchHotelsUseCase,
         searchFlightsUseCase: SearchFlightsUseCase
@@ -209,8 +219,65 @@ object AppModule {
         getFlightSuggestionsUseCase
     )
 
+    // FLIGHTS
     @Provides
-    fun provideFlightRepository(): FlightRepository {
-        return FakeFlightRepositoryImpl()
+    @Singleton
+    fun provideFlightRepository(
+        dataSource: FirebaseFlightDataSource
+    ): FlightRepository {
+        return FlightRepositoryImpl(dataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAllFlightsUseCase(
+        flightRepository: FlightRepository
+    ): GetAllFlightsUseCase {
+        return GetAllFlightsUseCase(flightRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseFlightDataSource(): FirebaseFlightDataSource {
+        return FirebaseFlightDataSource()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchFlightsUseCase(
+        flightRepository: FlightRepository
+    ): SearchFlightsUseCase {
+        return SearchFlightsUseCase(flightRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetFlightByIdUseCase(
+        repository: FlightRepository
+    ): GetFlightByIdUseCase = GetFlightByIdUseCase(repository)
+
+    // RECENT VIEWED
+    @Provides
+    @Singleton
+    fun provideRecentViewedRepository(
+        firestore: FirebaseFirestore
+    ): RecentViewedRepository {
+        return RecentViewedRepositoryImpl(firestore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddRecentViewedUseCase(
+        repository: RecentViewedRepository
+    ): AddRecentViewedUseCase {
+        return AddRecentViewedUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetRecentViewedUseCase(
+        repository: RecentViewedRepository
+    ): GetRecentViewedUseCase {
+        return GetRecentViewedUseCase(repository)
     }
 }

@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.gms.google.services)
     id("com.google.dagger.hilt.android") version "2.48"
-    kotlin("kapt")
+    id("com.google.devtools.ksp") version "2.0.0-1.0.21"
 }
 
 val localProperties = Properties().apply {
@@ -97,7 +97,7 @@ dependencies {
 
     // Data store
     implementation("androidx.datastore:datastore-preferences:1.0.0")
-    implementation ("com.google.accompanist:accompanist-permissions:0.34.0")
+    implementation("com.google.accompanist:accompanist-permissions:0.34.0")
 
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.7")
@@ -113,7 +113,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
 
     // Firebase Fire store
-    implementation ("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
 
     // Convert API
     implementation("com.google.code.gson:gson:2.10.1")
@@ -123,14 +123,13 @@ dependencies {
 
     // Hilt
     implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-compiler:2.48")
+    ksp("com.google.dagger:hilt-compiler:2.48")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
-    // Weather
     // Location
     implementation("com.google.android.gms:play-services-location:21.3.0")
 
     // Map
     implementation("com.google.maps.android:maps-compose:2.11.4")
-    implementation ("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 }

@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.travelone.R
 import com.example.travelone.presentation.components.AppLineGray
 import com.example.travelone.presentation.components.HotelCardHorizontal
+import com.example.travelone.presentation.components.TitleSection
 import com.example.travelone.presentation.feature.hotel.viewmodel.HotelViewModel
 import com.example.travelone.ui.theme.AppShape
 import com.example.travelone.ui.theme.AppSpacing
@@ -72,24 +73,10 @@ fun HotelRecommendedList(hotelViewModel: HotelViewModel = hiltViewModel()) {
         }
     } else {
         Column {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = stringResource(id = R.string.recommended),
-                    color = Color.Black,
-                    style = JostTypography.titleSmall.copy(fontWeight = FontWeight.Bold)
-                )
-
-                Text(
-                    text = stringResource(id = R.string.see_all),
-                    style = JostTypography.bodyMedium.copy(lineHeight = 0.sp),
-                    color = PrimaryBlue,
-                    modifier = Modifier.clickable {  }
-                )
-            }
+            TitleSection(
+                text1 = stringResource(id = R.string.recommended),
+                text2 = stringResource(id = R.string.see_all)
+            )
 
             Spacer(modifier = Modifier.height(AppSpacing.MediumPlus))
 

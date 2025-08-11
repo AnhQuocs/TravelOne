@@ -53,5 +53,8 @@
 
     <!-- Flight -->
     <string name="flight">Flight</string>
+    <string name="person">person</string>
+    <string name="hour">h</string>
+    <string name="minutes">m</string>
 
 </resources>

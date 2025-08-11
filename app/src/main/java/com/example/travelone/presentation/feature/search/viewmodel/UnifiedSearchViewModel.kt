@@ -65,7 +65,24 @@ class UnifiedSearchViewModel @Inject constructor(
                 query = suggestion.name
             }
             is SearchSuggestionItem.FlightSuggestion -> {
-                query = "${suggestion.flight.departureCity} → ${suggestion.flight.destinationCity}"
+                val departureMain = suggestion.flight.departureShortAddress
+                    .split(",")
+                    .firstOrNull()
+                    ?.trim()
+                    ?: ""
+
+                val arrivalMain = suggestion.flight.arrivalShortAddress
+                    .split(",")
+                    .firstOrNull()
+                    ?.trim()
+                    ?: ""
+
+                query = if (arrivalMain.isNotEmpty()) {
+                    "$departureMain - $arrivalMain"
+                } else {
+                    departureMain
+                }
+
                 searchResults = listOf(SearchResultItem.FlightItem(suggestion.flight))
             }
         }

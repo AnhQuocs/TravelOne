@@ -21,4 +21,9 @@ class HotelRepositoryImpl(
             }
             .filter { it.averageRating >= minAverageRating }
     }
+
+    override suspend fun getHotelById(hotelId: String): Hotel? {
+        val dto = dataSource.fetchHotelById(hotelId) ?: return null
+        return dto.toHotel(hotelId)
+    }
 }

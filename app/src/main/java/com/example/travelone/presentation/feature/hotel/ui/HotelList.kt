@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,7 +23,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -39,20 +37,24 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.travelone.R
 import com.example.travelone.domain.model.hotel.Hotel
+import com.example.travelone.domain.model.recent_viewed.ViewedType
+import com.example.travelone.presentation.components.TitleSection
 import com.example.travelone.presentation.feature.hotel.viewmodel.HotelViewModel
+import com.example.travelone.presentation.feature.recent_viewed.viewmodel.RecentViewedViewModel
 import com.example.travelone.ui.theme.AppShape
 import com.example.travelone.ui.theme.AppSpacing
 import com.example.travelone.ui.theme.Dimens
 import com.example.travelone.ui.theme.JostTypography
-import com.example.travelone.ui.theme.PrimaryBlue
 
 @Composable
-fun HotelList(hotelViewModel: HotelViewModel = hiltViewModel()) {
+fun HotelList(
+    hotelViewModel: HotelViewModel = hiltViewModel(),
+    recentViewedViewModel: RecentViewedViewModel = hiltViewModel()
+) {
     val hotels = hotelViewModel.hotels
 
     var isShowCardLoading by remember { mutableStateOf(false) }
@@ -68,7 +70,7 @@ fun HotelList(hotelViewModel: HotelViewModel = hiltViewModel()) {
             horizontalArrangement = Arrangement.spacedBy(AppSpacing.MediumLarge),
             contentPadding = PaddingValues(0.dp)
         ) {
-            items(8) {
+            items(5) {
                 Card(
                     elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
                     shape = RoundedCornerShape(AppShape.ExtraLargeShape),
@@ -83,39 +85,29 @@ fun HotelList(hotelViewModel: HotelViewModel = hiltViewModel()) {
             }
         }
     } else {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = stringResource(id = R.string.most_popular),
-                color = Color.Black,
-                style = JostTypography.titleSmall.copy(fontWeight = FontWeight.Bold)
-            )
-
-            Text(
-                text = stringResource(id = R.string.see_all),
-                style = JostTypography.bodyMedium.copy(lineHeight = 0.sp),
-                color = PrimaryBlue,
-                modifier = Modifier.clickable {  }
-            )
-        }
+        TitleSection(
+            text1 = stringResource(id = R.string.most_popular),
+            text2 = stringResource(id = R.string.see_all)
+        )
 
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(AppSpacing.MediumLarge),
             contentPadding = PaddingValues(0.dp)
         ) {
             items(hotels, key = { it.id }) { hotel ->
-                HotelItem(hotel = hotel)
+                HotelCard(
+                    hotel = hotel,
+                    onClick = {
+                        recentViewedViewModel.addRecent(hotel.id, ViewedType.HOTEL)
+                    }
+                )
             }
         }
     }
 }
 
 @Composable
-fun HotelItem(hotel: Hotel) {
+fun HotelCard(hotel: Hotel, onClick: () -> Unit) {
     Card(
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         shape = RoundedCornerShape(AppShape.ExtraLargeShape),
@@ -123,6 +115,7 @@ fun HotelItem(hotel: Hotel) {
             .padding(top = Dimens.PaddingM)
             .height(Dimens.HeightXXL)
             .width(Dimens.WidthXL)
+            .clickable { onClick() }
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             AsyncImage(

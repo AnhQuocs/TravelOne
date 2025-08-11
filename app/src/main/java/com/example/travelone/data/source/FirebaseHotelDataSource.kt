@@ -13,4 +13,13 @@ class FirebaseHotelDataSource {
             doc.id to doc.toObject(HotelDto::class.java)
         }
     }
+
+    suspend fun fetchHotelById(hotelId: String): HotelDto? {
+        val doc = collection
+            .document(hotelId)
+            .get()
+            .await()
+
+        return doc.toObject(HotelDto::class.java)
+    }
 }
