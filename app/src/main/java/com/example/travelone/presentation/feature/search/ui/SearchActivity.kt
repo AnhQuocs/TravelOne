@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -35,12 +36,15 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
@@ -58,11 +62,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.travelone.BaseComponentActivity
 import com.example.travelone.R
-import com.example.travelone.domain.model.recent_viewed.ViewedType
 import com.example.travelone.domain.model.search.SearchResultItem
 import com.example.travelone.domain.usecase.search.suggestions.SearchSuggestionItem
-import com.example.travelone.presentation.components.HotelCardHorizontal
-import com.example.travelone.presentation.feature.flight.ui.FlightItem
+import com.example.travelone.presentation.components.AppLineGray
 import com.example.travelone.presentation.feature.recent_viewed.ui.RecentList
 import com.example.travelone.presentation.feature.recent_viewed.viewmodel.RecentViewedViewModel
 import com.example.travelone.presentation.feature.search.viewmodel.UnifiedSearchViewModel
@@ -124,68 +126,91 @@ fun SearchScreen(
     val recentList = recentViewedViewModel.recentList
     val historyList = searchHistoryViewModel.historyList
 
+    val scrollState = rememberLazyListState()
+    val hasScrolled = remember {
+        derivedStateOf {
+            scrollState.firstVisibleItemIndex > 0 || scrollState.firstVisibleItemScrollOffset > 0
+        }
+    }
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
         topBar = {
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .background(color = Color.White)
+            Surface(
+                tonalElevation = if (hasScrolled.value) 4.dp else 0.dp,
+                shadowElevation = if (hasScrolled.value) 4.dp else 0.dp,
             ) {
-                SearchTopBar(
-                    onBackClick = { onBackClick() },
-                    onNotification = {}
-                )
+                Column(
+                    modifier = Modifier
+                        .background(color = Color.White)
+                        .padding(horizontal = Dimens.PaddingM)
+                ) {
+                    SearchTopBar(
+                        onBackClick = { onBackClick() },
+                        onNotification = {}
+                    )
 
-                Spacer(modifier = Modifier.height(AppSpacing.ExtraLarge))
+                    Spacer(modifier = Modifier.height(AppSpacing.ExtraLarge))
 
-                SearchBarSection(
-                    query = query,
-                    suggestions = suggestions,
-                    onQueryChange = {
-                        unifiedSearchViewModel.onQueryChanged(it)
-                    },
-                    onSearch = {
-                        val currentQuery = unifiedSearchViewModel.query.trim()
-                        if (currentQuery.isNotEmpty()) {
-                            navController.currentBackStackEntry?.savedStateHandle?.set("search_query", currentQuery)
-                            navController.navigate("search_result")
-                        }
-                    },
-                    onSuggestionClick = {
-                        unifiedSearchViewModel.onSuggestionClicked(it)
-                        val generatedId = UUID.randomUUID().toString()
-
-                        when (it) {
-                            is SearchSuggestionItem.HotelSuggestion -> {
-                                searchHistoryViewModel.addHistory(
-                                    id = generatedId,
-                                    title = it.name,
-                                    subTitle = it.shortAddress
+                    SearchBarSection(
+                        query = query,
+                        suggestions = suggestions,
+                        onQueryChange = {
+                            unifiedSearchViewModel.onQueryChanged(it)
+                        },
+                        onSearch = {
+                            val currentQuery = unifiedSearchViewModel.query.trim()
+                            if (currentQuery.isNotEmpty()) {
+                                navController.currentBackStackEntry?.savedStateHandle?.set(
+                                    "search_query",
+                                    currentQuery
                                 )
-                                navController.currentBackStackEntry
-                                    ?.savedStateHandle
-                                    ?.set("search_result_data", SearchResultItem.HotelItem(it.hotel))
                                 navController.navigate("search_result")
                             }
-                            is SearchSuggestionItem.FlightSuggestion -> {
-                                val flight = it.flight
-                                val route = "${flight.departureAirportCode} → ${flight.arrivalAirportCode}"
-                                searchHistoryViewModel.addHistory(
-                                    id = generatedId,
-                                    title = route,
-                                    subTitle = "${flight.departureShortAddress} → ${flight.arrivalShortAddress}"
-                                )
-                                navController.currentBackStackEntry
-                                    ?.savedStateHandle
-                                    ?.set("search_result_data", SearchResultItem.FlightItem(flight))
-                                navController.navigate("search_result")
+                        },
+                        onSuggestionClick = {
+                            unifiedSearchViewModel.onSuggestionClicked(it)
+                            val generatedId = UUID.randomUUID().toString()
+
+                            when (it) {
+                                is SearchSuggestionItem.HotelSuggestion -> {
+                                    searchHistoryViewModel.addHistory(
+                                        id = generatedId,
+                                        title = it.name,
+                                        subTitle = it.shortAddress
+                                    )
+                                    navController.currentBackStackEntry
+                                        ?.savedStateHandle
+                                        ?.set(
+                                            "search_result_data",
+                                            SearchResultItem.HotelItem(it.hotel)
+                                        )
+                                    navController.navigate("search_result")
+                                }
+
+                                is SearchSuggestionItem.FlightSuggestion -> {
+                                    val flight = it.flight
+                                    val route =
+                                        "${flight.departureAirportCode} → ${flight.arrivalAirportCode}"
+                                    searchHistoryViewModel.addHistory(
+                                        id = generatedId,
+                                        title = route,
+                                        subTitle = "${flight.departureShortAddress} → ${flight.arrivalShortAddress}"
+                                    )
+                                    navController.currentBackStackEntry
+                                        ?.savedStateHandle
+                                        ?.set(
+                                            "search_result_data",
+                                            SearchResultItem.FlightItem(flight)
+                                        )
+                                    navController.navigate("search_result")
+                                }
                             }
-                        }
-                    },
-                    showSuggestions = showSuggestions
-                )
+                        },
+                        showSuggestions = showSuggestions
+                    )
+                }
             }
         }
     ) { paddingValues ->
@@ -199,10 +224,10 @@ fun SearchScreen(
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 } else {
                     LazyColumn(
-                        modifier = Modifier.padding(
-                            horizontal = Dimens.PaddingM,
-                            vertical = Dimens.PaddingS
-                        )
+                        state = scrollState,
+                        modifier = Modifier
+                            .padding(horizontal = Dimens.PaddingM)
+                            .padding(bottom = Dimens.PaddingS)
                     ) {
                         if (recentList.isEmpty() && historyList.isEmpty()) {
                             item {
@@ -220,8 +245,8 @@ fun SearchScreen(
                             item {
                                 Spacer(modifier = Modifier.height(AppSpacing.Large))
                                 RecentList(
-                                    onHotelClick = {  },
-                                    onFlightClick = {  }
+                                    onHotelClick = { },
+                                    onFlightClick = { }
                                 )
                             }
                         }
@@ -293,78 +318,80 @@ fun SearchBarSection(
                     style = MaterialTheme.typography.bodyMedium
                 )
             } else {
-                LazyColumn(
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(max = 300.dp)
-                        .padding(vertical = Dimens.PaddingS)
-                        .drawWithContent {
-                            drawContent()
-                            val shadowHeight = 8.dp.toPx()
-                            drawRect(
-                                brush = Brush.verticalGradient(
-                                    colors = listOf(
-                                        Color.Black.copy(alpha = 0.15f),
-                                        Color.Transparent
-                                    ),
-                                    startY = size.height - shadowHeight,
-                                    endY = size.height
-                                ),
-                                size = Size(size.width, shadowHeight),
-                                topLeft = Offset(0f, size.height - shadowHeight)
-                            )
-                        }
+                        .heightIn(max = Dimens.HeightXL3)
                 ) {
-                    items(suggestions) { suggestion ->
-                        when (suggestion) {
-                            is SearchSuggestionItem.HotelSuggestion -> {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .clickable(
-                                            indication = rememberRipple(bounded = true, color = WeatherCardBlue),
-                                            interactionSource = remember { MutableInteractionSource() }
-                                        ) {
-                                            onSuggestionClick(suggestion)
-                                            keyboardController?.hide()
-                                        }
-                                        .padding(horizontal = Dimens.PaddingM, vertical = Dimens.PaddingSM),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Hotel,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(Dimens.SizeSM)
-                                    )
-                                    Spacer(modifier = Modifier.width(AppSpacing.MediumLarge))
-                                    Column {
-                                        Text(text = suggestion.name, style = MaterialTheme.typography.bodyLarge)
-                                        Text(
-                                            text = suggestion.shortAddress,
-                                            style = MaterialTheme.typography.bodySmall,
-                                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
-                                        )
-                                    }
-                                }
-                            }
-
-                            is SearchSuggestionItem.FlightSuggestion -> {
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .clickable(
-                                            indication = rememberRipple(bounded = true, color = WeatherCardBlue),
-                                            interactionSource = remember { MutableInteractionSource() },
-                                            onClick = {
+                    LazyColumn(
+                        modifier = Modifier
+                            .align(Alignment.TopCenter)
+                            .fillMaxSize()
+                    ) {
+                        items(suggestions) { suggestion ->
+                            when (suggestion) {
+                                is SearchSuggestionItem.HotelSuggestion -> {
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .clickable(
+                                                indication = rememberRipple(
+                                                    bounded = true,
+                                                    color = WeatherCardBlue
+                                                ),
+                                                interactionSource = remember { MutableInteractionSource() }
+                                            ) {
                                                 onSuggestionClick(suggestion)
                                                 keyboardController?.hide()
                                             }
+                                            .padding(
+                                                horizontal = Dimens.PaddingM,
+                                                vertical = Dimens.PaddingSM
+                                            ),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Hotel,
+                                            contentDescription = null,
+                                            modifier = Modifier.size(Dimens.SizeM)
                                         )
-                                        .padding(horizontal = Dimens.PaddingM, vertical = Dimens.PaddingSM)
-                                ) {
+                                        Spacer(modifier = Modifier.width(AppSpacing.MediumLarge))
+                                        Column {
+                                            Text(
+                                                text = suggestion.name,
+                                                style = MaterialTheme.typography.bodyLarge
+                                            )
+                                            Text(
+                                                text = suggestion.shortAddress,
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = MaterialTheme.colorScheme.onSurface.copy(
+                                                    alpha = 0.6f
+                                                )
+                                            )
+                                        }
+                                    }
+                                }
+
+                                is SearchSuggestionItem.FlightSuggestion -> {
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically,
-                                        modifier = Modifier.fillMaxWidth()
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .clickable(
+                                                indication = rememberRipple(
+                                                    bounded = true,
+                                                    color = WeatherCardBlue
+                                                ),
+                                                interactionSource = remember { MutableInteractionSource() },
+                                                onClick = {
+                                                    onSuggestionClick(suggestion)
+                                                    keyboardController?.hide()
+                                                }
+                                            )
+                                            .padding(
+                                                horizontal = Dimens.PaddingM,
+                                                vertical = Dimens.PaddingSM
+                                            )
                                     ) {
                                         Icon(
                                             imageVector = Icons.Default.AirplanemodeActive,
@@ -374,8 +401,16 @@ fun SearchBarSection(
 
                                         Spacer(modifier = Modifier.width(AppSpacing.MediumLarge))
 
-                                        Box(modifier = Modifier.width(100.dp), contentAlignment = Alignment.Center) {
-                                            LocationColumn(suggestion.flight.departureShortAddress)
+                                        Box(
+                                            modifier = Modifier.width(100.dp),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            LocationColumn(
+                                                suggestion.flight.departureShortAddress,
+                                                modifier = Modifier.align(
+                                                    Alignment.CenterStart
+                                                )
+                                            )
                                         }
 
                                         Icon(
@@ -386,14 +421,24 @@ fun SearchBarSection(
                                                 .size(Dimens.SizeSM)
                                         )
 
-                                        Box(modifier = Modifier.width(100.dp), contentAlignment = Alignment.Center) {
-                                            LocationColumn(suggestion.flight.arrivalShortAddress)
+                                        Box(
+                                            modifier = Modifier.width(100.dp),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            LocationColumn(
+                                                suggestion.flight.arrivalShortAddress,
+                                                modifier = Modifier.align(
+                                                    Alignment.CenterEnd
+                                                )
+                                            )
                                         }
                                     }
                                 }
                             }
                         }
                     }
+
+                    AppLineGray(modifier = Modifier.align(Alignment.BottomCenter))
                 }
             }
         }
@@ -401,9 +446,11 @@ fun SearchBarSection(
 }
 
 @Composable
-private fun LocationColumn(address: String) {
+private fun LocationColumn(address: String, modifier: Modifier) {
     val parts = address.split(",").map { it.trim() }
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         Text(
             text = parts.getOrNull(0) ?: "",
             style = MaterialTheme.typography.bodyLarge

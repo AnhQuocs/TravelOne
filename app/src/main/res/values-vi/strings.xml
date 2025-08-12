@@ -54,6 +54,7 @@
     <string name="no_recent_searches">Chưa có tìm kiếm gần đây</string>
     <string name="search_results">Kết quả tìm kiếm</string>
     <string name="no_results_found">Không tìm thấy kết quả nào</string>
+    <string name="search_result_for">Kết quả tìm kiếm: </string>
 
     <!-- Flight -->
     <string name="flight">Chuyến bay</string>
@@ -61,6 +62,10 @@
     <string name="hour">giờ</string>
     <string name="minutes">phút</string>
     <string name="stop">điểm dừng</string>
+    <string name="seat_pitch">Khoảng cách ghế 28</string>
+    <string name="light_meal">Bữa ăn nhẹ</string>
+    <string name="chance_wifi">Wifi khả dụng</string>
+    <string name="power_outlet">Ổ cắm điện</string>
 
     <!-- Recent Viewed-->
     <string name="recent_viewed">Đã xem gần đây</string>
