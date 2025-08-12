@@ -10,6 +10,7 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
+val CrimsonRed = Color(0xFFF41F52)
 val MintGreen = Color(0xFF46DFB1)
 val OceanBlue = Color(0xFF2853AF)
 val PrimaryBlue = Color(0xFF2853AF)

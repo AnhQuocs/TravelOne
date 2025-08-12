@@ -9,15 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.example.travelone.R
 import com.example.travelone.ui.theme.JostTypography
 import com.example.travelone.ui.theme.PrimaryBlue
 
 @Composable
-fun TitleSection(text1: String, text2: String) {
+fun TitleSection(text1: String, text2: String, onClick: () -> Unit = {}, color: Color = PrimaryBlue) {
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -33,8 +31,8 @@ fun TitleSection(text1: String, text2: String) {
         Text(
             text = text2,
             style = JostTypography.bodyMedium.copy(lineHeight = 0.sp),
-            color = PrimaryBlue,
-            modifier = Modifier.clickable {  }
+            color = color,
+            modifier = Modifier.clickable { onClick() }
         )
     }
 }

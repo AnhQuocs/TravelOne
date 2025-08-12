@@ -50,11 +50,20 @@
     <!-- Search -->
     <string name="search">Tìm kiếm</string>
     <string name="no_suggestions_found">Không tìm thấy gợi ý</string>
+    <string name="no_recent_items_yet">Chưa có mục nào gần đây</string>
+    <string name="no_recent_searches">Chưa có tìm kiếm gần đây</string>
 
     <!-- Flight -->
     <string name="flight">Chuyến bay</string>
     <string name="person">người</string>
     <string name="hour">giờ</string>
     <string name="minutes">phút</string>
+
+    <!-- Recent Viewed-->
+    <string name="recent_viewed">Đã xem gần đây</string>
+
+    <!-- Search History -->
+    <string name="recent_search">Tìm kiếm gần đây</string>
+    <string name="clear_all">Xóa tất cả</string>
 
 </resources>

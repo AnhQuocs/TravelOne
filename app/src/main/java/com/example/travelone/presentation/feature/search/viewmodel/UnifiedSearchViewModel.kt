@@ -41,10 +41,10 @@ class UnifiedSearchViewModel @Inject constructor(
         viewModelScope.launch {
             suggestions = if (newQuery.isBlank()) {
                 searchResults = emptyList()
-                suggestions = emptyList()
                 emptyList()
             } else {
-                unifiedSuggestionUseCase(newQuery)
+                val normalizedQuery = normalizeText(newQuery)
+                unifiedSuggestionUseCase(normalizedQuery)
             }
         }
     }
@@ -52,7 +52,8 @@ class UnifiedSearchViewModel @Inject constructor(
     fun onSearch() {
         viewModelScope.launch {
             isLoading = true
-            searchResults = unifiedSearchUseCase(query)
+            val normalizedQuery = normalizeText(query)
+            searchResults = unifiedSearchUseCase(normalizedQuery)
             isLoading = false
         }
     }
@@ -96,5 +97,27 @@ class UnifiedSearchViewModel @Inject constructor(
             }
             isLoading = false
         }
+    }
+
+    fun onSuggestionClicked(query: String) {
+        showSuggestions = false
+        this.query = query
+        suggestions = emptyList()
+
+        viewModelScope.launch {
+            isLoading = true
+            val normalizedQuery = normalizeText(query)
+            searchResults = unifiedSearchUseCase(normalizedQuery)
+            isLoading = false
+        }
+    }
+
+    private fun normalizeText(text: String): String {
+        return text.lowercase()
+            .replace("→", "-")
+            .replace("–", "-")
+            .replace("—", "-")
+            .replace("\\s+".toRegex(), " ")
+            .trim()
     }
 }

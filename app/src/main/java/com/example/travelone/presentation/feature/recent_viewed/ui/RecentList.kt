@@ -17,11 +17,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.travelone.R
 import com.example.travelone.domain.model.recent_viewed.ViewedType
 import com.example.travelone.presentation.components.AppLineGray
 import com.example.travelone.presentation.components.HotelCardHorizontal
+import com.example.travelone.presentation.components.TitleSection
+import com.example.travelone.presentation.components.TitleShimmerLoading
 import com.example.travelone.presentation.feature.flight.ui.FlightCard
 import com.example.travelone.presentation.feature.flight.viewmodel.FlightViewModel
 import com.example.travelone.presentation.feature.hotel.ui.HotelCardShimmerLoading
@@ -44,6 +48,8 @@ fun RecentList(
 
     if(recentList.isEmpty()) {
         Column {
+            TitleShimmerLoading()
+
             repeat(3) { index ->
                 Card(
                     elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
@@ -64,10 +70,17 @@ fun RecentList(
             }
         }
     } else {
-        Column(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            recentList.take(3).forEach { item ->
+        Column(modifier = Modifier.fillMaxWidth()) {
+            TitleSection(
+                text1 = stringResource(id = R.string.recent_viewed),
+                text2 = stringResource(id = R.string.see_all),
+                onClick = {  }
+            )
+
+            Spacer(modifier = Modifier.height(AppSpacing.Medium))
+
+            val displayList = recentList.take(4)
+            displayList.forEachIndexed { index, item ->
                 when (item.type) {
                     ViewedType.HOTEL -> {
                         val hotel = hotelViewModel.hotelDetails[item.id]
@@ -92,7 +105,12 @@ fun RecentList(
                         }
                     }
                 }
+
+                if (index < displayList.size - 1) {
+                    AppLineGray()
+                }
             }
+            Spacer(modifier = Modifier.height(AppSpacing.Medium))
         }
     }
 }

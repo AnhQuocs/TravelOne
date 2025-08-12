@@ -50,11 +50,20 @@
     <!-- Search -->
     <string name="search">Search</string>
     <string name="no_suggestions_found">No suggestions found</string>
+    <string name="no_recent_items_yet">No recent items yet</string>
+    <string name="no_recent_searches">No recent searches</string>
 
     <!-- Flight -->
     <string name="flight">Flight</string>
     <string name="person">person</string>
     <string name="hour">h</string>
     <string name="minutes">m</string>
+
+    <!-- Recent Viewed-->
+    <string name="recent_viewed">Recently Viewed</string>
+
+    <!-- Search History -->
+    <string name="recent_search">Recent Searches</string>
+    <string name="clear_all">Clear All</string>
 
 </resources>

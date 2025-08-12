@@ -4,10 +4,8 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,9 +26,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AirplanemodeActive
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Flight
 import androidx.compose.material.icons.filled.Hotel
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.CircularProgressIndicator
@@ -45,7 +41,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
@@ -67,11 +62,14 @@ import com.example.travelone.presentation.feature.flight.ui.FlightItem
 import com.example.travelone.presentation.feature.recent_viewed.ui.RecentList
 import com.example.travelone.presentation.feature.recent_viewed.viewmodel.RecentViewedViewModel
 import com.example.travelone.presentation.feature.search.viewmodel.UnifiedSearchViewModel
+import com.example.travelone.presentation.feature.search_history.ui.SearchHistoryList
+import com.example.travelone.presentation.feature.search_history.viewmodel.SearchHistoryViewModel
 import com.example.travelone.ui.theme.AppShape
 import com.example.travelone.ui.theme.AppSpacing
 import com.example.travelone.ui.theme.Dimens
 import com.example.travelone.ui.theme.WeatherCardBlue
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.UUID
 
 @AndroidEntryPoint
 class SearchActivity : BaseComponentActivity() {
@@ -93,7 +91,8 @@ fun SearchScreen(
     onBackClick: () -> Unit,
     onItemClick: () -> Unit,
     unifiedSearchViewModel: UnifiedSearchViewModel = hiltViewModel(),
-    recentViewedViewModel: RecentViewedViewModel = hiltViewModel()
+    recentViewedViewModel: RecentViewedViewModel = hiltViewModel(),
+    searchHistoryViewModel: SearchHistoryViewModel = hiltViewModel()
 ) {
     val searchResults = unifiedSearchViewModel.searchResults
     val query = unifiedSearchViewModel.query
@@ -104,11 +103,18 @@ fun SearchScreen(
     val hotelResults = searchResults.filterIsInstance<SearchResultItem.HotelItem>()
     val flightResults = searchResults.filterIsInstance<SearchResultItem.FlightItem>()
 
+    val recentList = recentViewedViewModel.recentList
+    val historyList = searchHistoryViewModel.historyList
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
         topBar = {
-            Column {
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .background(color = Color.White)
+            ) {
                 SearchTopBar(
                     onBackClick = { onBackClick() },
                     onNotification = {}
@@ -127,6 +133,25 @@ fun SearchScreen(
                     },
                     onSuggestionClick = {
                         unifiedSearchViewModel.onSuggestionClicked(it)
+                        val generatedId = UUID.randomUUID().toString()
+                        when (it) {
+                            is SearchSuggestionItem.HotelSuggestion -> {
+                                searchHistoryViewModel.addHistory(
+                                    id = generatedId,
+                                    title = it.name,
+                                    subTitle = it.shortAddress
+                                )
+                            }
+                            is SearchSuggestionItem.FlightSuggestion -> {
+                                val flight = it.flight
+                                val route = "${flight.departureAirportCode} → ${flight.arrivalAirportCode}"
+                                searchHistoryViewModel.addHistory(
+                                    id = generatedId,
+                                    title = route,
+                                    subTitle = "${flight.departureShortAddress} → ${flight.arrivalShortAddress}"
+                                )
+                            }
+                        }
                     },
                     showSuggestions = showSuggestions
                 )
@@ -134,7 +159,9 @@ fun SearchScreen(
         }
     ) { paddingValues ->
         Column(
-            modifier = Modifier.padding(paddingValues)
+            modifier = Modifier
+                .padding(paddingValues)
+                .background(color = Color.White)
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
                 if (isLoading) {
@@ -177,11 +204,33 @@ fun SearchScreen(
                             }
                         }
 
-                        item {
-                            RecentList(
-                                onHotelClick = {},
-                                onFlightClick = {}
-                            )
+                        if(recentList.isEmpty() && historyList.isEmpty()) {
+                            item {
+                                Text(
+                                    text = stringResource(id = R.string.no_recent_items_yet),
+                                    style = MaterialTheme.typography.titleMedium,
+                                    modifier = Modifier.padding(vertical = Dimens.PaddingL)
+                                )
+                            }
+                        } else {
+                            item {
+                                Spacer(modifier = Modifier.height(AppSpacing.Large))
+                            }
+
+                            item {
+                                SearchHistoryList()
+                            }
+
+                            item {
+                                Spacer(modifier = Modifier.height(AppSpacing.Large))
+                            }
+
+                            item {
+                                RecentList(
+                                    onHotelClick = {},
+                                    onFlightClick = {}
+                                )
+                            }
                         }
                     }
                 }

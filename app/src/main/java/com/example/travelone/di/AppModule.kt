@@ -9,6 +9,7 @@ import com.example.travelone.data.repository.hotel.HotelRepositoryImpl
 import com.example.travelone.data.repository.location.LocationRepositoryImpl
 import com.example.travelone.data.repository.recent_viewed.RecentViewedRepositoryImpl
 import com.example.travelone.data.repository.room.RoomRepositoryImpl
+import com.example.travelone.data.repository.search_history.SearchHistoryRepositoryImpl
 import com.example.travelone.data.repository.weather.WeatherRepositoryImpl
 import com.example.travelone.data.source.FirebaseFlightDataSource
 import com.example.travelone.data.source.FirebaseHotelDataSource
@@ -19,6 +20,7 @@ import com.example.travelone.domain.repository.hotel.HotelRepository
 import com.example.travelone.domain.repository.location.LocationRepository
 import com.example.travelone.domain.repository.recent_viewed.RecentViewedRepository
 import com.example.travelone.domain.repository.room.RoomRepository
+import com.example.travelone.domain.repository.search_history.SearchHistoryRepository
 import com.example.travelone.domain.repository.weather.WeatherRepository
 import com.example.travelone.domain.usecase.auth.AuthUseCase
 import com.example.travelone.domain.usecase.auth.GetCurrentUserUseCase
@@ -41,6 +43,9 @@ import com.example.travelone.domain.usecase.room.GetRoomByIdUseCase
 import com.example.travelone.domain.usecase.room.GetRoomsByHotelIdUseCase
 import com.example.travelone.domain.usecase.search.UnifiedSearchUseCase
 import com.example.travelone.domain.usecase.search.suggestions.UnifiedSuggestionUseCase
+import com.example.travelone.domain.usecase.search_history.AddSearchHistoryUseCase
+import com.example.travelone.domain.usecase.search_history.ClearAllSearchHistoryUseCase
+import com.example.travelone.domain.usecase.search_history.GetSearchHistoryUseCase
 import com.example.travelone.domain.usecase.weather.GetWeatherByLocationUseCase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -279,5 +284,38 @@ object AppModule {
         repository: RecentViewedRepository
     ): GetRecentViewedUseCase {
         return GetRecentViewedUseCase(repository)
+    }
+
+    // SEARCH HISTORY
+    @Provides
+    @Singleton
+    fun provideSearchHistoryRepository(
+        firestore: FirebaseFirestore
+    ): SearchHistoryRepository {
+        return SearchHistoryRepositoryImpl(firestore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddSearchHistoryUseCase(
+        repository: SearchHistoryRepository
+    ):AddSearchHistoryUseCase {
+        return AddSearchHistoryUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetSearchHistoryUseCase(
+        repository: SearchHistoryRepository
+    ): GetSearchHistoryUseCase {
+        return GetSearchHistoryUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideClearAllSearchHistoryUseCase(
+        repository: SearchHistoryRepository
+    ): ClearAllSearchHistoryUseCase {
+        return ClearAllSearchHistoryUseCase(repository)
     }
 }

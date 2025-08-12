@@ -42,6 +42,8 @@ import com.example.travelone.ui.theme.OceanBlue
 
 @Composable
 fun HotelCardHorizontal(hotel: Hotel, onClick: () -> Unit) {
+    val displayPrice = formatPrice(hotel.pricePerNightMin)
+
     Card(
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -109,7 +111,7 @@ fun HotelCardHorizontal(hotel: Hotel, onClick: () -> Unit) {
                     Text(
                         buildAnnotatedString {
                             withStyle(style = JostTypography.titleSmall.toSpanStyle().copy(color = OceanBlue, fontWeight = FontWeight.Bold)) {
-                                append("$" + hotel.pricePerNightMin.toString())
+                                append(displayPrice)
                             }
                             withStyle(style = JostTypography.titleSmall.toSpanStyle().copy(color = Color.Black)) {
                                 append("/" + stringResource(id = R.string.night))

@@ -38,6 +38,7 @@ import coil.compose.AsyncImage
 import com.example.travelone.R
 import com.example.travelone.domain.model.flight.Flight
 import com.example.travelone.presentation.components.formatDuration
+import com.example.travelone.presentation.components.formatPrice
 import com.example.travelone.ui.theme.AppShape
 import com.example.travelone.ui.theme.AppSpacing
 import com.example.travelone.ui.theme.Dimens
@@ -46,6 +47,8 @@ import com.example.travelone.ui.theme.OceanBlue
 
 @Composable
 fun FlightCard(flight: Flight, onClick: () -> Unit) {
+    val displayPrice = formatPrice(flight.priceEconomy)
+
     Card(
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -137,7 +140,7 @@ fun FlightCard(flight: Flight, onClick: () -> Unit) {
                     Text(
                         buildAnnotatedString {
                             withStyle(style = JostTypography.titleSmall.toSpanStyle().copy(color = OceanBlue, fontWeight = FontWeight.Bold)) {
-                                append("$" + flight.priceEconomy)
+                                append(displayPrice)
                             }
                             withStyle(style = JostTypography.titleSmall.toSpanStyle().copy(color = Color.Black)) {
                                 append("/" + stringResource(id = R.string.person))

@@ -57,7 +57,10 @@ fun MiniMap(
         Column {
             TitleSection(
                 text1 = stringResource(id = R.string.hotel_nearby),
-                text2 = stringResource(id = R.string.open_map)
+                text2 = stringResource(id = R.string.open_map),
+                onClick = {
+                    onOpenMapClicked(userLocation)
+                }
             )
 
             Spacer(modifier = Modifier.height(AppSpacing.MediumPlus))
