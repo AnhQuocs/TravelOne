@@ -52,6 +52,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.travelone.BaseComponentActivity
 import com.example.travelone.R
 import com.example.travelone.domain.model.recent_viewed.ViewedType
@@ -78,10 +82,27 @@ class SearchActivity : BaseComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            SearchScreen(
-                onBackClick = { finish() },
-                onItemClick = {}
-            )
+            val navController = rememberNavController()
+
+            NavHost(
+                navController = navController,
+                startDestination = "search"
+            ) {
+                composable("search") {
+                    SearchScreen(
+                        navController = navController,
+                        onItemClick = {},
+                        onBackClick = { finish() }
+                    )
+                }
+
+                composable("search_result") {
+                    SearchResultScreen(
+                        navController = navController,
+                        onBackClick = { navController.popBackStack() }
+                    )
+                }
+            }
         }
     }
 }
@@ -90,18 +111,15 @@ class SearchActivity : BaseComponentActivity() {
 fun SearchScreen(
     onBackClick: () -> Unit,
     onItemClick: () -> Unit,
+    navController: NavController,
     unifiedSearchViewModel: UnifiedSearchViewModel = hiltViewModel(),
     recentViewedViewModel: RecentViewedViewModel = hiltViewModel(),
     searchHistoryViewModel: SearchHistoryViewModel = hiltViewModel()
 ) {
-    val searchResults = unifiedSearchViewModel.searchResults
     val query = unifiedSearchViewModel.query
     val suggestions = unifiedSearchViewModel.suggestions
     val isLoading = unifiedSearchViewModel.isLoading
     val showSuggestions = unifiedSearchViewModel.showSuggestions
-
-    val hotelResults = searchResults.filterIsInstance<SearchResultItem.HotelItem>()
-    val flightResults = searchResults.filterIsInstance<SearchResultItem.FlightItem>()
 
     val recentList = recentViewedViewModel.recentList
     val historyList = searchHistoryViewModel.historyList
@@ -129,11 +147,16 @@ fun SearchScreen(
                         unifiedSearchViewModel.onQueryChanged(it)
                     },
                     onSearch = {
-                        unifiedSearchViewModel.onSearch()
+                        val currentQuery = unifiedSearchViewModel.query.trim()
+                        if (currentQuery.isNotEmpty()) {
+                            navController.currentBackStackEntry?.savedStateHandle?.set("search_query", currentQuery)
+                            navController.navigate("search_result")
+                        }
                     },
                     onSuggestionClick = {
                         unifiedSearchViewModel.onSuggestionClicked(it)
                         val generatedId = UUID.randomUUID().toString()
+
                         when (it) {
                             is SearchSuggestionItem.HotelSuggestion -> {
                                 searchHistoryViewModel.addHistory(
@@ -141,6 +164,10 @@ fun SearchScreen(
                                     title = it.name,
                                     subTitle = it.shortAddress
                                 )
+                                navController.currentBackStackEntry
+                                    ?.savedStateHandle
+                                    ?.set("search_result_data", SearchResultItem.HotelItem(it.hotel))
+                                navController.navigate("search_result")
                             }
                             is SearchSuggestionItem.FlightSuggestion -> {
                                 val flight = it.flight
@@ -150,6 +177,10 @@ fun SearchScreen(
                                     title = route,
                                     subTitle = "${flight.departureShortAddress} → ${flight.arrivalShortAddress}"
                                 )
+                                navController.currentBackStackEntry
+                                    ?.savedStateHandle
+                                    ?.set("search_result_data", SearchResultItem.FlightItem(flight))
+                                navController.navigate("search_result")
                             }
                         }
                     },
@@ -161,50 +192,19 @@ fun SearchScreen(
         Column(
             modifier = Modifier
                 .padding(paddingValues)
-                .background(color = Color.White)
+                .background(Color.White)
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
                 if (isLoading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
-                    )
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 } else {
                     LazyColumn(
-                        modifier = Modifier
-                            .padding(horizontal = Dimens.PaddingM, vertical = Dimens.PaddingS)
+                        modifier = Modifier.padding(
+                            horizontal = Dimens.PaddingM,
+                            vertical = Dimens.PaddingS
+                        )
                     ) {
-                        if (hotelResults.isNotEmpty()) {
-                            item {
-                                Text(
-                                    text = stringResource(id = R.string.hotel),
-                                    style = MaterialTheme.typography.titleMedium,
-                                    modifier = Modifier.padding(Dimens.PaddingM)
-                                )
-                            }
-                            items(hotelResults) { result ->
-                                HotelCardHorizontal(hotel = result.hotel, onClick = onItemClick)
-                            }
-                        }
-
-                        if (flightResults.isNotEmpty()) {
-                            item {
-                                Text(
-                                    text = stringResource(id = R.string.flight),
-                                    style = MaterialTheme.typography.titleMedium,
-                                    modifier = Modifier.padding(Dimens.PaddingM)
-                                )
-                            }
-                            items(flightResults) { result ->
-                                FlightItem(
-                                    flight = result.flight,
-                                    onClick = {
-                                        recentViewedViewModel.addRecent(result.flight.id, ViewedType.FLIGHT)
-                                    }
-                                )
-                            }
-                        }
-
-                        if(recentList.isEmpty() && historyList.isEmpty()) {
+                        if (recentList.isEmpty() && historyList.isEmpty()) {
                             item {
                                 Text(
                                     text = stringResource(id = R.string.no_recent_items_yet),
@@ -215,20 +215,13 @@ fun SearchScreen(
                         } else {
                             item {
                                 Spacer(modifier = Modifier.height(AppSpacing.Large))
+                                SearchHistoryList(navController = navController)
                             }
-
-                            item {
-                                SearchHistoryList()
-                            }
-
                             item {
                                 Spacer(modifier = Modifier.height(AppSpacing.Large))
-                            }
-
-                            item {
                                 RecentList(
-                                    onHotelClick = {},
-                                    onFlightClick = {}
+                                    onHotelClick = {  },
+                                    onFlightClick = {  }
                                 )
                             }
                         }
@@ -282,11 +275,7 @@ fun SearchBarSection(
             },
             keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(onSearch = {
-                if (suggestions.isNotEmpty()) {
-                    onSuggestionClick(suggestions.first())
-                } else {
-                    onSearch()
-                }
+                onSearch()
                 keyboardController?.hide()
             })
         )

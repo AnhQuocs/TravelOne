@@ -13,13 +13,23 @@ class SearchHistoryRepositoryImpl(
     private val firestore: FirebaseFirestore
 ): SearchHistoryRepository {
     override suspend fun addSearchHistory(userId: String, history: SearchHistory) {
-        val docRef = firestore.collection("users")
+        val collectionRef = firestore.collection("users")
             .document(userId)
             .collection("searchHistory")
-            .document(history.id)
 
-        val dto = history.toDto()
-        docRef.set(dto)
+        val querySnapshot = collectionRef
+            .whereEqualTo("title", history.title)
+            .whereEqualTo("subTitle", history.subTitle)
+            .get()
+            .await()
+
+        if (querySnapshot.isEmpty) {
+            val docRef = collectionRef.document(history.id)
+            val dto = history.toDto()
+            docRef.set(dto).await()
+        } else {
+
+        }
     }
 
     override suspend fun getSearchHistory(userId: String): List<SearchHistory> {

@@ -11,6 +11,7 @@ class UnifiedSuggestionUseCase(
         val hotelSuggestions = getHotelSuggestionsUseCase(query)
             .map { hotel ->
                 SearchSuggestionItem.HotelSuggestion(
+                    hotel = hotel,
                     name = hotel.name,
                     shortAddress = hotel.shortAddress
                 )

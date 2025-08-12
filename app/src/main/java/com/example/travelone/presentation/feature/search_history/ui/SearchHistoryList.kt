@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.travelone.R
 import com.example.travelone.presentation.components.TitleSection
 import com.example.travelone.presentation.feature.search.viewmodel.UnifiedSearchViewModel
@@ -34,8 +35,8 @@ import com.example.travelone.ui.theme.JostTypography
 
 @Composable
 fun SearchHistoryList(
-    searchHistoryViewModel: SearchHistoryViewModel = hiltViewModel(),
-    unifiedSearchViewModel: UnifiedSearchViewModel = hiltViewModel()
+    navController: NavController,
+    searchHistoryViewModel: SearchHistoryViewModel = hiltViewModel()
 ) {
     val historyList = searchHistoryViewModel.historyList
     val isLoading = searchHistoryViewModel.isClearing
@@ -72,7 +73,8 @@ fun SearchHistoryList(
                         title = item.title,
                         subTitle = item.subTitle,
                         onHistoryClick = {
-                            unifiedSearchViewModel.onSuggestionClicked(item.title)
+                            navController.currentBackStackEntry?.savedStateHandle?.set("search_query", item.title)
+                            navController.navigate("search_result")
                         }
                     )
                 }

@@ -21,7 +21,7 @@
         android:theme="@style/Theme.TravelOne"
         tools:targetApi="31">
         <activity
-            android:name=".BaseActivity"
+            android:name=".BaseComponentActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.feature.search.ui.SearchActivity"

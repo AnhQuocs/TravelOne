@@ -107,7 +107,7 @@ fun RecentList(
                 }
 
                 if (index < displayList.size - 1) {
-                    AppLineGray()
+                    AppLineGray(modifier = Modifier.padding(vertical = Dimens.PaddingXS))
                 }
             }
             Spacer(modifier = Modifier.height(AppSpacing.Medium))

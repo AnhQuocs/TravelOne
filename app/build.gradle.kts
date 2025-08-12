@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.google.gms.google.services)
     id("com.google.dagger.hilt.android") version "2.48"
     id("com.google.devtools.ksp") version "2.0.0-1.0.21"
+    id ("kotlin-parcelize")
 }
 
 val localProperties = Properties().apply {
@@ -132,4 +133,7 @@ dependencies {
     // Map
     implementation("com.google.maps.android:maps-compose:2.11.4")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
+
+    // Constraint Layout
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 }

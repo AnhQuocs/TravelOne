@@ -1,5 +1,9 @@
 package com.example.travelone.domain.model.hotel
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Hotel(
     val id: String,
     val name: String,
@@ -18,4 +22,4 @@ data class Hotel(
     val longitude: Double,
     val checkInTime: String,
     val checkOutTime: String
-)
+) : Parcelable
