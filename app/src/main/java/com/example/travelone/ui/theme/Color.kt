@@ -19,3 +19,6 @@ val ConfirmButtonColor = Color(0xFF2F6650)
 val GraySecondary = Color(0xFFA0AAB8)
 val SoftGray = Color(0xFFDDDDDD)
 val SoftGreen = Color(0xFFBDD1C5)
+
+val CoolBlue = Color(0xFF7F7FD5)
+val SoftBlue = Color(0xFF86A8E7)
