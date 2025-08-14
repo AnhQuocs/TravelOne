@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -46,7 +45,7 @@ import com.example.travelone.ui.theme.JostTypography
 import com.example.travelone.ui.theme.OceanBlue
 
 @Composable
-fun FlightCard(flight: Flight, onClick: () -> Unit) {
+fun FlightCardHorizontal(flight: Flight, onClick: () -> Unit) {
     val displayPrice = formatPrice(flight.priceEconomy)
 
     Card(

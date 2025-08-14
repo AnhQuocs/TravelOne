@@ -169,44 +169,40 @@ fun SearchScreen(
                                 navController.navigate("search_result")
                             }
                         },
-                        onSuggestionClick = {
-                            unifiedSearchViewModel.onSuggestionClicked(it)
+                        onSuggestionClick = { suggestion ->
+                            unifiedSearchViewModel.onSuggestionClicked(suggestion)
+
                             val generatedId = UUID.randomUUID().toString()
 
-                            when (it) {
+                            when (suggestion) {
                                 is SearchSuggestionItem.HotelSuggestion -> {
                                     searchHistoryViewModel.addHistory(
                                         id = generatedId,
-                                        title = it.name,
-                                        subTitle = it.shortAddress
+                                        title = suggestion.name,
+                                        subTitle = suggestion.shortAddress
                                     )
-                                    navController.currentBackStackEntry
-                                        ?.savedStateHandle
-                                        ?.set(
-                                            "search_result_data",
-                                            SearchResultItem.HotelItem(it.hotel)
-                                        )
-                                    navController.navigate("search_result")
+                                    navController.currentBackStackEntry?.savedStateHandle?.apply {
+                                        set("search_result_query", suggestion.name)
+                                        set("search_result_data", SearchResultItem.HotelItem(suggestion.hotel))
+                                    }
                                 }
 
                                 is SearchSuggestionItem.FlightSuggestion -> {
-                                    val flight = it.flight
-                                    val route =
-                                        "${flight.departureAirportCode} → ${flight.arrivalAirportCode}"
+                                    val flight = suggestion.flight
+                                    val route = "${flight.departureAirportCode} → ${flight.arrivalAirportCode}"
                                     searchHistoryViewModel.addHistory(
                                         id = generatedId,
                                         title = route,
                                         subTitle = "${flight.departureShortAddress} → ${flight.arrivalShortAddress}"
                                     )
-                                    navController.currentBackStackEntry
-                                        ?.savedStateHandle
-                                        ?.set(
-                                            "search_result_data",
-                                            SearchResultItem.FlightItem(flight)
-                                        )
-                                    navController.navigate("search_result")
+                                    navController.currentBackStackEntry?.savedStateHandle?.apply {
+                                        set("search_result_query", route)
+                                        set("search_result_data", SearchResultItem.FlightItem(flight))
+                                    }
                                 }
                             }
+
+                            navController.navigate("search_result")
                         },
                         showSuggestions = showSuggestions
                     )

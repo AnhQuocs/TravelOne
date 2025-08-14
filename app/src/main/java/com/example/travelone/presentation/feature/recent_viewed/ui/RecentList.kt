@@ -5,14 +5,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -26,9 +21,8 @@ import com.example.travelone.presentation.components.AppLineGray
 import com.example.travelone.presentation.components.HotelCardHorizontal
 import com.example.travelone.presentation.components.TitleSection
 import com.example.travelone.presentation.components.TitleShimmerLoading
-import com.example.travelone.presentation.feature.flight.ui.FlightCard
+import com.example.travelone.presentation.feature.flight.ui.FlightCardHorizontal
 import com.example.travelone.presentation.feature.flight.viewmodel.FlightViewModel
-import com.example.travelone.presentation.feature.hotel.ui.HotelCardShimmerLoading
 import com.example.travelone.presentation.feature.hotel.ui.RecommendedCardShimmerLoading
 import com.example.travelone.presentation.feature.hotel.viewmodel.HotelViewModel
 import com.example.travelone.presentation.feature.recent_viewed.viewmodel.RecentViewedViewModel
@@ -96,7 +90,7 @@ fun RecentList(
                     ViewedType.FLIGHT -> {
                         val flight = flightViewModel.flightDetails[item.id]
                         if (flight != null) {
-                            FlightCard(flight, onClick = onFlightClick)
+                            FlightCardHorizontal(flight, onClick = onFlightClick)
                         } else {
                             LaunchedEffect(item.id) {
                                 flightViewModel.loadFLightById(item.id)

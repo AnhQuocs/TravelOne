@@ -66,6 +66,8 @@
     <string name="light_meal">Light meal</string>
     <string name="chance_wifi">Chance of Wifi</string>
     <string name="power_outlet">Power outlet</string>
+    <string name="economy_class_price">Economy Class Price</string>
+    <string name="business_class_price">Business Class Price</string>
 
     <!-- Recent Viewed-->
     <string name="recent_viewed">Recently Viewed</string>

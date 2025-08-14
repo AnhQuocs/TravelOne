@@ -2,7 +2,10 @@ package com.example.travelone.presentation.feature.search.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -39,13 +44,13 @@ import com.example.travelone.domain.model.search.SearchResultItem
 import com.example.travelone.presentation.components.AppLineGray
 import com.example.travelone.presentation.components.HotelCardHorizontal
 import com.example.travelone.presentation.components.TitleSection
-import com.example.travelone.presentation.feature.flight.ui.FLightCard
+import com.example.travelone.presentation.feature.flight.ui.FLightTicket
 import com.example.travelone.presentation.feature.recent_viewed.viewmodel.RecentViewedViewModel
 import com.example.travelone.presentation.feature.search.viewmodel.UnifiedSearchViewModel
 import com.example.travelone.ui.theme.Dimens
 import com.example.travelone.ui.theme.JostTypography
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun SearchResultScreen(
     onBackClick: () -> Unit,
@@ -83,8 +88,10 @@ fun SearchResultScreen(
                     unifiedSearchViewModel.onQueryChanged(it.hotel.name)
                     unifiedSearchViewModel.onSearch()
                 }
+
                 is SearchResultItem.FlightItem -> {
-                    val route = "${it.flight.departureAirportCode} → ${it.flight.arrivalAirportCode}"
+                    val route =
+                        "${it.flight.departureAirportCode} → ${it.flight.arrivalAirportCode}"
                     unifiedSearchViewModel.onQueryChanged(route)
                     unifiedSearchViewModel.onSearch()
                 }
@@ -100,21 +107,24 @@ fun SearchResultScreen(
             ) {
                 TopAppBar(
                     title = {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
+                        FlowRow(
+                            horizontalArrangement = Arrangement.spacedBy(Dimens.PaddingS),
+                            maxItemsInEachRow = 2
                         ) {
                             Text(
                                 text = stringResource(id = R.string.search_result_for),
-                                style = JostTypography.titleMedium
+                                style = JostTypography.titleMedium,
+                                modifier = Modifier.align(Alignment.CenterVertically)
                             )
                             Text(
                                 text = query ?: when (result) {
                                     is SearchResultItem.HotelItem -> result.hotel.name
-                                    is SearchResultItem.FlightItem -> "${result.flight.departureAirportCode} → ${result.flight.arrivalAirportCode}"
+                                    is SearchResultItem.FlightItem ->
+                                        "${result.flight.departureAirportCode} → ${result.flight.arrivalAirportCode}"
                                     else -> stringResource(id = R.string.search_results)
                                 },
                                 style = JostTypography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                                modifier = Modifier.padding(start = Dimens.PaddingS)
+                                modifier = Modifier.align(Alignment.CenterVertically)
                             )
                         }
                     },
@@ -143,18 +153,22 @@ fun SearchResultScreen(
             when {
                 isLoading -> {
                     Box(
-                        modifier = Modifier.fillMaxSize().background(color = Color.White),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(color = Color.White),
                         contentAlignment = Alignment.Center
                     ) {
                         CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                     }
                 }
+
                 searchResults.isEmpty() -> {
                     Text(
                         text = stringResource(id = R.string.no_results_found),
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
+
                 else -> {
                     LazyColumn(
                         state = scrollState,
@@ -163,8 +177,10 @@ fun SearchResultScreen(
                             .padding(horizontal = Dimens.PaddingM)
                             .fillMaxSize()
                     ) {
-                        val hotelResults = searchResults.filterIsInstance<SearchResultItem.HotelItem>()
-                        val flightResults = searchResults.filterIsInstance<SearchResultItem.FlightItem>()
+                        val hotelResults =
+                            searchResults.filterIsInstance<SearchResultItem.HotelItem>()
+                        val flightResults =
+                            searchResults.filterIsInstance<SearchResultItem.FlightItem>()
 
                         if (hotelResults.isNotEmpty()) {
                             item {
@@ -173,10 +189,22 @@ fun SearchResultScreen(
                                     text2 = stringResource(id = R.string.see_all)
                                 )
                             }
-                            items(hotelResults.take(3)) { hotelItem ->
+
+                            item {
+                                Spacer(modifier = Modifier.height(Dimens.PaddingS))
+                            }
+
+                            itemsIndexed(hotelResults.take(3)) { index, hotelItem ->
                                 HotelCardHorizontal(hotel = hotelItem.hotel, onClick = {
-                                    recentViewedViewModel.addRecent(hotelItem.hotel.id, ViewedType.FLIGHT)
+                                    recentViewedViewModel.addRecent(
+                                        hotelItem.hotel.id,
+                                        ViewedType.FLIGHT
+                                    )
                                 })
+
+                                if (index < hotelResults.take(3).lastIndex) {
+                                    AppLineGray(modifier = Modifier.padding(vertical = Dimens.PaddingS))
+                                }
                             }
                         }
 
@@ -191,12 +219,17 @@ fun SearchResultScreen(
                                     text2 = stringResource(id = R.string.see_all)
                                 )
                             }
+
                             item {
                                 Spacer(modifier = Modifier.height(Dimens.PaddingM))
                             }
+
                             items(flightResults.take(4)) { flightItem ->
-                                FLightCard(flight = flightItem.flight, onClick = {
-                                    recentViewedViewModel.addRecent(flightItem.flight.id, ViewedType.FLIGHT)
+                                FLightTicket(flight = flightItem.flight, onClick = {
+                                    recentViewedViewModel.addRecent(
+                                        flightItem.flight.id,
+                                        ViewedType.FLIGHT
+                                    )
                                 })
                             }
                         }

@@ -13,9 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -33,8 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
@@ -44,6 +40,8 @@ import com.example.travelone.domain.model.flight.FlightSchedules
 import com.example.travelone.domain.model.flight.FlightStops
 import com.example.travelone.presentation.components.AppLineGray
 import com.example.travelone.presentation.components.formatDuration
+import com.example.travelone.presentation.components.formatPrice
+import com.example.travelone.presentation.components.getUsdToVndRate
 import com.example.travelone.ui.theme.AppShape
 import com.example.travelone.ui.theme.AppSpacing
 import com.example.travelone.ui.theme.Dimens
@@ -54,7 +52,7 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun FLightCard(
+fun FLightTicket(
     flight: Flight,
     onClick: () -> Unit
 ) {
@@ -88,6 +86,8 @@ fun FLightCard(
                     contentScale = ContentScale.Fit
                 )
             }
+
+            Spacer(modifier = Modifier.height(AppSpacing.Medium))
 
             Text(
                 text = formatDuration(flight.schedules[0].durationMinutes),
@@ -190,6 +190,70 @@ fun FLightCard(
                     Spacer(modifier = Modifier.height(AppSpacing.Large))
                 }
             }
+
+            AppLineGray(modifier = Modifier.padding(bottom = Dimens.PaddingM))
+
+            Column(
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier
+                    .padding(horizontal = Dimens.PaddingM)
+                    .padding(bottom = Dimens.PaddingM)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.ic_economy_seat),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(Color.Black.copy(alpha = 0.7f)),
+                        modifier = Modifier.size(Dimens.SizeML)
+                    )
+
+                    Spacer(modifier = Modifier.width(AppSpacing.Medium))
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = stringResource(id = R.string.economy_class_price) + ": ",
+                            style = JostTypography.labelLarge.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold),
+                            color = Color.Black.copy(alpha = 0.7f)
+                        )
+
+                        Text(
+                            text = formatPrice(flight.priceEconomy),
+                            style = MaterialTheme.typography.bodyMedium.copy(fontSize = 15.sp, fontWeight = FontWeight.Bold)
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(AppSpacing.Medium))
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Spacer(modifier = Modifier.width(AppSpacing.ExtraSmall + 1.dp))
+                    Image(
+                        painter = painterResource(R.drawable.ic_business_seat),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(Color.Black.copy(alpha = 0.7f)),
+                        modifier = Modifier.size(Dimens.SizeM)
+                    )
+
+                    Spacer(modifier = Modifier.width(AppSpacing.Medium))
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = stringResource(id = R.string.business_class_price) + ": ",
+                            style = JostTypography.labelLarge.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold),
+                            color = Color.Black.copy(alpha = 0.7f)
+                        )
+
+                        Text(
+                            text = formatPrice(flight.priceBusiness),
+                            style = MaterialTheme.typography.bodyMedium.copy(fontSize = 15.sp, fontWeight = FontWeight.Bold)
+                        )
+                    }
+                }
+            }
         }
     }
 }
@@ -278,7 +342,7 @@ private fun FlightItemPreview() {
     )
 
     TravelOneTheme {
-        FLightCard(
+        FLightTicket(
             flight = sampleFlight,
             onClick = {}
         )

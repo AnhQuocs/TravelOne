@@ -66,6 +66,8 @@
     <string name="light_meal">Bữa ăn nhẹ</string>
     <string name="chance_wifi">Wifi khả dụng</string>
     <string name="power_outlet">Ổ cắm điện</string>
+    <string name="economy_class_price">Giá hạng Phổ thông</string>
+    <string name="business_class_price">Giá hạng Thương gia</string>
 
     <!-- Recent Viewed-->
     <string name="recent_viewed">Đã xem gần đây</string>
