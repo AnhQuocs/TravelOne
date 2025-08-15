@@ -39,8 +39,6 @@ class MainActivity : BaseComponentActivity() {
                     }
 
                     composable("main") {
-//                        MainScreenTest(navController = navController)
-//                        HomeScreen(navHostController = navController)
                         MainScreen( navHostController = navController)
                     }
 

@@ -14,7 +14,6 @@ data class Hotel(
     val city: String,
     val country: String,
     val thumbnailUrl: String,
-    val imageUrl: List<String>,
     val pricePerNightMin: Int,
     val averageRating: Double,
     val numberOfReviews: Int,

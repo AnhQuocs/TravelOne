@@ -9,7 +9,6 @@ data class HotelDto(
     val city: String? = null,
     val country: String? = null,
     val thumbnailUrl: String? = null,
-    val imageUrl: List<String>? = null,
     val pricePerNightMin: Int? = null,
     val averageRating: Double? = null,
     val numberOfReviews: Int? = null,

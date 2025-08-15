@@ -15,7 +15,6 @@ fun HotelDto.toHotel(id: String): Hotel {
         city = city.orEmpty(),
         country = country.orEmpty(),
         thumbnailUrl = thumbnailUrl.orEmpty(),
-        imageUrl = imageUrl ?: emptyList(),
         pricePerNightMin = pricePerNightMin ?: 0,
         averageRating = averageRating ?: 0.0,
         numberOfReviews = numberOfReviews ?: 0,
