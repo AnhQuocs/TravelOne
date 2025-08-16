@@ -1,4 +1,4 @@
-package com.example.travelone.presentation.feature.hotel.ui
+package com.example.travelone.presentation.feature.hotel.ui.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.travelone.presentation.components.ShimmerLoading
 import com.example.travelone.ui.theme.AppShape

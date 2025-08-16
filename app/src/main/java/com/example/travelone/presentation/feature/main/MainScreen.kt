@@ -11,7 +11,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -23,7 +22,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -59,8 +57,8 @@ import com.example.travelone.presentation.feature.auth.viewmodel.AuthViewModel
 import com.example.travelone.presentation.feature.booking.MyBookingScreen
 import com.example.travelone.presentation.feature.favorite.FavoriteScreen
 import com.example.travelone.presentation.feature.flight.ui.FlightSection
-import com.example.travelone.presentation.feature.hotel.ui.HotelList
-import com.example.travelone.presentation.feature.hotel.ui.HotelRecommendedList
+import com.example.travelone.presentation.feature.hotel.ui.list.HotelList
+import com.example.travelone.presentation.feature.hotel.ui.list.HotelRecommendedList
 import com.example.travelone.presentation.feature.hotel.viewmodel.HotelViewModel
 import com.example.travelone.presentation.feature.hotel.map.ui.MiniMap
 import com.example.travelone.presentation.feature.hotel.map.ui.rememberMapViewWithLifecycle
@@ -319,7 +317,7 @@ fun HomeScreen(
                     ) {
                         item { Spacer(modifier = Modifier.height(Dimens.PaddingM)) }
                         item { WeatherSection(context = context) }
-                        item { HotelList() }
+                        item { HotelList(navHostController = navHostController) }
                         item { Spacer(modifier = Modifier.height(Dimens.PaddingL)) }
                         item { HotelRecommendedList() }
                         item { Spacer(modifier = Modifier.height(Dimens.PaddingL)) }

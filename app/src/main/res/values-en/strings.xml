@@ -76,4 +76,11 @@
     <string name="recent_search">Recent Searches</string>
     <string name="clear_all">Clear All</string>
 
+    <!-- Other -->
+    <string name="detail">Detail</string>
+    <string name="amenities">Amenities</string>
+    <string name="show_less">Show less</string>
+    <string name="read_more">Read more</string>
+    <string name="description">Description</string>
+
 </resources>

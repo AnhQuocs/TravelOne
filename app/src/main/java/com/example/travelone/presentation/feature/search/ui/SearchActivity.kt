@@ -65,6 +65,8 @@ import com.example.travelone.R
 import com.example.travelone.domain.model.search.SearchResultItem
 import com.example.travelone.domain.usecase.search.suggestions.SearchSuggestionItem
 import com.example.travelone.presentation.components.AppLineGray
+import com.example.travelone.presentation.components.AppTopBar
+import com.example.travelone.presentation.components.TopBarIcon
 import com.example.travelone.presentation.feature.recent_viewed.ui.RecentList
 import com.example.travelone.presentation.feature.recent_viewed.viewmodel.RecentViewedViewModel
 import com.example.travelone.presentation.feature.search.viewmodel.UnifiedSearchViewModel
@@ -146,9 +148,12 @@ fun SearchScreen(
                         .background(color = Color.White)
                         .padding(horizontal = Dimens.PaddingM)
                 ) {
-                    SearchTopBar(
-                        onBackClick = { onBackClick() },
-                        onNotification = {}
+                    AppTopBar(
+                        icon1 = TopBarIcon.Resource(R.drawable.ic_back),
+                        text = stringResource(id = R.string.search),
+                        icon2 = TopBarIcon.Resource(R.drawable.ic_notification),
+                        onIcon1Click = { onBackClick() },
+                        onIcon2Click = {  }
                     )
 
                     Spacer(modifier = Modifier.height(AppSpacing.ExtraLarge))

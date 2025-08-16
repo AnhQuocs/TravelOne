@@ -76,4 +76,11 @@
     <string name="recent_search">Tìm kiếm gần đây</string>
     <string name="clear_all">Xóa tất cả</string>
 
+    <!-- Other -->
+    <string name="detail">Chi tiết</string>
+    <string name="amenities">Các tiện ích</string>
+    <string name="show_less">Ẩn bớt</string>
+    <string name="read_more">Xem thêm</string>
+    <string name="description">Mô tả</string>
+
 </resources>

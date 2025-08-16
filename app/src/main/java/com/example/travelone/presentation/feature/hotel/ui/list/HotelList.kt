@@ -1,4 +1,4 @@
-package com.example.travelone.presentation.feature.hotel.ui
+package com.example.travelone.presentation.feature.hotel.ui.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -38,6 +38,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.travelone.R
 import com.example.travelone.domain.model.hotel.Hotel
@@ -53,6 +54,7 @@ import com.example.travelone.ui.theme.JostTypography
 @Composable
 fun HotelList(
     hotelViewModel: HotelViewModel = hiltViewModel(),
+    navHostController: NavHostController,
     recentViewedViewModel: RecentViewedViewModel = hiltViewModel()
 ) {
     val hotels = hotelViewModel.hotels
@@ -99,6 +101,7 @@ fun HotelList(
                     hotel = hotel,
                     onClick = {
                         recentViewedViewModel.addRecent(hotel.id, ViewedType.HOTEL)
+                        navHostController.navigate("detail/${hotel.id}")
                     }
                 )
             }

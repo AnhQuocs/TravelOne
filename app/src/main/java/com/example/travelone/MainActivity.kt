@@ -14,6 +14,7 @@ import androidx.navigation.navArgument
 import com.example.travelone.presentation.feature.auth.viewmodel.SplashViewModel
 import com.example.travelone.presentation.feature.dashboard.DashboardScreen
 import com.example.travelone.presentation.feature.hotel.map.ui.FullMapScreen
+import com.example.travelone.presentation.feature.hotel.ui.detail.HotelDetailSection
 import com.example.travelone.presentation.feature.main.MainScreen
 import com.example.travelone.presentation.feature.main.RoomListTest
 import com.example.travelone.ui.theme.TravelOneTheme
@@ -43,11 +44,11 @@ class MainActivity : BaseComponentActivity() {
                     }
 
                     composable(
-                        route = "roomList/{hotelId}",
-                        arguments = listOf(navArgument("hotelId") { type = NavType.StringType })
+                        "detail/{hotelId}",
+                        arguments = listOf(navArgument("hotelId") {type = NavType.StringType})
                     ) { backStackEntry ->
                         val hotelId = backStackEntry.arguments?.getString("hotelId") ?: ""
-                        RoomListTest(hotelId = hotelId)
+                        HotelDetailSection(hotelId = hotelId, navHostController = navController)
                     }
 
                     composable(

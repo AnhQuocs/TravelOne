@@ -1,4 +1,4 @@
-package com.example.travelone.presentation.feature.hotel.ui
+package com.example.travelone.presentation.feature.hotel.ui.list
 //
 //import androidx.compose.foundation.clickable
 //import androidx.compose.foundation.layout.Box

@@ -23,7 +23,7 @@ import com.example.travelone.presentation.components.TitleSection
 import com.example.travelone.presentation.components.TitleShimmerLoading
 import com.example.travelone.presentation.feature.flight.ui.FlightCardHorizontal
 import com.example.travelone.presentation.feature.flight.viewmodel.FlightViewModel
-import com.example.travelone.presentation.feature.hotel.ui.RecommendedCardShimmerLoading
+import com.example.travelone.presentation.feature.hotel.ui.list.RecommendedCardShimmerLoading
 import com.example.travelone.presentation.feature.hotel.viewmodel.HotelViewModel
 import com.example.travelone.presentation.feature.recent_viewed.viewmodel.RecentViewedViewModel
 import com.example.travelone.ui.theme.AppShape
