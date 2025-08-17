@@ -34,7 +34,7 @@ fun WeatherLoading() {
         modifier = Modifier
             .padding(bottom = Dimens.PaddingM)
             .fillMaxWidth()
-            .height(Dimens.HeightXL2)
+            .height(Dimens.HeightXL3)
             .background(brush = gradient, shape = RoundedCornerShape(AppShape.MediumShape))
     ) {
         Card(

@@ -36,8 +36,9 @@ object Dimens {
     val HeightLarge = 60.dp
     val HeightML = 80.dp
     val HeightXL = 100.dp
-    val HeightXL2 = 150.dp
-    val HeightXL3 = 220.dp
+    val HeightXL2 = 130.dp
+    val HeightXL3 = 150.dp
+    val HeightXL4 = 220.dp
     val HeightXXL = 280.dp
     val HeightShimmer = 400.dp
 

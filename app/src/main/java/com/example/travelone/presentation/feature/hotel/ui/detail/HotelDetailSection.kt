@@ -1,5 +1,6 @@
 package com.example.travelone.presentation.feature.hotel.ui.detail
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,12 +23,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,6 +39,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -49,6 +53,9 @@ import com.example.travelone.presentation.components.AppTopBar
 import com.example.travelone.presentation.components.ReadMoreText
 import com.example.travelone.presentation.components.TitleSection
 import com.example.travelone.presentation.components.TopBarIcon
+import com.example.travelone.presentation.feature.hotel.map.ui.MiniMapView
+import com.example.travelone.presentation.feature.hotel.map.ui.bitmapFromVector
+import com.example.travelone.presentation.feature.hotel.map.ui.rememberMapViewWithLifecycle
 import com.example.travelone.presentation.feature.hotel.viewmodel.HotelViewModel
 import com.example.travelone.ui.theme.AppShape
 import com.example.travelone.ui.theme.AppSpacing
@@ -56,6 +63,11 @@ import com.example.travelone.ui.theme.CloudyBlue
 import com.example.travelone.ui.theme.Dimens
 import com.example.travelone.ui.theme.JostTypography
 import com.example.travelone.ui.theme.OceanBlue
+import com.example.travelone.ui.theme.WeatherCardBlue
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
 
 @Composable
 fun HotelDetailSection(
@@ -81,8 +93,16 @@ fun HotelDetailScreen(
     onBackClick: () -> Unit
 ) {
     val amenities = hotel?.amenities
+    val mapView = rememberMapViewWithLifecycle()
+    val context = LocalContext.current
 
     if(hotel != null) {
+
+        val location = LatLng(hotel.latitude, hotel.longitude)
+        val hotelBitmap = remember {
+            bitmapFromVector(context, R.drawable.ic_hotel_marker, 80)
+        }
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -91,8 +111,17 @@ fun HotelDetailScreen(
                 model = hotel.thumbnailUrl,
                 contentDescription = null,
                 modifier = Modifier
-                    .fillMaxSize(),
-                contentScale = ContentScale.Crop
+                    .align(Alignment.TopCenter)
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.46f),
+                contentScale = ContentScale.Crop,
+                alignment = Alignment.BottomCenter
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = Color.Black.copy(alpha = 0.2f))
             )
         }
         Scaffold(
@@ -103,7 +132,8 @@ fun HotelDetailScreen(
                     icon2 = TopBarIcon.Vector(Icons.Default.MoreVert),
                     onIcon1Click = { onBackClick() },
                     onIcon2Click = {},
-                    color = Color.White
+                    color = Color.White,
+                    modifier = Modifier.padding(horizontal = Dimens.PaddingSM)
                 )
             },
             containerColor = Color.Transparent
@@ -128,43 +158,64 @@ fun HotelDetailScreen(
                     contentPadding = PaddingValues(Dimens.PaddingM)
                 ) {
                     item {
-                        Column(
+                        Row(
                             modifier = Modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.Start
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text(
-                                text = hotel.name,
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = Color.Black
-                            )
+                            Column(
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Text(
+                                    text = hotel.name,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = Color.Black
+                                )
 
-                            Spacer(modifier = Modifier.height(AppSpacing.Medium))
+                                Spacer(modifier = Modifier.height(AppSpacing.Medium))
+
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(
+                                        Icons.Default.LocationOn,
+                                        contentDescription = null,
+                                        tint = OceanBlue,
+                                        modifier = Modifier.size(Dimens.SizeSM)
+                                    )
+
+                                    Spacer(modifier = Modifier.width(AppSpacing.Small))
+
+                                    Text(
+                                        text = hotel.shortAddress,
+                                        color = Color.Black.copy(alpha = 0.5f),
+                                        style = JostTypography.labelLarge
+                                    )
+
+                                    Spacer(modifier = Modifier.width(AppSpacing.Large))
+
+                                    Text(
+                                        text = "⭐" + hotel.averageRating,
+                                        color = Color.Black,
+                                        style = JostTypography.labelLarge.copy(fontWeight = FontWeight.SemiBold)
+                                    )
+                                }
+                            }
 
                             Row(
-                                modifier = Modifier.fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Icon(
-                                    Icons.Default.LocationOn,
-                                    contentDescription = null,
-                                    tint = OceanBlue,
-                                    modifier = Modifier.size(Dimens.SizeSM)
+                                Text(
+                                    text = stringResource(id = R.string.min) + ": ",
+                                    style = JostTypography.titleSmall.copy(fontWeight = FontWeight.Medium),
+                                    color = Color.Black
                                 )
 
-                                Spacer(modifier = Modifier.width(AppSpacing.Small))
-
                                 Text(
-                                    text = hotel.shortAddress,
-                                    color = Color.Black.copy(alpha = 0.5f),
-                                    style = JostTypography.labelLarge
-                                )
-
-                                Spacer(modifier = Modifier.width(AppSpacing.Large))
-
-                                Text(
-                                    text = "⭐" + hotel.averageRating,
-                                    color = Color.Black,
-                                    style = JostTypography.labelLarge.copy(fontWeight = FontWeight.SemiBold)
+                                    text = "$" + hotel.pricePerNightMin.toString() + "/" + stringResource(id = R.string.night),
+                                    style = JostTypography.titleSmall.copy(fontWeight = FontWeight.Bold),
+                                    color = Color.Black
                                 )
                             }
                         }
@@ -176,7 +227,7 @@ fun HotelDetailScreen(
                                 modifier = Modifier.padding(vertical = Dimens.PaddingSM)
                             ) {
                                 TitleSection(
-                                    text1 = stringResource(id = R.string.amenities),
+                                    text1 = stringResource(id = R.string.facilities),
                                     text2 = stringResource(id = R.string.see_all)
                                 )
 
@@ -201,12 +252,35 @@ fun HotelDetailScreen(
                             ReadMoreText(description = hotel.description)
                         }
                     }
+
+                    item {
+                        Spacer(modifier = Modifier.height(AppSpacing.Large))
+                    }
+
+                    item {
+                        val hotelMarkerIcon = remember(hotelBitmap) {
+                            BitmapDescriptorFactory.fromBitmap(hotelBitmap)
+                        }
+
+                        DetailMiniMap(
+                            location = location,
+                            onOpenMapClick = {},
+                            mapView = mapView,
+                            markerIcon = hotelMarkerIcon
+                        )
+                    }
                 }
             }
-
         }
     } else {
-        // Loading
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color.White),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(color = WeatherCardBlue)
+        }
     }
 }
 
@@ -278,6 +352,47 @@ fun AmenitySection(amenities: List<String>) {
                     modifier = Modifier.fillMaxWidth()
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun DetailMiniMap(
+    location: LatLng?,
+    onOpenMapClick: (LatLng) -> Unit,
+    mapView: MapView,
+    markerIcon: BitmapDescriptor? = null
+) {
+    if(location == null) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(Dimens.HeightXL2),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+        Column {
+            TitleSection(
+                text1 = stringResource(id = R.string.location),
+                text2 = stringResource(id = R.string.open_map),
+                onClick = {
+                    onOpenMapClick(location)
+                }
+            )
+
+            Spacer(modifier = Modifier.height(AppSpacing.MediumPlus))
+
+            MiniMapView(
+                latLng = location,
+                mapView = mapView,
+                markerIcon = markerIcon,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(Dimens.HeightXL2)
+                    .clip(RoundedCornerShape(AppShape.ExtraLargeShape))
+            )
         }
     }
 }

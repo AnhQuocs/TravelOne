@@ -37,6 +37,7 @@
     <string name="hotel_nearby">Hotel Near You</string>
     <string name="map_hotel_near">Nearby Hotel</string>
     <string name="open_map">Open Map</string>
+    <string name="location">Location</string>
 
     <!-- Weather -->
     <string name="error">An error has occurred</string>
@@ -78,9 +79,10 @@
 
     <!-- Other -->
     <string name="detail">Detail</string>
-    <string name="amenities">Amenities</string>
+    <string name="facilities">Common Facilities</string>
     <string name="show_less">Show less</string>
     <string name="read_more">Read more</string>
     <string name="description">Description</string>
+    <string name="min">Min</string>
 
 </resources>

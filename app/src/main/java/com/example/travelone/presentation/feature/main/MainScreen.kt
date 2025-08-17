@@ -323,7 +323,7 @@ fun HomeScreen(
                         item { Spacer(modifier = Modifier.height(Dimens.PaddingL)) }
                         item {
                             MiniMap(
-                                userLocation = userLocation,
+                                location = userLocation,
                                 onOpenMapClicked = { latLng ->
                                     navHostController.navigate("full_map/${latLng.latitude}/${latLng.longitude}")
                                 },

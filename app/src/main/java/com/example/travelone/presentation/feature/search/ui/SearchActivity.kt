@@ -3,6 +3,7 @@ package com.example.travelone.presentation.feature.search.ui
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -29,7 +30,6 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Hotel
 import androidx.compose.material.icons.filled.Tune
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -43,11 +43,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -75,7 +70,6 @@ import com.example.travelone.presentation.feature.search_history.viewmodel.Searc
 import com.example.travelone.ui.theme.AppShape
 import com.example.travelone.ui.theme.AppSpacing
 import com.example.travelone.ui.theme.Dimens
-import com.example.travelone.ui.theme.WeatherCardBlue
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.UUID
 
@@ -322,7 +316,7 @@ fun SearchBarSection(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(max = Dimens.HeightXL3)
+                        .heightIn(max = Dimens.HeightXL4)
                 ) {
                     LazyColumn(
                         modifier = Modifier
@@ -336,11 +330,8 @@ fun SearchBarSection(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .clickable(
-                                                indication = rememberRipple(
-                                                    bounded = true,
-                                                    color = WeatherCardBlue
-                                                ),
-                                                interactionSource = remember { MutableInteractionSource() }
+                                                interactionSource = remember { MutableInteractionSource() },
+                                                indication = LocalIndication.current
                                             ) {
                                                 onSuggestionClick(suggestion)
                                                 keyboardController?.hide()
@@ -379,10 +370,7 @@ fun SearchBarSection(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .clickable(
-                                                indication = rememberRipple(
-                                                    bounded = true,
-                                                    color = WeatherCardBlue
-                                                ),
+                                                indication = LocalIndication.current,
                                                 interactionSource = remember { MutableInteractionSource() },
                                                 onClick = {
                                                     onSuggestionClick(suggestion)

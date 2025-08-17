@@ -30,10 +30,11 @@ fun AppTopBar(
     icon2: TopBarIcon,
     onIcon1Click: () -> Unit,
     onIcon2Click: () -> Unit,
-    color: Color = Color.Black
+    color: Color = Color.Black,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(Dimens.HeightML),
         verticalAlignment = Alignment.Bottom,
