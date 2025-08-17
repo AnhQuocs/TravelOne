@@ -32,6 +32,7 @@
     <string name="see_all">See All</string>
     <string name="night">night</string>
     <string name="booking_now">Booking Now</string>
+    <string name="facilities">Common Facilities</string>
 
     <!-- Map -->
     <string name="hotel_nearby">Hotel Near You</string>
@@ -79,10 +80,12 @@
 
     <!-- Other -->
     <string name="detail">Detail</string>
-    <string name="facilities">Common Facilities</string>
     <string name="show_less">Show less</string>
     <string name="read_more">Read more</string>
     <string name="description">Description</string>
     <string name="min">Min</string>
+
+    <!-- Review-->
+    <string name="reviews">Reviews</string>
 
 </resources>

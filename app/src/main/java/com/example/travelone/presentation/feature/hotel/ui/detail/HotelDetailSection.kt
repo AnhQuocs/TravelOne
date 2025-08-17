@@ -1,6 +1,5 @@
 package com.example.travelone.presentation.feature.hotel.ui.detail
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -49,6 +48,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.travelone.R
 import com.example.travelone.domain.model.hotel.Hotel
+import com.example.travelone.domain.model.review.Review
 import com.example.travelone.presentation.components.AppTopBar
 import com.example.travelone.presentation.components.ReadMoreText
 import com.example.travelone.presentation.components.TitleSection
@@ -57,6 +57,8 @@ import com.example.travelone.presentation.feature.hotel.map.ui.MiniMapView
 import com.example.travelone.presentation.feature.hotel.map.ui.bitmapFromVector
 import com.example.travelone.presentation.feature.hotel.map.ui.rememberMapViewWithLifecycle
 import com.example.travelone.presentation.feature.hotel.viewmodel.HotelViewModel
+import com.example.travelone.presentation.feature.review.ui.ReviewList
+import com.example.travelone.presentation.feature.review.viewmodel.ReviewViewModel
 import com.example.travelone.ui.theme.AppShape
 import com.example.travelone.ui.theme.AppSpacing
 import com.example.travelone.ui.theme.CloudyBlue
@@ -73,13 +75,13 @@ import com.google.android.gms.maps.model.LatLng
 fun HotelDetailSection(
     hotelId: String,
     navHostController: NavHostController,
-    hotelViewModel: HotelViewModel = hiltViewModel()
+    hotelViewModel: HotelViewModel = hiltViewModel(),
 ) {
+    val hotel = hotelViewModel.hotelDetails[hotelId]
+
     LaunchedEffect(Unit) {
         hotelViewModel.loadHotelById(hotelId)
     }
-
-    val hotel = hotelViewModel.hotelDetails[hotelId]
 
     HotelDetailScreen(
         hotel = hotel,
@@ -90,13 +92,19 @@ fun HotelDetailSection(
 @Composable
 fun HotelDetailScreen(
     hotel: Hotel?,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    reviewViewModel: ReviewViewModel = hiltViewModel()
 ) {
     val amenities = hotel?.amenities
     val mapView = rememberMapViewWithLifecycle()
     val context = LocalContext.current
 
     if(hotel != null) {
+        val reviews = reviewViewModel.reviews
+
+        LaunchedEffect(Unit) {
+            reviewViewModel.loadReviewsByServiceId(hotel.id)
+        }
 
         val location = LatLng(hotel.latitude, hotel.longitude)
         val hotelBitmap = remember {
@@ -268,6 +276,14 @@ fun HotelDetailScreen(
                             mapView = mapView,
                             markerIcon = hotelMarkerIcon
                         )
+                    }
+
+                    item {
+                        Spacer(modifier = Modifier.height(AppSpacing.Large))
+                    }
+
+                    item {
+                        ReviewList(reviews)
                     }
                 }
             }

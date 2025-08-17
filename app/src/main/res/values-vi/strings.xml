@@ -32,6 +32,7 @@
     <string name="see_all">Xem tất cả</string>
     <string name="night">đêm</string>
     <string name="booking_now">Đặt lịch ngay</string>
+    <string name="facilities">Tiện ích chung</string>
 
     <!-- Map -->
     <string name="hotel_nearby">Khách sạn gần bạn</string>
@@ -79,10 +80,12 @@
 
     <!-- Other -->
     <string name="detail">Chi tiết</string>
-    <string name="facilities">Tiện ích chung</string>
     <string name="show_less">Ẩn bớt</string>
     <string name="read_more">Xem thêm</string>
     <string name="description">Mô tả</string>
     <string name="min">Thấp nhất</string>
+
+    <!-- Review-->
+    <string name="reviews">Đánh giá</string>
 
 </resources>

@@ -8,17 +8,20 @@ import com.example.travelone.data.repository.flight.FlightRepositoryImpl
 import com.example.travelone.data.repository.hotel.HotelRepositoryImpl
 import com.example.travelone.data.repository.location.LocationRepositoryImpl
 import com.example.travelone.data.repository.recent_viewed.RecentViewedRepositoryImpl
+import com.example.travelone.data.repository.review.ReviewRepositoryImpl
 import com.example.travelone.data.repository.room.RoomRepositoryImpl
 import com.example.travelone.data.repository.search_history.SearchHistoryRepositoryImpl
 import com.example.travelone.data.repository.weather.WeatherRepositoryImpl
 import com.example.travelone.data.source.FirebaseFlightDataSource
 import com.example.travelone.data.source.FirebaseHotelDataSource
+import com.example.travelone.data.source.FirebaseReviewDataSource
 import com.example.travelone.data.source.FirebaseRoomDataSource
 import com.example.travelone.domain.repository.auth.AuthRepository
 import com.example.travelone.domain.repository.flight.FlightRepository
 import com.example.travelone.domain.repository.hotel.HotelRepository
 import com.example.travelone.domain.repository.location.LocationRepository
 import com.example.travelone.domain.repository.recent_viewed.RecentViewedRepository
+import com.example.travelone.domain.repository.review.ReviewRepository
 import com.example.travelone.domain.repository.room.RoomRepository
 import com.example.travelone.domain.repository.search_history.SearchHistoryRepository
 import com.example.travelone.domain.repository.weather.WeatherRepository
@@ -39,6 +42,7 @@ import com.example.travelone.domain.usecase.hotel.SearchHotelsUseCase
 import com.example.travelone.domain.usecase.location.GetUserLocationUseCase
 import com.example.travelone.domain.usecase.recent_viewed.AddRecentViewedUseCase
 import com.example.travelone.domain.usecase.recent_viewed.GetRecentViewedUseCase
+import com.example.travelone.domain.usecase.review.GetReviewsByServiceIdUseCase
 import com.example.travelone.domain.usecase.room.GetRoomByIdUseCase
 import com.example.travelone.domain.usecase.room.GetRoomsByHotelIdUseCase
 import com.example.travelone.domain.usecase.search.UnifiedSearchUseCase
@@ -253,6 +257,29 @@ object AppModule {
         flightRepository: FlightRepository
     ): SearchFlightsUseCase {
         return SearchFlightsUseCase(flightRepository)
+    }
+
+    // REVIEWS
+    @Provides
+    @Singleton
+    fun provideReviewRepository(
+        dataSource: FirebaseReviewDataSource
+    ): ReviewRepository {
+        return ReviewRepositoryImpl(dataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseReviewDataSource(): FirebaseReviewDataSource {
+        return FirebaseReviewDataSource()
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetReviewsByServiceIdUseCase(
+        reviewRepository: ReviewRepository
+    ): GetReviewsByServiceIdUseCase {
+        return GetReviewsByServiceIdUseCase(reviewRepository)
     }
 
     @Provides
