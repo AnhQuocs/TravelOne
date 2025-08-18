@@ -88,4 +88,7 @@
     <!-- Review-->
     <string name="reviews">Reviews</string>
 
+    <!-- Room-->
+    <string name="rooms">Rooms</string>
+
 </resources>

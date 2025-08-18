@@ -1,11 +1,14 @@
 package com.example.travelone.presentation.feature.hotel.ui.detail
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -22,6 +25,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -45,10 +49,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import coil.compose.AsyncImage
 import com.example.travelone.R
 import com.example.travelone.domain.model.hotel.Hotel
-import com.example.travelone.domain.model.review.Review
+import com.example.travelone.domain.model.room.Room
+import com.example.travelone.presentation.components.AppButton
 import com.example.travelone.presentation.components.AppTopBar
 import com.example.travelone.presentation.components.ReadMoreText
 import com.example.travelone.presentation.components.TitleSection
@@ -56,9 +66,13 @@ import com.example.travelone.presentation.components.TopBarIcon
 import com.example.travelone.presentation.feature.hotel.map.ui.MiniMapView
 import com.example.travelone.presentation.feature.hotel.map.ui.bitmapFromVector
 import com.example.travelone.presentation.feature.hotel.map.ui.rememberMapViewWithLifecycle
+import com.example.travelone.presentation.feature.hotel.ui.room.RoomDetailScreen
+import com.example.travelone.presentation.feature.hotel.ui.room.RoomList
+import com.example.travelone.presentation.feature.hotel.ui.room.RoomShimmerLoading
 import com.example.travelone.presentation.feature.hotel.viewmodel.HotelViewModel
 import com.example.travelone.presentation.feature.review.ui.ReviewList
 import com.example.travelone.presentation.feature.review.viewmodel.ReviewViewModel
+import com.example.travelone.presentation.feature.room.viewmodel.RoomViewModel
 import com.example.travelone.ui.theme.AppShape
 import com.example.travelone.ui.theme.AppSpacing
 import com.example.travelone.ui.theme.CloudyBlue
@@ -71,35 +85,78 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun HotelDetailSection(
     hotelId: String,
     navHostController: NavHostController,
     hotelViewModel: HotelViewModel = hiltViewModel(),
+    roomViewModel: RoomViewModel = hiltViewModel()
 ) {
     val hotel = hotelViewModel.hotelDetails[hotelId]
+    val rooms = roomViewModel.rooms
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(hotelId) {
         hotelViewModel.loadHotelById(hotelId)
+        roomViewModel.loadRooms(hotelId)
     }
 
-    HotelDetailScreen(
-        hotel = hotel,
-        onBackClick = { navHostController.popBackStack() }
-    )
+    val navController = rememberNavController()
+
+    SharedTransitionLayout {
+        NavHost(
+            navController = navController,
+            startDestination = "mainDetail"
+        ) {
+            composable("mainDetail") {
+                HotelDetailScreen(
+                    hotel = hotel,
+                    onBackClick = { navHostController.popBackStack() },
+                    onRoomClick = { room ->
+                        navController.navigate("roomDetail/${room.id}")
+                    },
+                    rooms = rooms,
+                    transitionScope = this@SharedTransitionLayout,
+                    animatedVisibilityScope = this@composable
+                )
+            }
+
+            composable(
+                "roomDetail/{roomId}",
+                arguments = listOf(navArgument("roomId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val roomId = backStackEntry.arguments?.getString("roomId")
+                val selectedRoom = rooms.find { it.id == roomId }
+
+                selectedRoom?.let { room ->
+                    RoomDetailScreen(
+                        onBack = { navController.popBackStack() },
+                        selectedRoom = room,
+                        transitionScope = this@SharedTransitionLayout,
+                        animatedVisibilityScope = this@composable
+                    )
+                }
+            }
+        }
+    }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun HotelDetailScreen(
     hotel: Hotel?,
     onBackClick: () -> Unit,
-    reviewViewModel: ReviewViewModel = hiltViewModel()
+    onRoomClick: (Room) -> Unit,
+    reviewViewModel: ReviewViewModel = hiltViewModel(),
+    rooms: List<Room>,
+    transitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope
 ) {
     val amenities = hotel?.amenities
     val mapView = rememberMapViewWithLifecycle()
     val context = LocalContext.current
 
-    if(hotel != null) {
+    if (hotel != null) {
         val reviews = reviewViewModel.reviews
 
         LaunchedEffect(Unit) {
@@ -162,8 +219,8 @@ fun HotelDetailScreen(
                                 topEnd = AppShape.ExtraExtraLargeShape
                             )
                         )
-                        .background(color = Color.White),
-                    contentPadding = PaddingValues(Dimens.PaddingM)
+                        .background(color = Color.White)
+                        .padding(Dimens.PaddingM)
                 ) {
                     item {
                         Row(
@@ -221,7 +278,9 @@ fun HotelDetailScreen(
                                 )
 
                                 Text(
-                                    text = "$" + hotel.pricePerNightMin.toString() + "/" + stringResource(id = R.string.night),
+                                    text = "$" + hotel.pricePerNightMin.toString() + "/" + stringResource(
+                                        id = R.string.night
+                                    ),
                                     style = JostTypography.titleSmall.copy(fontWeight = FontWeight.Bold),
                                     color = Color.Black
                                 )
@@ -244,7 +303,7 @@ fun HotelDetailScreen(
                                 AmenitySection(amenities)
                             }
                         } else {
-                          // Loading
+                            // Loading
                         }
                     }
 
@@ -283,7 +342,39 @@ fun HotelDetailScreen(
                     }
 
                     item {
+                        if (rooms.isEmpty()) {
+                            RoomShimmerLoading()
+                        } else {
+                            RoomList(
+                                rooms,
+                                onRoomClick = onRoomClick,
+                                transitionScope = transitionScope,
+                                animatedVisibilityScope = animatedVisibilityScope
+                            )
+                        }
+                    }
+
+                    item {
+                        Spacer(modifier = Modifier.height(AppSpacing.Large))
+                    }
+
+                    item {
                         ReviewList(reviews)
+                    }
+
+                    item {
+                        Spacer(modifier = Modifier.height(AppSpacing.Large))
+                    }
+
+                    item {
+                        AppButton(
+                            text = stringResource(id = R.string.booking_now),
+                            shape = RoundedCornerShape(AppShape.MediumShape),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = OceanBlue
+                            ),
+                            onClick = {}
+                        )
                     }
                 }
             }
@@ -379,7 +470,7 @@ fun DetailMiniMap(
     mapView: MapView,
     markerIcon: BitmapDescriptor? = null
 ) {
-    if(location == null) {
+    if (location == null) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()

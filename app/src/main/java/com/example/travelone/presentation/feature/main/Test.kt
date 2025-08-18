@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,19 +28,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import coil.compose.AsyncImage
 import com.example.travelone.R
 import com.example.travelone.domain.model.hotel.Hotel
 import com.example.travelone.domain.model.language.AppLanguage
 import com.example.travelone.presentation.feature.hotel.viewmodel.HotelViewModel
-import com.example.travelone.presentation.feature.room.viewmodel.RoomUiState
 import com.example.travelone.presentation.feature.room.viewmodel.RoomViewModel
 import com.example.travelone.presentation.language.LanguageViewModel
 import com.example.travelone.utils.LangUtils
@@ -163,7 +159,7 @@ fun RoomListTest(
     hotelId: String,
     roomViewModel: RoomViewModel = hiltViewModel()
 ) {
-    val state = roomViewModel.roomListState
+//    val state = roomViewModel.roomListState
 
     LaunchedEffect(hotelId) {
         roomViewModel.loadRooms(hotelId)
@@ -175,35 +171,35 @@ fun RoomListTest(
             .padding(16.dp)
             .padding(top = 36.dp)
     ) {
-        when (state) {
-            is RoomUiState.Loading -> {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-            }
-
-            is RoomUiState.Success -> {
-                LazyColumn {
-                    items(state.rooms) { room ->
-                        Column(modifier = Modifier.padding(bottom = 16.dp)) {
-                            Text(text = "Room type: ${room.roomType}")
-                            Text(text = "Capacity: ${room.capacity}")
-                            Text(text = "Price/Night: ${room.pricePerNight}")
-                            Text(text = "Description: ${room.description}")
-                            AsyncImage(
-                                model = room.imageUrl,
-                                contentDescription = null,
-                                modifier = Modifier.size(200.dp),
-                                placeholder = painterResource(id = R.drawable.placeholder)
-                            )
-                            Text(text = "Beds: ${room.numberOfBeds} - ${room.bedType}")
-                            Text(text = "Status: ${room.status}")
-                        }
-                    }
-                }
-            }
-
-            is RoomUiState.Error -> {
-                Text("Lỗi: ${state.message}")
-            }
-        }
+//        when (state) {
+//            is RoomUiState.Loading -> {
+//                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+//            }
+//
+//            is RoomUiState.Success -> {
+//                LazyColumn {
+//                    items(state.rooms) { room ->
+//                        Column(modifier = Modifier.padding(bottom = 16.dp)) {
+//                            Text(text = "Room type: ${room.roomType}")
+//                            Text(text = "Capacity: ${room.capacity}")
+//                            Text(text = "Price/Night: ${room.pricePerNight}")
+//                            Text(text = "Description: ${room.description}")
+//                            AsyncImage(
+//                                model = room.imageUrl,
+//                                contentDescription = null,
+//                                modifier = Modifier.size(200.dp),
+//                                placeholder = painterResource(id = R.drawable.placeholder)
+//                            )
+//                            Text(text = "Beds: ${room.numberOfBeds} - ${room.bedType}")
+//                            Text(text = "Status: ${room.status}")
+//                        }
+//                    }
+//                }
+//            }
+//
+//            is RoomUiState.Error -> {
+//                Text("Lỗi: ${state.message}")
+//            }
+//        }
     }
 }

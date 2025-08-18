@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.example.travelone.ui.theme.Dimens
+import androidx.compose.ui.text.TextStyle
 
 @Composable
 fun AppButton(
@@ -18,8 +19,8 @@ fun AppButton(
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: androidx.compose.ui.graphics.Shape,
     modifier: Modifier = Modifier,
-//    content: @Composable RowScope.() -> Unit
-    text: String
+    text: String,
+    textStyle: TextStyle = MaterialTheme.typography.titleMedium
 ) {
     Button(
         onClick = onClick,
@@ -31,7 +32,7 @@ fun AppButton(
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.titleMedium,
+            style = textStyle,
             color = Color.White
         )
     }
