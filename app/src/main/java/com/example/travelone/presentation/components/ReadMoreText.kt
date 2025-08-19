@@ -22,30 +22,39 @@ import com.example.travelone.ui.theme.AppSpacing
 import com.example.travelone.ui.theme.OceanBlue
 
 @Composable
-fun ReadMoreText(description: String) {
+fun ReadMoreText(
+    description: String,
+    maxLine: Int = 2,
+) {
     var expanded by remember { mutableStateOf(false) }
+    var isTextOverflow by remember { mutableStateOf(false) }
 
     Column {
         Text(
             text = description,
             style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Normal),
             color = Color.Black.copy(0.6f),
-            maxLines = if (expanded) Int.MAX_VALUE else 2,
-            overflow = TextOverflow.Ellipsis
-        )
-
-        Spacer(modifier = Modifier.height(AppSpacing.Small))
-
-        Text(
-            text = if (expanded) stringResource(id = R.string.show_less) else stringResource(id = R.string.read_more),
-            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
-            color = OceanBlue,
-            modifier = Modifier.clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }
-            ) {
-                expanded = !expanded
+            maxLines = if (expanded) Int.MAX_VALUE else maxLine,
+            overflow = TextOverflow.Ellipsis,
+            onTextLayout = { textLayoutResult ->
+                isTextOverflow = textLayoutResult.lineCount > maxLine
             }
         )
+
+        if (isTextOverflow) {
+            Spacer(modifier = Modifier.height(AppSpacing.Small))
+
+            Text(
+                text = if (expanded) stringResource(id = R.string.show_less) else stringResource(id = R.string.read_more),
+                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
+                color = OceanBlue,
+                modifier = Modifier.clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
+                ) {
+                    expanded = !expanded
+                }
+            )
+        }
     }
 }

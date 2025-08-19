@@ -90,5 +90,10 @@
 
     <!-- Room-->
     <string name="rooms">Rooms</string>
+    <string name="bed_type">Bed type</string>
+    <string name="number_of_bed">Number of Beds</string>
+    <string name="status">Status</string>
+    <string name="capacity">Capacity</string>
+    <string name="people">people</string>
 
 </resources>

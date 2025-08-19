@@ -1,6 +1,7 @@
 package com.example.travelone.di
 
 import android.content.Context
+import coil.ImageLoader
 import com.example.travelone.data.preferences.language.LanguagePreferenceManager
 import com.example.travelone.data.remote.api.IApiService
 import com.example.travelone.data.repository.auth.AuthRepositoryImpl
@@ -344,5 +345,14 @@ object AppModule {
         repository: SearchHistoryRepository
     ): ClearAllSearchHistoryUseCase {
         return ClearAllSearchHistoryUseCase(repository)
+    }
+
+    // IMAGE LOADER
+    @Provides
+    @Singleton
+    fun provideImageLoader(@ApplicationContext context: Context): ImageLoader {
+        return ImageLoader.Builder(context)
+            .crossfade(true)
+            .build()
     }
 }

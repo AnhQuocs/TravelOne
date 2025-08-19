@@ -93,6 +93,7 @@ fun HotelDetailSection(
     hotelViewModel: HotelViewModel = hiltViewModel(),
     roomViewModel: RoomViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val hotel = hotelViewModel.hotelDetails[hotelId]
     val rooms = roomViewModel.rooms
 
@@ -113,6 +114,7 @@ fun HotelDetailSection(
                     hotel = hotel,
                     onBackClick = { navHostController.popBackStack() },
                     onRoomClick = { room ->
+                        roomViewModel.preloadImage(context, room.imageUrl)
                         navController.navigate("roomDetail/${room.id}")
                     },
                     rooms = rooms,
@@ -325,23 +327,6 @@ fun HotelDetailScreen(
                     }
 
                     item {
-                        val hotelMarkerIcon = remember(hotelBitmap) {
-                            BitmapDescriptorFactory.fromBitmap(hotelBitmap)
-                        }
-
-                        DetailMiniMap(
-                            location = location,
-                            onOpenMapClick = {},
-                            mapView = mapView,
-                            markerIcon = hotelMarkerIcon
-                        )
-                    }
-
-                    item {
-                        Spacer(modifier = Modifier.height(AppSpacing.Large))
-                    }
-
-                    item {
                         if (rooms.isEmpty()) {
                             RoomShimmerLoading()
                         } else {
@@ -352,6 +337,23 @@ fun HotelDetailScreen(
                                 animatedVisibilityScope = animatedVisibilityScope
                             )
                         }
+                    }
+
+                    item {
+                        Spacer(modifier = Modifier.height(AppSpacing.Large))
+                    }
+
+                    item {
+                        val hotelMarkerIcon = remember(hotelBitmap) {
+                            BitmapDescriptorFactory.fromBitmap(hotelBitmap)
+                        }
+
+                        DetailMiniMap(
+                            location = location,
+                            onOpenMapClick = {},
+                            mapView = mapView,
+                            markerIcon = hotelMarkerIcon
+                        )
                     }
 
                     item {

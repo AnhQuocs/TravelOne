@@ -1,11 +1,17 @@
 package com.example.travelone.presentation.feature.room.viewmodel
 
+import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil.ImageLoader
+import coil.imageLoader
+import coil.request.CachePolicy
+import coil.request.ImageRequest
+import com.example.travelone.MyApplication
 import com.example.travelone.domain.model.room.Room
 import com.example.travelone.domain.usecase.room.GetRoomByIdUseCase
 import com.example.travelone.domain.usecase.room.GetRoomsByHotelIdUseCase
@@ -30,5 +36,15 @@ class RoomViewModel @Inject constructor(
             rooms = getRoomsByHotelId(hotelId)
             _isRoomLoading.value = false
         }
+    }
+
+    fun preloadImage(context: Context, url: String) {
+        val request = ImageRequest.Builder(context)
+            .data(url)
+            .memoryCachePolicy(CachePolicy.ENABLED)
+            .diskCachePolicy(CachePolicy.ENABLED)
+            .build()
+
+        context.imageLoader.enqueue(request)
     }
 }

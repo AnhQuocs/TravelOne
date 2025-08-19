@@ -90,5 +90,10 @@
 
     <!-- Room-->
     <string name="rooms">Phòng ngủ</string>
+    <string name="bed_type">Loại giường</string>
+    <string name="number_of_bed">Số giường</string>
+    <string name="status">Trạng thái</string>
+    <string name="capacity">Sức chứa</string>
+    <string name="people">người</string>
 
 </resources>

@@ -93,7 +93,9 @@ fun RoomList(
                         contentDescription = null,
                         placeholder = painterResource(R.drawable.placeholder),
                         contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(AppShape.LargeShape))
                     )
 
                     Text(
@@ -141,7 +143,9 @@ fun RoomList(
                                 contentDescription = null,
                                 placeholder = painterResource(R.drawable.placeholder),
                                 contentScale = ContentScale.Crop,
-                                modifier = Modifier.fillMaxSize()
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(RoundedCornerShape(AppShape.MediumShape))
                             )
 
                             Text(
