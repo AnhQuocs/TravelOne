@@ -107,22 +107,3 @@ fun ReviewItem(review: Review) {
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-private fun ReviewItemPreview() {
-    val review = Review (
-        userId = "user123",
-        userName = "AnhQuocs",
-        userProfilePicture = "",
-        serviceId = "hotel_001",
-        serviceType = "hotel",
-        rating = 5,
-        comment = "My family and I had a wonderful stay here. The room was spotless and the ocean view was breathtaking!",
-        timestamp = ""
-    )
-
-    TravelOneTheme {
-        ReviewItem(review)
-    }
-}
