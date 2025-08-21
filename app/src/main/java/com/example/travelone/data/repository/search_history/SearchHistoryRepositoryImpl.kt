@@ -28,7 +28,8 @@ class SearchHistoryRepositoryImpl(
             val dto = history.toDto()
             docRef.set(dto).await()
         } else {
-
+            val doc = querySnapshot.documents.first()
+            doc.reference.update("historyAt", history.historyAt).await()
         }
     }
 

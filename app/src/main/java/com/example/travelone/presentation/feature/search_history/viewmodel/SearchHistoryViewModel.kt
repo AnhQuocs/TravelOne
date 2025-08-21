@@ -1,5 +1,6 @@
 package com.example.travelone.presentation.feature.search_history.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -44,6 +45,7 @@ class SearchHistoryViewModel @Inject constructor(
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
 
         viewModelScope.launch {
+            Log.d("SearchHistoryViewModel", "Called: $title - $subTitle")
             val history = SearchHistory(
                 id = id,
                 title = title,

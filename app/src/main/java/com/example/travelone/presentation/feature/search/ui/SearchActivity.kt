@@ -39,6 +39,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -129,6 +130,10 @@ fun SearchScreen(
         }
     }
 
+    LaunchedEffect(Unit) {
+        unifiedSearchViewModel.resetState()
+    }
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
@@ -170,9 +175,7 @@ fun SearchScreen(
                         },
                         onSuggestionClick = { suggestion ->
                             unifiedSearchViewModel.onSuggestionClicked(suggestion)
-
                             val generatedId = UUID.randomUUID().toString()
-
                             when (suggestion) {
                                 is SearchSuggestionItem.HotelSuggestion -> {
                                     searchHistoryViewModel.addHistory(
@@ -181,11 +184,11 @@ fun SearchScreen(
                                         subTitle = suggestion.shortAddress
                                     )
                                     navController.currentBackStackEntry?.savedStateHandle?.apply {
+                                        set("search_query", suggestion.name) // Thêm dòng này
                                         set("search_result_query", suggestion.name)
                                         set("search_result_data", SearchResultItem.HotelItem(suggestion.hotel))
                                     }
                                 }
-
                                 is SearchSuggestionItem.FlightSuggestion -> {
                                     val flight = suggestion.flight
                                     val route = "${flight.departureAirportCode} → ${flight.arrivalAirportCode}"
@@ -195,13 +198,15 @@ fun SearchScreen(
                                         subTitle = "${flight.departureShortAddress} → ${flight.arrivalShortAddress}"
                                     )
                                     navController.currentBackStackEntry?.savedStateHandle?.apply {
+                                        set("search_query", route) // Thêm dòng này
                                         set("search_result_query", route)
                                         set("search_result_data", SearchResultItem.FlightItem(flight))
                                     }
                                 }
                             }
-
-                            navController.navigate("search_result")
+                            navController.navigate("search_result") {
+                                launchSingleTop = true
+                            }
                         },
                         showSuggestions = showSuggestions
                     )

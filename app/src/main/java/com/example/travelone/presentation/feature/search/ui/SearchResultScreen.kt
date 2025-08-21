@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -34,7 +33,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -62,10 +60,17 @@ fun SearchResultScreen(
         ?.savedStateHandle
         ?.get<SearchResultItem>("search_result_data")
 
-    val query = navController.previousBackStackEntry?.savedStateHandle?.get<String>("search_query")
+    val query = navController.previousBackStackEntry?.savedStateHandle?.get<String>("search_result_query")
+        ?: navController.previousBackStackEntry?.savedStateHandle?.get<String>("search_query")
+        ?: when (result) {
+            is SearchResultItem.HotelItem -> result.hotel.name
+            is SearchResultItem.FlightItem ->
+                "${result.flight.departureAirportCode} → ${result.flight.arrivalAirportCode}"
+            else -> stringResource(id = R.string.search_results)
+        }
 
     LaunchedEffect(query) {
-        query?.let {
+        query.let {
             unifiedSearchViewModel.onQueryChanged(it)
             unifiedSearchViewModel.onSearch()
         }
@@ -117,12 +122,7 @@ fun SearchResultScreen(
                                 modifier = Modifier.align(Alignment.CenterVertically)
                             )
                             Text(
-                                text = query ?: when (result) {
-                                    is SearchResultItem.HotelItem -> result.hotel.name
-                                    is SearchResultItem.FlightItem ->
-                                        "${result.flight.departureAirportCode} → ${result.flight.arrivalAirportCode}"
-                                    else -> stringResource(id = R.string.search_results)
-                                },
+                                text = query,
                                 style = JostTypography.titleSmall.copy(fontWeight = FontWeight.Bold),
                                 modifier = Modifier.align(Alignment.CenterVertically)
                             )

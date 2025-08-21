@@ -120,4 +120,10 @@ class UnifiedSearchViewModel @Inject constructor(
             .replace("\\s+".toRegex(), " ")
             .trim()
     }
+
+    fun resetState() {
+        query = ""
+        showSuggestions = false
+        isLoading = false
+    }
 }
