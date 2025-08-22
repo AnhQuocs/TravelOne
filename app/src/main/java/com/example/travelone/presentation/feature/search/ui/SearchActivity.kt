@@ -184,7 +184,7 @@ fun SearchScreen(
                                         subTitle = suggestion.shortAddress
                                     )
                                     navController.currentBackStackEntry?.savedStateHandle?.apply {
-                                        set("search_query", suggestion.name) // Thêm dòng này
+                                        set("search_query", suggestion.name)
                                         set("search_result_query", suggestion.name)
                                         set("search_result_data", SearchResultItem.HotelItem(suggestion.hotel))
                                     }
@@ -198,7 +198,7 @@ fun SearchScreen(
                                         subTitle = "${flight.departureShortAddress} → ${flight.arrivalShortAddress}"
                                     )
                                     navController.currentBackStackEntry?.savedStateHandle?.apply {
-                                        set("search_query", route) // Thêm dòng này
+                                        set("search_query", route)
                                         set("search_result_query", route)
                                         set("search_result_data", SearchResultItem.FlightItem(flight))
                                     }
