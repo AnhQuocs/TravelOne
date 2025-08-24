@@ -10,5 +10,16 @@ data class Room(
     val imageUrl: String,
     val numberOfBeds: Int,
     val bedType: String,
-    val status: String
+    val status: String,
+    val amenities: List<Amenity> = emptyList(),
+    val roomSize: Int,
+    val floor: Int,
+    val bathroomType: String,
+    val smokingPolicy: Boolean,
+    val petPolicy: Boolean
+)
+
+data class Amenity(
+    val name: String,
+    val iconUrl: String
 )

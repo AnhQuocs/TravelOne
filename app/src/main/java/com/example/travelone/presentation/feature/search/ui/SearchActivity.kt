@@ -191,11 +191,11 @@ fun SearchScreen(
                                 }
                                 is SearchSuggestionItem.FlightSuggestion -> {
                                     val flight = suggestion.flight
-                                    val route = "${flight.departureAirportCode} → ${flight.arrivalAirportCode}"
+                                    val route = "${flight.departureAirportCode} to ${flight.arrivalAirportCode}"
                                     searchHistoryViewModel.addHistory(
                                         id = generatedId,
                                         title = route,
-                                        subTitle = "${flight.departureShortAddress} → ${flight.arrivalShortAddress}"
+                                        subTitle = "${flight.departureShortAddress} to ${flight.arrivalShortAddress}"
                                     )
                                     navController.currentBackStackEntry?.savedStateHandle?.apply {
                                         set("search_query", route)

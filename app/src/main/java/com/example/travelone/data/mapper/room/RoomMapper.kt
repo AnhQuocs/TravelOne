@@ -1,6 +1,8 @@
 package com.example.travelone.data.mapper.room
 
+import com.example.travelone.data.model.room.AmenityDto
 import com.example.travelone.data.model.room.RoomDto
+import com.example.travelone.domain.model.room.Amenity
 import com.example.travelone.domain.model.room.Room
 import com.example.travelone.utils.LangUtils
 
@@ -15,6 +17,19 @@ fun RoomDto.toRoom(id: String): Room {
         imageUrl = imageUrl.orEmpty(),
         numberOfBeds = numberOfBeds ?: 0,
         bedType = LangUtils.getLocalizedText(bedType),
-        status = LangUtils.getLocalizedText(status)
+        status = LangUtils.getLocalizedText(status),
+        amenities = amenities.map { it.toAmenity() },
+        roomSize = roomSize ?: 0,
+        floor = floor ?: 0,
+        bathroomType = LangUtils.getLocalizedText(bathroomType),
+        smokingPolicy = smokingPolicy ?: false,
+        petPolicy = petPolicy ?: true
+    )
+}
+
+fun AmenityDto.toAmenity(): Amenity {
+    return Amenity (
+        name = LangUtils.getLocalizedText(name),
+        iconUrl = iconUrl.orEmpty()
     )
 }

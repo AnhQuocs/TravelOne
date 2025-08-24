@@ -91,9 +91,15 @@
     <!-- Room-->
     <string name="rooms">Phòng ngủ</string>
     <string name="bed_type">Loại giường</string>
+    <string name="room_type">Loại phòng</string>
+    <string name="room_size">Diện tích phòng</string>
     <string name="number_of_bed">Số giường</string>
     <string name="status">Trạng thái</string>
     <string name="capacity">Sức chứa</string>
     <string name="people">người</string>
+    <string name="amenities">Tiện ích</string>
+    <string name="floor">Tầng</string>
+    <string name="no_smoking">Không hút thuốc</string>
+    <string name="smoking_allowed">Được hút thuốc</string>
 
 </resources>
