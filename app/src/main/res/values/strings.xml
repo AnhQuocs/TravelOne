@@ -91,7 +91,7 @@
     <!-- Room-->
     <string name="rooms">Rooms</string>
     <string name="bed_type">Bed type</string>
-    <string name="room_type">Room type</string>
+    <string name="bath_room_type">Bathroom type</string>
     <string name="room_size">Room size</string>
     <string name="number_of_bed">Number of Beds</string>
     <string name="status">Status</string>
@@ -101,5 +101,41 @@
     <string name="floor">Floor</string>
     <string name="no_smoking">No Smoking</string>
     <string name="smoking_allowed">Smoking Allowed</string>
+    <string name="no_pets">No pets allowed</string>
+    <string name="pets_allowed">Pets allowed</string>
+    <string name="pet_policy">Learn more about the pet policy</string>
+
+    <!-- Pet Policy -->
+    <string name="pet_policy_title">Pet Policy</string>
+    <string name="pet_policy_allowed">Pets allowed</string>
+    <string name="pet_policy_not_allowed">No pets allowed</string>
+
+    <string name="pet_policy_intro_allowed">
+        Our hotel welcomes pets to stay with you.
+        We aim to provide the most comfortable experience for both you and your furry friends.
+    </string>
+    <string name="pet_policy_intro_not_allowed">
+        For hygiene and safety reasons, pets are not allowed.
+        We kindly ask for your understanding.
+    </string>
+
+    <string name="pet_policy_conditions_title">Conditions</string>
+    <string name="pet_policy_condition_1">Up to 2 pets allowed</string>
+    <string name="pet_policy_condition_2">Maximum weight 15kg per pet</string>
+    <string name="pet_policy_condition_3">Pets must be kept in a carrier when moving around the hotel</string>
+
+    <string name="pet_policy_fees_title">Additional Fees</string>
+    <string name="pet_policy_fee_1">Cleaning fee: $8 per pet per night</string>
+    <string name="pet_policy_fee_2">Any property damage caused by pets must be compensated by the guest</string>
+
+    <string name="pet_policy_restrictions_title">Restricted Areas</string>
+    <string name="pet_policy_restriction_1">Restaurant &amp; buffet area</string>
+    <string name="pet_policy_restriction_2">Swimming pool &amp; spa</string>
+    <string name="pet_policy_restriction_3">Gym</string>
+
+    <string name="pet_policy_responsibility_title">Guest Responsibility</string>
+    <string name="pet_policy_responsibility_1">Ensure pets do not cause noise or disturb other guests</string>
+    <string name="pet_policy_responsibility_2">Clean up after your pets</string>
+
 
 </resources>

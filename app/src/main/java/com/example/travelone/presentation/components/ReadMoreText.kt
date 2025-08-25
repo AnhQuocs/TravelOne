@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -27,21 +28,24 @@ fun ReadMoreText(
     maxLine: Int = 2,
 ) {
     var expanded by remember { mutableStateOf(false) }
-    var isTextOverflow by remember { mutableStateOf(false) }
+    var canOverflow by remember { mutableStateOf(false) }
 
     Column {
         Text(
             text = description,
             style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Normal),
-            color = Color.Black.copy(0.6f),
+            color = Color.Black.copy(alpha = 0.6f),
             maxLines = if (expanded) Int.MAX_VALUE else maxLine,
             overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.fillMaxWidth(),
             onTextLayout = { textLayoutResult ->
-                isTextOverflow = textLayoutResult.lineCount > maxLine
+                if (!expanded) {
+                    canOverflow = textLayoutResult.hasVisualOverflow
+                }
             }
         )
 
-        if (isTextOverflow) {
+        if (canOverflow) {
             Spacer(modifier = Modifier.height(AppSpacing.Small))
 
             Text(

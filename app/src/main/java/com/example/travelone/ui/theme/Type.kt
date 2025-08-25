@@ -16,6 +16,10 @@ val JostFontFamily = FontFamily(
 )
 
 val JostTypography = Typography(
+    titleLarge = TextStyle(
+        fontFamily = JostFontFamily,
+        fontSize = 22.sp
+    ),
     titleMedium = TextStyle(
         fontFamily = JostFontFamily,
         fontSize = 20.sp

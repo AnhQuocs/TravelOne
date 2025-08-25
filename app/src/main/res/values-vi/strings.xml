@@ -91,7 +91,7 @@
     <!-- Room-->
     <string name="rooms">Phòng ngủ</string>
     <string name="bed_type">Loại giường</string>
-    <string name="room_type">Loại phòng</string>
+    <string name="bath_room_type">Kiểu phòng tắm</string>
     <string name="room_size">Diện tích phòng</string>
     <string name="number_of_bed">Số giường</string>
     <string name="status">Trạng thái</string>
@@ -101,5 +101,40 @@
     <string name="floor">Tầng</string>
     <string name="no_smoking">Không hút thuốc</string>
     <string name="smoking_allowed">Được hút thuốc</string>
+    <string name="no_pets">Không cho phép thú cưng</string>
+    <string name="pets_allowed">Cho phép thú cưng</string>
+    <string name="pet_policy">Xem thêm về chính sách thú cưng</string>
+
+    <!-- Pet Policy -->
+    <string name="pet_policy_title">Chính sách thú cưng</string>
+    <string name="pet_policy_allowed">Cho phép thú cưng</string>
+    <string name="pet_policy_not_allowed">Không cho phép thú cưng</string>
+
+    <string name="pet_policy_intro_allowed">
+        Khách sạn của chúng tôi hoan nghênh thú cưng đi cùng bạn.
+        Chúng tôi mong muốn mang đến trải nghiệm thoải mái nhất cho cả bạn và thú cưng của mình.
+    </string>
+    <string name="pet_policy_intro_not_allowed">
+        Vì lý do vệ sinh và an toàn, hiện tại không chấp nhận thú cưng.
+        Chúng tôi mong quý khách thông cảm.
+    </string>
+
+    <string name="pet_policy_conditions_title">Điều kiện áp dụng</string>
+    <string name="pet_policy_condition_1">Mỗi phòng được phép tối đa 2 thú cưng</string>
+    <string name="pet_policy_condition_2">Trọng lượng không vượt quá 15kg/con</string>
+    <string name="pet_policy_condition_3">Thú cưng cần được giữ trong lồng/giỏ chuyên dụng khi di chuyển</string>
+
+    <string name="pet_policy_fees_title">Phí bổ sung</string>
+    <string name="pet_policy_fee_1">Phụ thu vệ sinh: 200.000đ/con/đêm</string>
+    <string name="pet_policy_fee_2">Nếu thú cưng gây hư hỏng tài sản, khách cần thanh toán chi phí sửa chữa</string>
+
+    <string name="pet_policy_restrictions_title">Khu vực hạn chế</string>
+    <string name="pet_policy_restriction_1">Nhà hàng &amp; khu vực buffet</string>
+    <string name="pet_policy_restriction_2">Hồ bơi &amp; spa</string>
+    <string name="pet_policy_restriction_3">Phòng tập gym</string>
+
+    <string name="pet_policy_responsibility_title">Trách nhiệm của khách</string>
+    <string name="pet_policy_responsibility_1">Đảm bảo thú cưng không gây tiếng ồn hoặc ảnh hưởng đến khách khác</string>
+    <string name="pet_policy_responsibility_2">Tự dọn vệ sinh sau khi thú cưng của bạn đi vệ sinh</string>
 
 </resources>

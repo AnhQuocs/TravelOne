@@ -24,3 +24,5 @@ val CoolBlue = Color(0xFF7F7FD5)
 val SoftBlue = Color(0xFF86A8E7)
 
 val CloudyBlue = Color(0xFFE8F2FF)
+
+val Green500 = Color(0xFF4CAF50)

@@ -13,7 +13,7 @@ fun formatPrice(priceUSD: Int): String {
         val rate = getUsdToVndRate()
         val priceVND = priceUSD * rate
         val formatter = NumberFormat.getNumberInstance(Locale("vi", "VN"))
-        "${formatter.format(priceVND.toLong())} đ"
+        "${formatter.format(priceVND.toLong())}đ"
     } else {
         val formatter = NumberFormat.getNumberInstance(Locale.US)
         "$${formatter.format(priceUSD)}"
