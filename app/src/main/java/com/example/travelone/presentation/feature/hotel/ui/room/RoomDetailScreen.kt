@@ -13,8 +13,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -56,6 +54,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -75,6 +74,7 @@ import com.example.travelone.ui.theme.Dimens
 import com.example.travelone.ui.theme.Green500
 import com.example.travelone.ui.theme.JostTypography
 import com.example.travelone.ui.theme.OceanBlue
+import com.example.travelone.ui.theme.OceanBlueLight
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -89,6 +89,8 @@ fun RoomDetailScreen(
     val context = LocalContext.current
     val imageLoader = context.imageLoader
 
+    val isAvailable = selectedRoom.status == "Available" || selectedRoom.status == "Có sẵn"
+
     with(transitionScope) {
         Box(
             modifier = Modifier
@@ -98,7 +100,6 @@ fun RoomDetailScreen(
                     animatedVisibilityScope = animatedVisibilityScope
                 )
         ) {
-            // Header cố định
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -144,7 +145,7 @@ fun RoomDetailScreen(
                     .fillMaxSize()
                     .padding(top = Dimens.HeightXXL + 20.dp)
             ) {
-                item { RoomInfo(selectedRoom) }
+                item { RoomInfo(selectedRoom, isAvailable) }
             }
 
             Button(
@@ -153,11 +154,13 @@ fun RoomDetailScreen(
                     .padding(Dimens.PaddingM)
                     .padding(vertical = Dimens.PaddingM)
                     .align(Alignment.BottomEnd)
-                    .shadow(elevation = 4.dp, shape = RoundedCornerShape(AppShape.LargeShape)),
+                    .shadow(elevation = if(isAvailable) 4.dp else 0.dp, shape = RoundedCornerShape(AppShape.LargeShape)),
                 shape = RoundedCornerShape(AppShape.LargeShape),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = OceanBlue
-                )
+                    containerColor = OceanBlue,
+                    disabledContainerColor = OceanBlueLight,
+                ),
+                enabled = isAvailable
             ) {
                 Text(
                     text = stringResource(id = R.string.booking_now),
@@ -169,10 +172,10 @@ fun RoomDetailScreen(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun RoomInfo(
-    room: Room
+    room: Room,
+    isAvailable: Boolean
 ) {
     val displayPrice = formatPrice(room.pricePerNight)
     val context = LocalContext.current
@@ -182,32 +185,47 @@ fun RoomInfo(
             .fillMaxWidth()
             .padding(Dimens.PaddingSM)
     ) {
-        FlowRow(
+        Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            maxItemsInEachRow = 2
+            verticalAlignment = Alignment.Top,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(
-                text = room.roomType,
-                style = MaterialTheme.typography.titleSmall,
-                color = Color.Black
-            )
+            Column(
+                modifier = Modifier.weight(0.5f)
+            ) {
+                Text(
+                    text = room.roomType,
+                    style = MaterialTheme.typography.titleSmall,
+                    color = Color.Black
+                )
+
+                Spacer(modifier = Modifier.height(AppSpacing.Small))
+
+                Text(
+                    text = room.status,
+                    style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
+                    color = if(isAvailable) Green500 else Color.Red,
+                    modifier = Modifier.padding(start = Dimens.PaddingXXS)
+                )
+            }
 
             Text(
                 buildAnnotatedString {
                     withStyle(
-                        style = JostTypography.titleSmall.toSpanStyle()
+                        style = JostTypography.titleMedium.toSpanStyle()
                             .copy(color = OceanBlue, fontWeight = FontWeight.Bold)
                     ) {
                         append(displayPrice)
                     }
                     withStyle(
-                        style = JostTypography.titleSmall.toSpanStyle()
+                        style = JostTypography.titleMedium.toSpanStyle()
                             .copy(color = Color.Black)
                     ) {
                         append("/" + stringResource(id = R.string.night))
                     }
-                }
+                },
+                textAlign = TextAlign.End,
+                modifier = Modifier.weight(0.25f)
             )
         }
 

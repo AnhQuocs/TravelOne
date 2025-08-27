@@ -18,17 +18,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.travelone.R
+import com.example.travelone.domain.model.recent_viewed.ViewedType
 import com.example.travelone.presentation.components.AppLineGray
 import com.example.travelone.presentation.components.HotelCardHorizontal
 import com.example.travelone.presentation.components.TitleSection
 import com.example.travelone.presentation.feature.hotel.viewmodel.HotelViewModel
+import com.example.travelone.presentation.feature.recent_viewed.viewmodel.RecentViewedViewModel
 import com.example.travelone.ui.theme.AppShape
 import com.example.travelone.ui.theme.AppSpacing
 import com.example.travelone.ui.theme.Dimens
 
 @Composable
-fun HotelRecommendedList(hotelViewModel: HotelViewModel = hiltViewModel()) {
+fun HotelRecommendedList(
+    navHostController: NavHostController,
+    hotelViewModel: HotelViewModel = hiltViewModel(),
+    recentViewedViewModel: RecentViewedViewModel = hiltViewModel()
+) {
     val recommendedHotels = hotelViewModel.recommendedHotels
 
     val isShowCardLoading by remember { mutableStateOf(false) }
@@ -74,7 +81,10 @@ fun HotelRecommendedList(hotelViewModel: HotelViewModel = hiltViewModel()) {
             recommendedHotels.forEachIndexed { index, hotel ->
                 HotelCardHorizontal(
                     hotel,
-                    onClick = {}
+                    onClick = {
+                        recentViewedViewModel.addRecent(hotel.id, ViewedType.HOTEL)
+                        navHostController.navigate("detail/${hotel.id}")
+                    }
                 )
 
                 if (index < recommendedHotels.lastIndex) {

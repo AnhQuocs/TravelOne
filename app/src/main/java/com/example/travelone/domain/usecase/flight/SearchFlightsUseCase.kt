@@ -17,7 +17,8 @@ class SearchFlightsUseCase(
 
     suspend operator fun invoke(query: String): List<Flight> {
         val normalizedQuery = normalizeText(query)
-        val tokens = normalizedQuery.split(" ").filter { it.isNotBlank() }
+
+        val parts = normalizedQuery.split(" to ", ignoreCase = true).map { it.trim() }
 
         return repository.getAllFlights().filter { flight ->
             val airline = normalizeText(flight.airline)
@@ -26,16 +27,22 @@ class SearchFlightsUseCase(
             val arrivalCode = normalizeText(flight.arrivalAirportCode)
             val arrivalShort = normalizeText(flight.arrivalShortAddress)
 
-            val combinedRoute = "$departureShort - $arrivalShort"
-
-            tokens.all { token ->
-                airline.contains(token) ||
-                        departureCode.contains(token) ||
-                        departureShort.contains(token) ||
-                        arrivalCode.contains(token) ||
-                        arrivalShort.contains(token) ||
-                        combinedRoute.contains(token)
-            } || combinedRoute.contains(normalizedQuery)
+            if (parts.size == 2) {
+                val (depQuery, arrQuery) = parts
+                (departureCode.contains(depQuery) || departureShort.contains(depQuery)) &&
+                        (arrivalCode.contains(arrQuery) || arrivalShort.contains(arrQuery))
+            } else {
+                val tokens = normalizedQuery.split(" ").filter { it.isNotBlank() }
+                val combinedRoute = "$departureShort - $arrivalShort"
+                tokens.all { token ->
+                    airline.contains(token) ||
+                            departureCode.contains(token) ||
+                            departureShort.contains(token) ||
+                            arrivalCode.contains(token) ||
+                            arrivalShort.contains(token) ||
+                            combinedRoute.contains(token)
+                } || combinedRoute.contains(normalizedQuery)
+            }
         }
     }
 }

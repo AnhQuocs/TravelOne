@@ -1,5 +1,7 @@
 package com.example.travelone.presentation.feature.search.ui
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -41,10 +43,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -72,6 +78,7 @@ import com.example.travelone.ui.theme.AppShape
 import com.example.travelone.ui.theme.AppSpacing
 import com.example.travelone.ui.theme.Dimens
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import java.util.UUID
 
 @AndroidEntryPoint
@@ -91,7 +98,6 @@ class SearchActivity : BaseComponentActivity() {
                     SearchScreen(
                         navController = navController,
                         onItemClick = {},
-                        onBackClick = { finish() }
                     )
                 }
 
@@ -106,9 +112,9 @@ class SearchActivity : BaseComponentActivity() {
     }
 }
 
+@SuppressLint("ContextCastToActivity")
 @Composable
 fun SearchScreen(
-    onBackClick: () -> Unit,
     onItemClick: () -> Unit,
     navController: NavController,
     unifiedSearchViewModel: UnifiedSearchViewModel = hiltViewModel(),
@@ -130,8 +136,17 @@ fun SearchScreen(
         }
     }
 
+    val activity = LocalContext.current as Activity
+
     LaunchedEffect(Unit) {
         unifiedSearchViewModel.resetState()
+    }
+
+    var canFinish by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        delay(100)
+        canFinish = true
     }
 
     Scaffold(
@@ -151,7 +166,11 @@ fun SearchScreen(
                         icon1 = TopBarIcon.Resource(R.drawable.ic_back),
                         text = stringResource(id = R.string.search),
                         icon2 = TopBarIcon.Resource(R.drawable.ic_notification),
-                        onIcon1Click = { onBackClick() },
+                        onIcon1Click = {
+                            if (canFinish) {
+                                activity.finish()
+                            }
+                        },
                         onIcon2Click = {  }
                     )
 
@@ -205,6 +224,7 @@ fun SearchScreen(
                                 }
                             }
                             navController.navigate("search_result") {
+                                popUpTo(navController.graph.startDestinationId) { inclusive = true }
                                 launchSingleTop = true
                             }
                         },

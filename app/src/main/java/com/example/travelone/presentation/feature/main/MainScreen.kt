@@ -319,7 +319,7 @@ fun HomeScreen(
                         item { WeatherSection(context = context) }
                         item { HotelList(navHostController = navHostController) }
                         item { Spacer(modifier = Modifier.height(Dimens.PaddingL)) }
-                        item { HotelRecommendedList() }
+                        item { HotelRecommendedList(navHostController = navHostController) }
                         item { Spacer(modifier = Modifier.height(Dimens.PaddingL)) }
                         item {
                             MiniMap(
