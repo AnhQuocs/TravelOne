@@ -22,6 +22,6 @@ class SplashViewModel @Inject constructor(
         } else {
             _startDestination.value = "dashboard"
         }
-        Log.d("SplashViewModel", "$startDestination")
+        Log.d("SplashViewModel", startDestination.value)
     }
 }
